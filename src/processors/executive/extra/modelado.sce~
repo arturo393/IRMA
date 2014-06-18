@@ -1,0 +1,487 @@
+// A * b = y, siendo b el vector de parametros buscado.
+
+// Vectores de entrada
+
+x2=[.2,.3,.4,.5,.6,.7,.8];
+x1=x2';
+
+// Matrices de resultados para las pruebas de rotacion
+// y variacion de posicion (mm y grados)
+
+//        .2  .3  .4  .5   .6   .7    .8
+//
+//VarX=[  15,  7,  2,  0,  -7, -15,  -22;  // .2
+//        11,  9,  1,  0,  -8, -18,  -25;  // .3
+//        17, 11,  2,  0, -10, -18,  -27;  // .4
+//        18, 10,  1,  0,  -8, -16,  -23;  // .5
+//        11,  5,  0,  0,  -3, -10,  -22;  // .6
+//        12,  3,  2,  0,  -6, -14,  -20;  // .7
+//         3,  3,  2,  0,  -4,  -9,  -21]; // .8
+//
+
+//        .2  .3  .4  .5   .6   .7    .8
+//
+//VarY=[ -21,-18,-16,-12, -14, -17,  -19;  // .2
+//       -17,-13,-10, -6, -12, -14,  -15;  // .3
+//       -12, -8, -5, -4,  -7,  -8,  -10;  // .4
+//        -7, -5, -3,  0,  -4,  -6,   -8;  // .5
+//        -6, -5,  0,  2,   0,  -4,   -7;  // .6
+//        -4,  0,  1,  6,   4,   0,   -2;  // .7
+//        -1,  2,  4, 10,   6,   5,    2]; // .8
+//
+//Rot=[7,4,1,0,-3,-8,-11;
+//8,5,1,0,-3,-8,-11;
+//9,5,1,0,-5,-10,-13;
+//10,6,1,0,-3,-8,-12;
+//6,3,0,0,-1,-4,-10;
+//6,2,1,0,-3,-7,-9;
+//3,1,1,0,-1,-4,-6];
+
+//      .2  .3  .4  .5   .6   .7    .8 (steer)
+//
+VarX=[ -21,-18,-16,-12, -14, -17,  -19;  // .2
+       -17,-13,-10, -6, -12, -14,  -15;  // .3
+       -12, -8, -5, -4,  -7,  -8,  -10;  // .4
+        -7, -5, -3,  0,  -4,  -6,   -8;  // .5
+        -6, -5,  0,  2,   0,  -4,   -7;  // .6
+        -4,  0,  1,  6,   4,   0,   -2;  // .7
+        -1,  2,  4, 10,   6,   5,    2]; // .8 (speed)
+//
+//      .2  .3  .4  .5   .6   .7    .8
+//
+VarY=[  15,  7,  2,  0,  -7, -15,  -22;  // .2
+        11,  9,  1,  0,  -8, -18,  -25;  // .3
+        17, 11,  2,  0, -10, -18,  -27;  // .4
+        18, 10,  1,  0,  -8, -16,  -23;  // .5
+        11,  5,  0,  0,  -3, -10,  -22;  // .6
+        12,  3,  2,  0,  -6, -14,  -20;  // .7
+         3,  3,  2,  0,  -4,  -9,  -21]; // .8
+//
+VarY=-VarY;
+
+
+Rot=[7,4,1,0,-3,-8,-11;
+8,5,1,0,-3,-8,-11;
+9,5,1,0,-5,-10,-13;
+10,6,1,0,-3,-8,-12;
+6,3,0,0,-1,-4,-10;
+6,2,1,0,-3,-7,-9;
+3,1,1,0,-1,-4,-6];
+
+//Rot=Rot.*-1;
+
+// Calculos de los miembros A para la deduccion del modelo
+// sx1 = sumatoria de x1
+// sx2 = sumatoria de x2
+// sx11 = sumatoria de x1 por x1
+// etc...
+
+// x filas, y columnas
+[x,y]=size(Rot);
+
+sx1=0;
+sx2=0;
+
+sx11=0;
+sx12=0;
+sx22=0;
+
+sx111=0;
+sx112=0;
+sx122=0;
+sx222=0;
+
+sx1111=0;
+sx1112=0;
+sx1122=0;
+sx1222=0;
+sx2222=0;
+
+sx11111=0;
+sx11112=0;
+sx11122=0;
+sx11222=0;
+sx12222=0;
+sx22222=0;
+
+sx111111=0;
+sx111112=0;
+sx111122=0;
+sx111222=0;
+sx112222=0;
+sx122222=0;
+sx222222=0;
+
+sx1111111=0;
+sx1111112=0;
+sx1111122=0;
+sx1111222=0;
+sx1112222=0;
+sx1122222=0;
+sx1222222=0;
+sx2222222=0;
+
+sx11111111=0;
+sx11111112=0;
+sx11111122=0;
+sx11111222=0;
+sx11112222=0;
+sx11122222=0;
+sx11222222=0;
+sx12222222=0;
+sx22222222=0;
+
+for i=1:x
+  for j=1:y
+    sx1=sx1+x1(i,1);
+    sx2=sx2+x2(1,j);
+  
+    sx11=sx11+x1(i,1)^2;
+    sx12=sx12+(x1(i,1)*x2(1,j));
+    sx22=sx22+x2(1,j)^2;
+  
+    sx111=sx111+x1(i,1)^3;
+    sx112=sx112+(x1(i,1)^2 * x2(1,j));
+    sx122=sx122+(x1(i,1) * x2(1,j)^2);
+    sx222=sx222+x2(1,j)^3;
+  
+    sx1111=sx1111+x1(i,1)^4;
+    sx1112=sx1112+(x1(i,1)^3 * x2(1,j));
+    sx1122=sx1122+(x1(i,1)^2 * x2(1,j)^2);
+    sx1222=sx1222+(x1(i,1) * x2(1,j)^3);
+    sx2222=sx2222+x2(1,j)^4;
+
+    sx11111=sx1111+x1(i,1)^5;
+    sx11112=sx1112+(x1(i,1)^4 * x2(1,j));
+    sx11122=sx1122+(x1(i,1)^3 * x2(1,j)^2);
+    sx11222=sx1222+(x1(i,1)^2 * x2(1,j)^3);
+    sx12222=sx2222+(x1(i,1) * x2(1,j)^4);
+    sx22222=sx2222+x2(1,j)^5;
+  
+    sx111111=sx111111+x1(i,1)^6;
+    sx111112=sx111112+(x1(i,1)^5 * x2(1,j));
+    sx111122=sx111122+(x1(i,1)^4 * x2(1,j)^2);
+    sx111222=sx111222+(x1(i,1)^3 * x2(1,j)^3);
+    sx112222=sx112222+(x1(i,1)^2 * x2(1,j)^4);
+    sx122222=sx122222+(x1(i,1) * x2(1,j)^5);
+    sx222222=sx222222+x2(1,j)^6;
+
+    sx1111111=sx1111111+x1(i,1)^7;
+    sx1111112=sx1111112+(x1(i,1)^6 * x2(1,j));
+    sx1111122=sx1111122+(x1(i,1)^5 * x2(1,j)^2);
+    sx1111222=sx1111222+(x1(i,1)^4 * x2(1,j)^3);
+    sx1112222=sx1112222+(x1(i,1)^3 * x2(1,j)^4);
+    sx1122222=sx1122222+(x1(i,1)^2 * x2(1,j)^3);
+    sx1222222=sx1222222+(x1(i,1) * x2(1,j)^6);
+    sx2222222=sx2222222+x2(1,j)^7;
+    
+    sx11111111=sx11111111+x1(i,1)^8;
+    sx11111112=sx11111112+(x1(i,1)^7 * x2(1,j));
+    sx11111122=sx11111122+(x1(i,1)^6 * x2(1,j)^2);
+    sx11111222=sx11111222+(x1(i,1)^5 * x2(1,j)^3);
+    sx11112222=sx11112222+(x1(i,1)^4 * x2(1,j)^4);
+    sx11122222=sx11122222+(x1(i,1)^3 * x2(1,j)^5);
+    sx11222222=sx11222222+(x1(i,1)^2 * x2(1,j)^6);
+    sx12222222=sx12222222+(x1(i,1) * x2(1,j)^7);
+    sx22222222=sx22222222+x2(1,j)^8;
+  end
+end
+
+// Definicion de matrices A segun el modelo
+// A3c = Matriz para modelo cubico con
+//       interaccion de entradas
+// A2c = Matriz para modelo cuadratico con
+//       interaccion de entradas
+// A2s = Matriz para modelo cuadratico sin
+//       interaccion de entradas
+// Ac = Matriz para modelo lineal con
+//      interaccion de entradas
+// As = Matriz para modelo lineal sin
+//      interaccion de entradas
+
+
+Af1=[      x*y,     sx1,      sx2,      sx11,     sx12,     sx22,     sx111,     sx112,     sx122,     sx222,     sx1111,     sx1112,     sx1122,     sx1222,     sx2222];
+Af2=[      sx1,    sx11,     sx12,     sx111,    sx112,    sx122,    sx1111,    sx1112,    sx1122,    sx1222,    sx11111,    sx11112,    sx11122,    sx11222,    sx12222];
+Af3=[      sx2,    sx12,     sx22,     sx112,    sx122,    sx222,    sx1112,    sx1122,    sx1222,    sx2222,    sx11112,    sx11122,    sx11222,    sx12222,    sx22222];
+Af4=[     sx11,   sx111,    sx112,    sx1111,   sx1112,   sx1122,   sx11111,   sx11112,   sx11122,   sx11222,   sx111111,   sx111112,   sx111122,   sx111222,   sx112222];
+Af5=[     sx12,   sx112,    sx122,    sx1112,   sx1122,   sx1222,   sx11112,   sx11122,   sx11222,   sx12222,   sx111112,   sx111122,   sx111222,   sx112222,   sx122222];
+Af6=[     sx22,   sx122,    sx222,    sx1122,   sx1222,   sx2222,   sx11122,   sx11222,   sx12222,   sx22222,   sx111122,   sx111222,   sx112222,   sx122222,   sx222222];
+Af7=[    sx111,  sx1111,   sx1112,   sx11122,  sx11112,  sx11122,  sx111111,  sx111112,  sx111122,  sx111222,  sx1111111,  sx1111112,  sx1111122,  sx1111222,  sx1112222];
+Af8=[    sx112,  sx1112,   sx1122,   sx11112,  sx11122,  sx11222,  sx111112,  sx111122,  sx111222,  sx112222,  sx1111112,  sx1111122,  sx1111222,  sx1112222,  sx1122222];
+Af9=[    sx122,  sx1122,   sx1222,   sx11122,  sx11222,  sx12222,  sx111122,  sx111222,  sx112222,  sx122222,  sx1111122,  sx1111222,  sx1112222,  sx1122222,  sx1222222];
+Af10=[   sx222,  sx1222,   sx2222,   sx11222,  sx12222,  sx22222,  sx111222,  sx112222,  sx122222,  sx222222,  sx1111222,  sx1112222,  sx1122222,  sx1222222,  sx2222222];
+Af11=[  sx1111, sx11111,  sx11112,  sx111111, sx111112, sx111122, sx1111111, sx1111112, sx1111122, sx1111222, sx11111111, sx11111112, sx11111122, sx11111222, sx11112222];
+Af12=[  sx1112, sx11112,  sx11122,  sx111112, sx111122, sx111222, sx1111112, sx1111122, sx1111222, sx1112222, sx11111112, sx11111122, sx11111222, sx11112222, sx11122222];
+Af13=[  sx1122, sx11122,  sx11222,  sx111122, sx111222, sx112222, sx1111122, sx1111222, sx1112222, sx1122222, sx11111122, sx11111222, sx11112222, sx11122222, sx11222222];
+Af14=[  sx1222, sx11222,  sx12222,  sx111222, sx112222, sx122222, sx1111222, sx1112222, sx1122222, sx1222222, sx11111222, sx11112222, sx11122222, sx11222222, sx12222222];
+Af15=[  sx2222, sx12222,  sx22222,  sx112222, sx122222, sx222222, sx1112222, sx1122222, sx1222222, sx2222222, sx11112222, sx11122222, sx11222222, sx12222222, sx22222222];
+
+A4=[Af1;Af2;Af3;Af4;Af5;Af6;Af7;Af8;Af9;Af10;Af11;Af12;Af13;Af14;Af15];
+A3=A4(1:10,1:10);
+A2=A3(1:6,1:6);
+A1=A3(1:3,1:3);
+
+// Calculo de miembros y para la deduccion del modelo
+
+syrot=sum(Rot);
+syvarx=sum(VarX);
+syvary=sum(VarY);
+
+syrotx1=0;
+syvarxx1=0;
+syvaryx1=0;
+
+syrotx2=0;
+syvarxx2=0;
+syvaryx2=0;
+
+syrotx11=0;
+syvarxx11=0;
+syvaryx11=0;
+
+syrotx12=0;
+syvarxx12=0;
+syvaryx12=0;
+
+syrotx22=0;
+syvarxx22=0;
+syvaryx22=0;
+
+syrotx111=0;
+syvarxx111=0;
+syvaryx111=0;
+
+syrotx112=0;
+syvarxx112=0;
+syvaryx112=0;
+
+syrotx122=0;
+syvarxx122=0;
+syvaryx122=0;
+
+syrotx222=0;
+syvarxx222=0;
+syvaryx222=0;
+
+syrotx1111=0;
+syvarxx1111=0;
+syvaryx1111=0;
+
+syrotx1112=0;
+syvarxx1112=0;
+syvaryx1112=0;
+
+syrotx1122=0;
+syvarxx1122=0;
+syvaryx1122=0;
+
+syrotx1222=0;
+syvarxx1222=0;
+syvaryx1222=0;
+
+syrotx2222=0;
+syvarxx2222=0;
+syvaryx2222=0;
+
+for i=1:x,
+  for j=1:y,
+    syrotx1=syrotx1 + (x1(i,1) * Rot(i,j));
+    syvarxx1=syvarxx1 + (x1(i,1) * VarX(i,j));
+    syvaryx1=syvaryx1 + (x1(i,1) * VarY(i,j));
+
+    syrotx2=syrotx2 + (x2(1,j) * Rot(i,j));
+    syvarxx2=syvarxx2 + (x2(1,j) * VarX(i,j));
+    syvaryx2=syvaryx2 + (x2(1,j) * VarY(i,j));
+
+    syrotx11=syrotx11 + (x1(i,1)^2 * Rot(i,j));
+    syvarxx11=syvarxx11 + (x1(i,1)^2 * VarX(i,j));
+    syvaryx11=syvaryx11 + (x1(i,1)^2 * VarY(i,j));
+
+    syrotx12=syrotx12 + (x1(i,1) * x2(1,j) * Rot(i,j));
+    syvarxx12=syvarxx12 + (x1(i,1) * x2(1,j) * VarX(i,j));
+    syvaryx12=syvaryx12 + (x1(i,1) * x2(1,j) * VarY(i,j));
+
+    syrotx22=syrotx22 + (x2(1,j)^2 * Rot(i,j));
+    syvarxx22=syvarxx22 + (x2(1,j)^2 * VarX(i,j));
+    syvaryx22=syvaryx22 + (x2(1,j)^2 * VarY(i,j));
+
+    syrotx111=syrotx111 + (x1(i,1)^3 * Rot(i,j));
+    syvarxx111=syvarxx111 + (x1(i,1)^3 * VarX(i,j));
+    syvaryx111=syvaryx111 + (x1(i,1)^3 * VarY(i,j));
+
+    syrotx112=syrotx112 + (x1(i,1)^2 * x2(1,j) * Rot(i,j));
+    syvarxx112=syvarxx112 + (x1(i,1)^2 * x2(1,j) * VarX(i,j));
+    syvaryx112=syvaryx112 + (x1(i,1)^2 * x2(1,j) * VarY(i,j));
+
+    syrotx122=syrotx122 + (x1(i,1) * x2(1,j)^2 * Rot(i,j));
+    syvarxx122=syvarxx122 + (x1(i,1) * x2(1,j)^2 * VarX(i,j));
+    syvaryx122=syvaryx122 + (x1(i,1) * x2(1,j)^2 * VarY(i,j));
+
+    syrotx222=syrotx222 + (x2(1,j)^3 * Rot(i,j));
+    syvarxx222=syvarxx222 + (x2(1,j)^3 * VarX(i,j));
+    syvaryx222=syvaryx222 + (x2(1,j)^3 * VarY(i,j));
+
+    syrotx1111=syrotx1111 + (x1(i,1)^4 * Rot(i,j));
+    syvarxx1111=syvarxx1111 + (x1(i,1)^4 * VarX(i,j));
+    syvaryx1111=syvaryx1111 + (x1(i,1)^4 * VarY(i,j));
+
+    syrotx1112=syrotx1112 + (x1(i,1)^3 * x2(1,j) * Rot(i,j));
+    syvarxx1112=syvarxx1112 + (x1(i,1)^3 * x2(1,j) * VarX(i,j));
+    syvaryx1112=syvaryx1112 + (x1(i,1)^3 * x2(1,j) * VarY(i,j));
+
+    syrotx1122=syrotx1122 + (x1(i,1)^2 * x2(1,j)^2 * Rot(i,j));
+    syvarxx1122=syvarxx1122 + (x1(i,1)^2 * x2(1,j)^2 * VarX(i,j));
+    syvaryx1122=syvaryx1122 + (x1(i,1)^2 * x2(1,j)^2 * VarY(i,j));
+
+    syrotx1222=syrotx1222 + (x1(i,1) * x2(1,j)^3 * Rot(i,j));
+    syvarxx1222=syvarxx1222 + (x1(i,1) * x2(1,j)^3 * VarX(i,j));
+    syvaryx1222=syvaryx1222 + (x1(i,1) * x2(1,j)^3 * VarY(i,j));
+
+    syrotx2222=syrotx2222 + (x2(1,j)^4 * Rot(i,j));
+    syvarxx2222=syvarxx2222 + (x2(1,j)^4 * VarX(i,j));
+    syvaryx2222=syvaryx2222 + (x2(1,j)^4 * VarY(i,j));
+  end,
+end;
+
+// Deduccion de vectores y segun el modelo
+// y2rot = y para modelo cuadratico de rotacion
+//
+// y2xc = y para modelo cuadratico de variacion x
+//
+// etc...
+
+y4rot=[syrot;syrotx1;syrotx2;syrotx11;syrotx12;syrotx22;syrotx111;syrotx112;syrotx122;syrotx222;syrotx1111;syrotx1112;syrotx1122;syrotx1222;syrotx2222];
+y4x=[syvarx;syvarxx1;syvarxx2;syvarxx11;syvarxx12;syvarxx22;syvarxx111;syvarxx112;syvarxx122;syvarxx222;syvarxx1111;syvarxx1112;syvarxx1122;syvarxx1222;syvarxx2222];
+y4y=[syvary;syvaryx1;syvaryx2;syvaryx11;syvaryx12;syvaryx22;syvaryx111;syvaryx112;syvaryx122;syvaryx222;syvaryx1111;syvaryx1112;syvaryx1122;syvaryx1222;syvaryx2222];
+
+y3rot=y4rot(1:10,1);
+y3x=y4x(1:10,1);
+y3y=y4y(1:10,1);
+
+y2rot=y3rot(1:6,1);
+y2x=y3x(1:6,1);
+y2y=y3y(1:6,1);
+
+y1rot=y3rot(1:3,1);
+y1x=y3x(1:3,1);
+y1y=y3y(1:3,1);
+
+// Vectores de resultados con la misma notacion
+// que los vectores y. Tambien se escriben los archivos
+
+fid=mopen("~/sensorfix/src/processors/executive/extra/modelo4","w");
+//fid=mopen("~/modelo4","w");
+if (fid == -1)
+    error('cannot open file for writing');
+  end
+b4rot=inv(A4)*y4rot;
+b4x=inv(A4)*y4x;
+b4y=inv(A4)*y4y;
+temp=[b4rot;b4x;b4y];
+for wrt=temp;
+  mfprintf(fid, "%f\n", wrt);
+end
+mclose(fid);
+
+fid=mopen("~/sensorfix/src/processors/executive/extra/modelo3","w");
+//fid=mopen("~/modelo3","w");
+if (fid == -1)
+    error('cannot open file for writing');
+  end
+b3rot=inv(A3)*y3rot;
+b3x=inv(A3)*y3x;
+b3y=inv(A3)*y3y;
+temp=[b3rot;b3x;b3y];
+for wrt=temp;
+  mfprintf(fid, "%f\n", wrt);
+end
+mclose(fid);
+
+fid=mopen("~/sensorfix/src/processors/executive/extra/modelo2","w");
+//fid=mopen("~/modelo2","w");
+if (fid == -1)
+    error('cannot open file for writing');
+end
+b2rot=inv(A2)*y2rot;
+b2x=inv(A2)*y2x;
+b2y=inv(A2)*y2y;
+temp=[b2rot;b2x;b2y];
+for wrt=temp;
+  mfprintf(fid, "%f\n", wrt);
+end
+mclose(fid);
+
+fid=mopen("~/sensorfix/src/processors/executive/extra/modelo1","w");
+//fid=mopen("~/modelo1","w");
+if (fid == -1)
+    error('cannot open file for writing');
+  end
+brot=inv(A1)*y1rot;
+bx=inv(A1)*y1x;
+by=inv(A1)*y1y;
+temp=[brot;bx;by];
+for wrt=temp;
+  mfprintf(fid, "%f\n", wrt);
+end
+mclose(fid);
+
+
+sp=x1';
+st=x2;
+
+
+//************************************************************************************************************//
+//*********************************************** Splines ****************************************************//
+//************************************************************************************************************//
+
+CX=splin2d(sp,st,VarX);
+CY=splin2d(sp,st,VarY);
+CRot=splin2d(sp,st,Rot);
+
+
+m = 61; // discretisation parameter of the evaluation grid
+xx = linspace(0.2,0.8,m); yy = xx;
+
+//xx=sp;
+//yy=st;
+[XX,YY] = ndgrid(xx,yy);
+zzX = interp2d(XX,YY, sp, st, CX);
+zzY = interp2d(XX,YY, sp, st, CY);
+zzRot = interp2d(XX,YY, sp, st, CRot);
+
+[line,col]=size(zzY);
+
+fid=mopen("~/sensorfix/src/processors/executive/extra/modeloSpline","w");
+//fid=mopen("~/modeloSpline","w");
+if (fid == -1)
+    error('cannot open file for writing');
+end
+cont=1;
+for i=1:line,
+  for j=1:col,
+    tempRot(cont,1)=zzRot(i,j);
+    cont=cont+1;
+  end
+end
+cont=1;
+for i=1:line,
+  for j=1:col,
+    tempX(cont,1)=zzX(i,j);
+    cont=cont+1;
+  end
+end
+cont=1;
+for i=1:line,
+  for j=1:col,
+    tempY(cont,1)=zzY(i,j);
+    cont=cont+1;
+  end
+end
+temp=[tempRot;tempX;tempY];
+for wrt=temp,
+  mfprintf(fid, "%f\n", wrt);
+end
+mclose(fid);
+
+
+

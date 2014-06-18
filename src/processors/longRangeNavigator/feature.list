@@ -1,0 +1,28 @@
+##-------------------------------------------------------------------
+## feature.list: List with Cognitive processor's output 
+##-------------------------------------------------------------------
+
+## Each label correspond to a feature
+LABEL = 0
+X_COORD = 
+Y_COORD = 
+
+
+LABEL = 0
+X_COORD = 
+Y_COORD = 
+
+
+LABEL = 0
+X_COORD =
+Y_COORD =
+
+
+LABEL = 0
+X_COORD =
+Y_COORD =
+
+
+LABEL = 0
+X_COORD =
+Y_COORD =

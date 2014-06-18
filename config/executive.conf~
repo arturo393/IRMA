@@ -1,0 +1,17 @@
+# executive.conf: Executive Processor configuration.
+
+
+# Number of steps between GPS corrections. 
+# Default : 50
+# -1 : Deactivate GPS correction.
+GPS_STEPS = 30
+
+# Initial Position in (cm) an orientation (degrees)
+InitPosX = 200
+InitPosY = 200 
+InitPosOrientation = 90
+
+# Select correction method.
+correction_mode = 1  #Interpolation method
+#correction_mode = 2  #Constant method
+

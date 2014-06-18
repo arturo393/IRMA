@@ -1,0 +1,135 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AddPoint_Map	MapClass.cpp	/^void MapClass::AddPoint_Map(int newPoint[2])$/;"	f	class:MapClass	signature:(int newPoint[2])
+AddPoint_Map	MapClass.h	/^   void AddPoint_Map(int[2]); \/\/adds point into map$/;"	p	class:MapClass	access:public	signature:(int[2])
+Add_FlexMap	mapper.cpp	/^void MapperProcessor::Add_FlexMap(int input[5][2])$/;"	f	class:MapperProcessor	signature:(int input[5][2])
+Add_FlexMap	mapper.h	/^    void Add_FlexMap(int[5][2]);$/;"	p	class:MapperProcessor	access:public	signature:(int[5][2])
+Add_IntMap	mapper.cpp	/^void MapperProcessor::Add_IntMap(int input[5][2])$/;"	f	class:MapperProcessor	signature:(int input[5][2])
+Add_IntMap	mapper.h	/^    void Add_IntMap(int[5][2]);$/;"	p	class:MapperProcessor	access:public	signature:(int[5][2])
+CC	Makefile	/^CC = $(CROSS_COMPILE)g++$/;"	m
+CC	Makefile	/^CC = g++$/;"	m
+COMMON	Makefile	/^COMMON			= Common$/;"	m
+CROSS_COMPILE	Makefile	/^CROSS_COMPILE = \/home\/irmabot\/gumstix\/gumstix-oe\/tmp\/cross\/arm-angstrom-linux-gnueabi\/bin\/$/;"	m
+CXX	Makefile	/^CXX = $(CROSS_COMPILE)g++$/;"	m
+CXX	Makefile	/^CXX = g++$/;"	m
+Clean_Map	MapClass.cpp	/^void MapClass::Clean_Map(int position[2], float radius)$/;"	f	class:MapClass	signature:(int position[2], float radius)
+Clean_Map	MapClass.h	/^   void Clean_Map(int[2], float); \/\/cleans map area outside of sensor range$/;"	p	class:MapClass	access:public	signature:(int[2], float)
+DYNMAPPER_H_INCLUDED	mapper.h	16;"	d
+MAPCLASS_H_INCLUDED	MapClass.h	16;"	d
+MapClass	MapClass.cpp	/^MapClass::MapClass(int a, int b, float c, float d)$/;"	f	class:MapClass	signature:(int a, int b, float c, float d)
+MapClass	MapClass.h	/^   MapClass(int a, int b, float c, float d);$/;"	p	class:MapClass	access:public	signature:(int a, int b, float c, float d)
+MapClass	MapClass.h	/^class MapClass$/;"	c
+MapClass::AddPoint_Map	MapClass.cpp	/^void MapClass::AddPoint_Map(int newPoint[2])$/;"	f	class:MapClass	signature:(int newPoint[2])
+MapClass::AddPoint_Map	MapClass.h	/^   void AddPoint_Map(int[2]); \/\/adds point into map$/;"	p	class:MapClass	access:public	signature:(int[2])
+MapClass::Clean_Map	MapClass.cpp	/^void MapClass::Clean_Map(int position[2], float radius)$/;"	f	class:MapClass	signature:(int position[2], float radius)
+MapClass::Clean_Map	MapClass.h	/^   void Clean_Map(int[2], float); \/\/cleans map area outside of sensor range$/;"	p	class:MapClass	access:public	signature:(int[2], float)
+MapClass::MapClass	MapClass.cpp	/^MapClass::MapClass(int a, int b, float c, float d)$/;"	f	class:MapClass	signature:(int a, int b, float c, float d)
+MapClass::MapClass	MapClass.h	/^   MapClass(int a, int b, float c, float d);$/;"	p	class:MapClass	access:public	signature:(int a, int b, float c, float d)
+MapClass::Output	MapClass.cpp	/^void MapClass::Output(const char a_fileName[], int output_filter, int max_rectangle_size)$/;"	f	class:MapClass	signature:(const char a_fileName[], int output_filter, int max_rectangle_size)
+MapClass::Output	MapClass.cpp	/^void MapClass::Output(int mapNumber, int output_filter, int max_rectangle_size)$/;"	f	class:MapClass	signature:(int mapNumber, int output_filter, int max_rectangle_size)
+MapClass::Output	MapClass.h	/^   void Output(const char a_fileName[],int,int); \/\/saves map into text file$/;"	p	class:MapClass	access:public	signature:(const char a_fileName[],int,int)
+MapClass::Output	MapClass.h	/^   void Output(int,int,int); \/\/saves map into text file$/;"	p	class:MapClass	access:public	signature:(int,int,int)
+MapClass::activeNodes	MapClass.h	/^   int activeNodes;$/;"	m	class:MapClass	access:public
+MapClass::alpha	MapClass.h	/^    float alpha;$/;"	m	class:MapClass	access:private
+MapClass::beta	MapClass.h	/^    float beta;$/;"	m	class:MapClass	access:private
+MapClass::category	MapClass.h	/^   float category[nCategories][4];$/;"	m	class:MapClass	access:public
+MapClass::rho	MapClass.h	/^    float rho;$/;"	m	class:MapClass	access:private
+MapClass::worldSizeX	MapClass.h	/^    int worldSizeX;$/;"	m	class:MapClass	access:private
+MapClass::worldSizeY	MapClass.h	/^    int worldSizeY;$/;"	m	class:MapClass	access:private
+MapperExecutive	mapper.h	/^    void MapperExecutive();$/;"	p	class:MapperProcessor	access:public	signature:()
+MapperProcessor	mapper.h	/^    MapperProcessor() : ProcessorInterface()$/;"	f	class:MapperProcessor	access:public	signature:()
+MapperProcessor	mapper.h	/^class MapperProcessor : public ProcessorInterface$/;"	c	inherits:ProcessorInterface
+MapperProcessor::Add_FlexMap	mapper.cpp	/^void MapperProcessor::Add_FlexMap(int input[5][2])$/;"	f	class:MapperProcessor	signature:(int input[5][2])
+MapperProcessor::Add_FlexMap	mapper.h	/^    void Add_FlexMap(int[5][2]);$/;"	p	class:MapperProcessor	access:public	signature:(int[5][2])
+MapperProcessor::Add_IntMap	mapper.cpp	/^void MapperProcessor::Add_IntMap(int input[5][2])$/;"	f	class:MapperProcessor	signature:(int input[5][2])
+MapperProcessor::Add_IntMap	mapper.h	/^    void Add_IntMap(int[5][2]);$/;"	p	class:MapperProcessor	access:public	signature:(int[5][2])
+MapperProcessor::MapperExecutive	mapper.h	/^    void MapperExecutive();$/;"	p	class:MapperProcessor	access:public	signature:()
+MapperProcessor::MapperProcessor	mapper.h	/^    MapperProcessor() : ProcessorInterface()$/;"	f	class:MapperProcessor	access:public	signature:()
+MapperProcessor::UpdateCategories	mapper.cpp	/^void MapperProcessor::UpdateCategories(MapClass *updateMap)$/;"	f	class:MapperProcessor	signature:(MapClass *updateMap)
+MapperProcessor::UpdateCategories	mapper.h	/^    void UpdateCategories(MapClass*);$/;"	p	class:MapperProcessor	access:public	signature:(MapClass*)
+MapperProcessor::adaptMeasurement	mapper.cpp	/^int MapperProcessor::adaptMeasurement(float measurement)$/;"	f	class:MapperProcessor	signature:(float measurement)
+MapperProcessor::adaptMeasurement	mapper.h	/^    int adaptMeasurement(float);$/;"	p	class:MapperProcessor	access:public	signature:(float)
+MapperProcessor::classicMap	mapper.h	/^   MapClass *classicMap;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::cleanup	mapper.cpp	/^int MapperProcessor::cleanup()$/;"	f	class:MapperProcessor	signature:()
+MapperProcessor::cleanup	mapper.h	/^    int cleanup();$/;"	p	class:MapperProcessor	access:public	signature:()
+MapperProcessor::flexMap_1	mapper.h	/^   MapClass *flexMap_1; \/\/flexible map 1$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::flexMap_2	mapper.h	/^   MapClass *flexMap_2; \/\/flexible map 2$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::flexMap_3	mapper.h	/^   MapClass *flexMap_3; \/\/flexible map 3$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::init	mapper.cpp	/^int MapperProcessor::init()$/;"	f	class:MapperProcessor	signature:()
+MapperProcessor::init	mapper.h	/^    int init();$/;"	p	class:MapperProcessor	access:public	signature:()
+MapperProcessor::input_map	mapper.h	/^   string input_map;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::intMap	mapper.h	/^   MapClass *intMap;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::mapping	mapper.h	/^   bool mapping;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::mapping_mode	mapper.h	/^   int mapping_mode;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::max_rectangle_size	mapper.h	/^   int max_rectangle_size;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::megaMap_1	mapper.h	/^   MapClass *megaMap_1; \/\/megaMap 1$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::megaMap_2	mapper.h	/^   MapClass *megaMap_2; \/\/megaMap 2$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::obtainPoints	mapper.cpp	/^void MapperProcessor::obtainPoints(int realWorldPoints[5][2], ExecutiveData *pExecutive)$/;"	f	class:MapperProcessor	signature:(int realWorldPoints[5][2], ExecutiveData *pExecutive)
+MapperProcessor::obtainPoints	mapper.h	/^    void obtainPoints(int[5][2], ExecutiveData*);$/;"	p	class:MapperProcessor	access:public	signature:(int[5][2], ExecutiveData*)
+MapperProcessor::output_filter	mapper.h	/^   int output_filter;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::output_map	mapper.h	/^   string output_map;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::pCloseNav	mapper.h	/^   CloseNavData *pCloseNav;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::pExecutive	mapper.h	/^   ExecutiveData *pExecutive;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::pMapper	mapper.h	/^   MapperData *pMapper;$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::perceptionValues	mapper.h	/^   int perceptionValues[5][2];$/;"	m	class:MapperProcessor	access:private
+MapperProcessor::saveCategories	mapper.h	/^   bool saveCategories();$/;"	p	class:MapperProcessor	access:private	signature:()
+MapperProcessor::step	mapper.cpp	/^int MapperProcessor::step()$/;"	f	class:MapperProcessor	signature:()
+MapperProcessor::step	mapper.h	/^    int step();$/;"	p	class:MapperProcessor	access:public	signature:()
+OBJS	Makefile	/^OBJS = ..\/..\/common\/configFile\/configFile.o mapper.o MapClass.o$/;"	m
+OBJS	Makefile	/^OBJS = mapper.o 			$/;"	m
+Output	MapClass.cpp	/^void MapClass::Output(const char a_fileName[], int output_filter, int max_rectangle_size)$/;"	f	class:MapClass	signature:(const char a_fileName[], int output_filter, int max_rectangle_size)
+Output	MapClass.cpp	/^void MapClass::Output(int mapNumber, int output_filter, int max_rectangle_size)$/;"	f	class:MapClass	signature:(int mapNumber, int output_filter, int max_rectangle_size)
+Output	MapClass.h	/^   void Output(const char a_fileName[],int,int); \/\/saves map into text file$/;"	p	class:MapClass	access:public	signature:(const char a_fileName[],int,int)
+Output	MapClass.h	/^   void Output(int,int,int); \/\/saves map into text file$/;"	p	class:MapClass	access:public	signature:(int,int,int)
+PC	Makefile	/^PC = true$/;"	m
+PREPROCESS.c	Makefile	/^PREPROCESS.c = $(CXX) $(CPPFLAGS) $(TARGET_ARCH) -E -Wp,-C,-dD,-dI$/;"	m
+PWD	Makefile	/^PWD       := $(shell pwd)$/;"	m
+SHARED	Makefile	/^SHARED			= Shared$/;"	m
+TARGET_ARCH	Makefile	/^TARGET_ARCH=-Os -march=armv5te -mtune=xscale -Wa,-mcpu=xscale$/;"	m
+UpdateCategories	mapper.cpp	/^void MapperProcessor::UpdateCategories(MapClass *updateMap)$/;"	f	class:MapperProcessor	signature:(MapClass *updateMap)
+UpdateCategories	mapper.h	/^    void UpdateCategories(MapClass*);$/;"	p	class:MapperProcessor	access:public	signature:(MapClass*)
+activeNodes	MapClass.h	/^   int activeNodes;$/;"	m	class:MapClass	access:public
+adaptMeasurement	mapper.cpp	/^int MapperProcessor::adaptMeasurement(float measurement)$/;"	f	class:MapperProcessor	signature:(float measurement)
+adaptMeasurement	mapper.h	/^    int adaptMeasurement(float);$/;"	p	class:MapperProcessor	access:public	signature:(float)
+alpha	MapClass.h	/^    float alpha;$/;"	m	class:MapClass	access:private
+beta	MapClass.h	/^    float beta;$/;"	m	class:MapClass	access:private
+category	MapClass.h	/^   float category[nCategories][4];$/;"	m	class:MapClass	access:public
+classicMap	mapper.h	/^   MapClass *classicMap;$/;"	m	class:MapperProcessor	access:private
+cleanup	mapper.cpp	/^int MapperProcessor::cleanup()$/;"	f	class:MapperProcessor	signature:()
+cleanup	mapper.h	/^    int cleanup();$/;"	p	class:MapperProcessor	access:public	signature:()
+flexMap_1	mapper.h	/^   MapClass *flexMap_1; \/\/flexible map 1$/;"	m	class:MapperProcessor	access:private
+flexMap_2	mapper.h	/^   MapClass *flexMap_2; \/\/flexible map 2$/;"	m	class:MapperProcessor	access:private
+flexMap_3	mapper.h	/^   MapClass *flexMap_3; \/\/flexible map 3$/;"	m	class:MapperProcessor	access:private
+hRoom	mapper.cpp	26;"	d	file:
+iPoint_1	mapper.cpp	22;"	d	file:
+iPoint_2	mapper.cpp	23;"	d	file:
+init	mapper.cpp	/^int MapperProcessor::init()$/;"	f	class:MapperProcessor	signature:()
+init	mapper.h	/^    int init();$/;"	p	class:MapperProcessor	access:public	signature:()
+input_map	mapper.h	/^   string input_map;$/;"	m	class:MapperProcessor	access:private
+intMap	mapper.h	/^   MapClass *intMap;$/;"	m	class:MapperProcessor	access:private
+main	mapper.cpp	/^int main()$/;"	f	signature:()
+mapping	mapper.h	/^   bool mapping;$/;"	m	class:MapperProcessor	access:private
+mapping_mode	mapper.h	/^   int mapping_mode;$/;"	m	class:MapperProcessor	access:private
+max_rectangle_size	mapper.h	/^   int max_rectangle_size;$/;"	m	class:MapperProcessor	access:private
+megaMap_1	mapper.h	/^   MapClass *megaMap_1; \/\/megaMap 1$/;"	m	class:MapperProcessor	access:private
+megaMap_2	mapper.h	/^   MapClass *megaMap_2; \/\/megaMap 2$/;"	m	class:MapperProcessor	access:private
+obtainPoints	mapper.cpp	/^void MapperProcessor::obtainPoints(int realWorldPoints[5][2], ExecutiveData *pExecutive)$/;"	f	class:MapperProcessor	signature:(int realWorldPoints[5][2], ExecutiveData *pExecutive)
+obtainPoints	mapper.h	/^    void obtainPoints(int[5][2], ExecutiveData*);$/;"	p	class:MapperProcessor	access:public	signature:(int[5][2], ExecutiveData*)
+output_filter	mapper.h	/^   int output_filter;$/;"	m	class:MapperProcessor	access:private
+output_map	mapper.h	/^   string output_map;$/;"	m	class:MapperProcessor	access:private
+pCloseNav	mapper.h	/^   CloseNavData *pCloseNav;$/;"	m	class:MapperProcessor	access:private
+pExecutive	mapper.h	/^   ExecutiveData *pExecutive;$/;"	m	class:MapperProcessor	access:private
+pMapper	mapper.h	/^   MapperData *pMapper;$/;"	m	class:MapperProcessor	access:private
+perceptionValues	mapper.h	/^   int perceptionValues[5][2];$/;"	m	class:MapperProcessor	access:private
+pi	mapper.cpp	19;"	d	file:
+rho	MapClass.h	/^    float rho;$/;"	m	class:MapClass	access:private
+saveCategories	mapper.h	/^   bool saveCategories();$/;"	p	class:MapperProcessor	access:private	signature:()
+step	mapper.cpp	/^int MapperProcessor::step()$/;"	f	class:MapperProcessor	signature:()
+step	mapper.h	/^    int step();$/;"	p	class:MapperProcessor	access:public	signature:()
+wRoom	mapper.cpp	25;"	d	file:
+worldSizeX	MapClass.h	/^    int worldSizeX;$/;"	m	class:MapClass	access:private
+worldSizeY	MapClass.h	/^    int worldSizeY;$/;"	m	class:MapClass	access:private

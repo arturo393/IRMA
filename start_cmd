@@ -1,0 +1,3 @@
+
+sudo chown irma /dev/ttyACM0
+sudo chown irma /dev/ttyUSB0
