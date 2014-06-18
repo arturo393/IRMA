@@ -317,7 +317,7 @@ void LRNProcessor::Compute_new_path(void)
 		printf("NUMBER OF ACTIONS AFTER  CLEAN : %d\n\n",o_routes.get_e_useful_steps_nr());
 
 		fprintf(stdout, "Looking for feature: %2d\n", visited_feature_nr);
-		/* 
+		 
 		   if( mission_coord[visited_feature_nr][3] < TOLERANCE_GOAL_DISTANCE )
 		   {
 		   fprintf(stdout, "Long Range Navigator: Feature: %2d found\n", visited_feature_nr);
@@ -330,7 +330,7 @@ void LRNProcessor::Compute_new_path(void)
 		   {
 		   visited_feature_nr = 0;
 		   mission_accomplished_flag = true;
-		   }*/
+		   }
 		is_route_obsolete = false;
 		//is_move_ready = false;
 	}  // End Compute route with mission

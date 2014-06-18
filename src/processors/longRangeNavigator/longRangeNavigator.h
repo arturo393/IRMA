@@ -71,7 +71,7 @@ static int SUB_TURN_RIGHT = 0; // Number of motor commands doings to complete a 
 static int SUB_TURN_LEFT = 0; // Number of motor commands doings to complete a TURN LEFT 1 action
 const int MAX_MISSIONS_NUMBER = 10;
 
-const int TOLERANCE_GOAL_DISTANCE = 300;
+const int TOLERANCE_GOAL_DISTANCE = 100;
 
 const bool ON = true;
 const bool OFF = false;

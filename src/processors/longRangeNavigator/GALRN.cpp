@@ -2627,15 +2627,10 @@ bool VirtualExecutive::RobotCrash_MapBorderCells(const int _prevCoord[], const _
             currentYCell -= lround(sin(_angle) * robotCellDiameter);
         }
 
-        // How can I be sure that I reach the current position?
-        // if next cell is equal or close to the end of the displacement
-        // the next cell is seted to the current robot position and after
-        // verify any crashes the function will return.
-        // Calculate the displacement, this is part of the stop condition
-        _delta_x = (startXCell - stopXCell)*1.0;
-        _delta_y = (startYCell - stopYCell)*1.0;
-  
-
+        _delta_x = (currentXCell - stopXCell)*1.0;
+        _delta_y = (currentYCell - stopYCell)*1.0;
+ 
+      
         _displacement = sqrt(pow(_delta_x, 2.0) + pow(_delta_y, 2.0));
         if (_displacement >= _totalDisplacement) {
             stop = true;

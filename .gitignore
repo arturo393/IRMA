@@ -43,3 +43,6 @@ lrn_*
 **/.svn
 .svn
 **/netbeans/
+.gitignore
+.dropbox
+tags
