@@ -49,13 +49,13 @@ int LRNProcessor::init()
 	pCDALongNav = (LongNavData *)cda.getMemPtr(LONG_NAV_AREA);
 	pCDAExecutive = (ExecutiveData *)cda.getMemPtr(EXECUTIVE_AREA);
 	pCDAMonitor = (MonitorData *)cda.getMemPtr(MONITOR_AREA);
-       
-        /* IRMA 3 no necessary
-         * pCDAMapper = (MapperData *)cda.getMemPtr(MAPPER_AREA);
-         * pCDAMap = (MapperData *)cda.getMemPtr(MAPPER_AREA); not use map
-         * pCDAFeatureNav = (FeatureNavData *)cda.getMemPtr(FEATURE_NAV_AREA); not use feature nav
-         */
-        
+
+	/* IRMA 3 no necessary
+	 * pCDAMapper = (MapperData *)cda.getMemPtr(MAPPER_AREA);
+	 * pCDAMap = (MapperData *)cda.getMemPtr(MAPPER_AREA); not use map
+	 * pCDAFeatureNav = (FeatureNavData *)cda.getMemPtr(FEATURE_NAV_AREA); not use feature nav
+	 */
+
 	// Initialization: class ProcessorInterface Variables
 	pCtrl = &(pCDALongNav->ctrl);
 	sem_area = LONG_NAV_AREA;
@@ -67,53 +67,55 @@ int LRNProcessor::init()
 	pCDALongNav->lrn_route_obsolete_flag = true;
 	pCDALongNav->lrn_mission_accomplished = false;
 	cda.unlockArea(LONG_NAV_AREA);
-        
-        /* No feature navigator
-         * new_features_flag = false;
-         * 	cda.lockArea(FEATURE_NAV_AREA);
-         * 	pCDAFeatureNav->fn_feature_list_ready_flag = false;
-         * 	cda.unlockArea(FEATURE_NAV_AREA);
-         */
-        
-        // config parameters
+
+	/* No feature navigator
+	 * new_features_flag = false;
+	 * 	cda.lockArea(FEATURE_NAV_AREA);
+	 * 	pCDAFeatureNav->fn_feature_list_ready_flag = false;
+	 * 	cda.unlockArea(FEATURE_NAV_AREA);
+	 */
+
+	// config parameters
 	if( !Read_Configuration_File() )
-            printf("Parameters updated from configuration file\n");
+		printf("Parameters updated from configuration file\n");
 	else
-            printf("Error Updating Parameters from file, default parameters will be used instead\n");
+		printf("Error Updating Parameters from file, default parameters will be used instead\n");
 
 	/* Path planner config o_routes
-         * GA settings.
-         * Virtual Executive start and goal coord.
-         * Set experimientation rom
-         * Set fitness motivations
-         */
-        Configure_path_planner();
-        
-        /* Final path o_final
-         * Set robot diameter
-         * Set final steps number (genes)
-         * Set start and home coord.
-         */
-	Configure_final_path();
-        
-        /* Get mapper width and height 
-         * Get obstacle map from mapper
-         * Set obstacle map to InternalMap
-         * Print map
-         */
-	Update_Internal_Map();
-        
-        /* Setting number of missions
-         * Set mission's coord o_final
-         * Calculate mission distance between start and mission coord
-         */
-        Update_Start_position();
-        Update_Missions_list();
+	 * GA settings.
+	 * Virtual Executive start and goal coord.
+	 * Set experimientation rom
+	 * Set fitness motivations
+	 */
+	Configure_path_planner();
+
+	/* Final path o_final
+	 * Set robot diameter
+	 * Set final steps number (genes)
+	 * Set start and home coord.
+	 */
+
+	//Configure_final_path();
+
+	/* Get mapper width and height 
+	 * Get obstacle map from mapper
+	 * Set obstacle map to InternalMap
+	 * Print map
+	 */
+
+//	Update_Internal_Map();
+
+	/* Setting number of missions
+	 * Set mission's coord o_final
+	 * Calculate mission distance between start and mission coord
+	 */
+//	Update_Start_position();
+//	Update_Missions_list();
 
 	visited_feature_nr = 0;
 	route_nr = 0;
 	current_route_action = 0;
-        freeze_times=0;
+	freeze_times=0;
 
 	return(0);
 }
@@ -159,16 +161,21 @@ int LRNProcessor::cleanup()
 //-------------------------------------------------------------------
 int LRNProcessor::step(){       
 	Read_Flags();  // Read Flags from the Common Data Area
+
 	if( (monitor_current_nav == LRN) && (is_route_obsolete) ){
 		/* IRMA 3 not neccesary
-                 * if( experimentation_room == FART_ROOM )         Update_Internal_Map();
-                 * Check posibility of implementation
-                 * if (experimentation_room = SLAM_ROOM) Update_Internal_Map();
-                 */
-                 // Update the Start coordinates with the current one
+		 * if( experimentation_room == FART_ROOM )         Update_Internal_Map();
+		 * Check posibility of implementation
+		 * if (experimentation_room = SLAM_ROOM) Update_Internal_Map();
+		*/	 
+		Update_Move_Lenght();	
+	
+		Update_Internal_Map();
+		// Update the Start coordinates with the current one
 		Update_Start_position();
 		// Update Missions
 		//if( (m_missions > 0) && (new_features_flag) )   Update_Missions_list();
+		// for each missions, it calculates the distantance to the mission with the current starting point
 		if( m_missions > 0 )   Update_Missions_list();
 
 		// Then Compute route and Tell everybody when it's ready
@@ -182,17 +189,17 @@ int LRNProcessor::step(){
 
 	if( (!is_move_ready) && (!is_route_obsolete) && (monitor_current_nav == LRN) )
 	{
-            if (o_final_route.get_gen(current_route_action == FREEZE))
-                if(freeze_times >= 2){
-                    freeze_times = 0;
-                //    change crn_nav
-                }
-                else{
-                    /* registrar el paso del robot y hacer un promedio y ajustar el valor del step*/
-                    freeze_times++;
-                    Convert_Action_To_Motor_Cmd(o_final_route.get_gen(current_route_action));
-		current_route_action++;
-                }
+		if (o_final_route.get_gen(current_route_action == FREEZE))
+			if(freeze_times >= 2){
+				freeze_times = 0;
+				//    change crn_nav
+			}
+			else{
+				/* registrar el paso del robot y hacer un promedio y ajustar el valor del step*/
+				freeze_times++;
+				Convert_Action_To_Motor_Cmd(o_final_route.get_gen(current_route_action));
+				current_route_action++;
+			}
 	}
 
 	return(0);
@@ -214,11 +221,11 @@ void LRNProcessor::Read_Flags(void)
 	monitor_current_nav = pCDAMonitor->monitor_current_nav;
 	cda.unlockArea(MONITOR_AREA);
 
-        /*
-	cda.lockArea(FEATURE_NAV_AREA);
-	new_features_flag = pCDAFeatureNav->fn_feature_list_ready_flag;
-	cda.unlockArea(FEATURE_NAV_AREA);
-         */
+	/*
+	   cda.lockArea(FEATURE_NAV_AREA);
+	   new_features_flag = pCDAFeatureNav->fn_feature_list_ready_flag;
+	   cda.unlockArea(FEATURE_NAV_AREA);
+	   */
 }
 
 //-------------------------------------------------------------------
@@ -237,42 +244,46 @@ int LRNProcessor::Configure_path_planner(void)
 	o_routes.setSelectionMethod(selection_method);
 
 	/* VirtualMotion startcoordinates are updated in the LRNProccess::step()
-         * o_routes.o_ffitness.o_virtualMotion.Set_StartCoordinates(start_coord);
-         */
+	 * o_routes.o_ffitness.o_virtualMotion.Set_StartCoordinates(start_coord);
+	 */
 	o_routes.o_ffitness.o_virtualMotion.Set_GoalCoordinates(home_coord);    // Home
-	
-        /* IRMA 3 not necessary
-        o_routes.o_ffitness.o_virtualMotion.set_selected_room(experimentation_room);
-        */
-        
+
+	/* IRMA 3 not necessary
+	   o_routes.o_ffitness.o_virtualMotion.set_selected_room(experimentation_room);
+	   */
+
 	o_routes.o_ffitness.a_motivations[0] = m_curiosity;  
 	o_routes.o_ffitness.a_motivations[1] = m_energy;
 	o_routes.o_ffitness.a_motivations[2] = m_homing;     
 	o_routes.o_ffitness.a_motivations[3] = m_missions;
-        
+
 }
 
 
 //-------------------------------------------------------------------
 int LRNProcessor::Configure_final_path(void)
 {
-	o_final_route.Clean_All();
 
 	/* cambiar esta parte a IRMA3*/
+	/* All this values  are sets in the o_final_route consturctor
+	o_final_route.Clean_All();
+
+
 	o_final_route.set_robot_diameter(o_routes.o_ffitness.o_virtualMotion.get_robot_diameter());
 	o_final_route.set_robot_diameter_sensors(o_routes.o_ffitness.o_virtualMotion.get_robot_diameter_sensors());
 	o_final_route.set_genes_nr(actions_nr);
-
+	
 	o_final_route.Set_StartCoordinates(start_coord);
 	o_final_route.set_home_coord(home_coord);
+	*/
 
 	/* IRMA3 not necessary
-         * if( experimentation_room == FART_ROOM ) Update_Internal_Map();      
+	 * if( experimentation_room == FART_ROOM ) Update_Internal_Map();      
 	 */
-        
-        /* the missions are updated in LRNProcess::step()
-         * if( ((m_missions > 0) && (new_features_flag)) || (mission_op_mode == TEST) )   Update_Missions_list();
-         */
+
+	/* the missions are updated in LRNProcess::step()
+	 * if( ((m_missions > 0) && (new_features_flag)) || (mission_op_mode == TEST) )   Update_Missions_list();
+	 */
 	return(0);
 }
 
@@ -283,28 +294,30 @@ void LRNProcessor::Compute_new_path(void)
 	// CALCULATE THE TIME USED TO COMPUTE THE PATH
 	struct timeb tp;     ftime(&tp);
 
-        // Set fitness value to zero
+	// Set fitness value to zero
 	o_final_route.Clean_All();
-        
-        
+
+
 	fprintf(stdout, "LRN start = (%d,%d,%3d°) -- ", start_coord[1], start_coord[2], start_coord[0]);
 	fprintf(stdout, "LRN home = (%d,%d,%d°)", home_coord[1], home_coord[2],home_coord[0]);
 	//···································································
 	// COMPUTE ROUTES WITH MISSIONS
 	if( (m_missions > 0) && (missions_nr > 0) )
 	{
-           
-            fprintf(stdout, " -- LRN actual mission = (%d,%d,%d°)\n", mission_coord[visited_feature_nr][1], mission_coord[visited_feature_nr][2],mission_coord[visited_feature_nr][0]);
+
+		fprintf(stdout, " -- LRN actual mission = (%d,%d,%d°)\n", \
+			       	mission_coord[visited_feature_nr][1], mission_coord[visited_feature_nr][2],mission_coord[visited_feature_nr][0]);
 		/* Set mission coord to VirtualExecutive
-                 * Calculate de distance to current position
-                 * Mark the cells of the InternalMap as missions */
+		 * Calculate de distance to current position
+		 * Mark the cells in the InternalMap as missions */
 		o_routes.o_ffitness.o_virtualMotion.Set_Mission(mission_coord[visited_feature_nr]);
-                
+
 		/* Set crossing point at the same distance
-                 * Set random genes, fitness -1 and ranking -1  on every organism */               
-                 o_routes.Reinit();
-                
-                
+		 * Set population random genes, fitness -1 and ranking -1  on every organism */               
+		o_routes.Reinit();
+
+
+
 		o_routes.Evolve(VERBOSE_LOW);
 
 		//Update_missions_extra_data(visited_feature_nr);
@@ -317,20 +330,20 @@ void LRNProcessor::Compute_new_path(void)
 		printf("NUMBER OF ACTIONS AFTER  CLEAN : %d\n\n",o_routes.get_e_useful_steps_nr());
 
 		fprintf(stdout, "Looking for feature: %2d\n", visited_feature_nr);
-		 
-		   if( mission_coord[visited_feature_nr][3] < TOLERANCE_GOAL_DISTANCE )
-		   {
-		   fprintf(stdout, "Long Range Navigator: Feature: %2d found\n", visited_feature_nr);
-		   visited_feature_nr++;
-		   if( visited_feature_nr < missions_nr )
-		   Update_missions_extra_data(visited_feature_nr);
-		   }
 
-		   if( visited_feature_nr >= missions_nr )
-		   {
-		   visited_feature_nr = 0;
-		   mission_accomplished_flag = true;
-		   }
+		if( mission_coord[visited_feature_nr][3] < TOLERANCE_GOAL_DISTANCE )
+		{
+			fprintf(stdout, "Long Range Navigator: Feature: %2d found\n", visited_feature_nr);
+			visited_feature_nr++;
+			if( visited_feature_nr < missions_nr )
+				Update_missions_extra_data(visited_feature_nr);
+		}
+
+		if( visited_feature_nr >= missions_nr )
+		{
+			visited_feature_nr = 0;
+			mission_accomplished_flag = true;
+		}
 		is_route_obsolete = false;
 		//is_move_ready = false;
 	}  // End Compute route with mission
@@ -441,34 +454,34 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
 	bool go = true;
 	//END Renato
 	double _speed = 0.5, _steer = 0.5;
-        int _speed_percent = 0, _movement = 0;
+	int _speed_percent = 0, _movement = 0;
 
 	if (o_final_route.get_elite_genes_nr() == 0)
 		_action = FORWARD;
-/*
-	if( _action == FORWARD )            {  _speed = 0.8;  _steer = 0.5;  }  // FORWARD
-	else if( _action == TURN_RIGHT_1 )  {  _speed = 0.8;  _steer = 0.7;  }  // TURN_RIGHT_1
-	else if( _action == TURN_LEFT_1 )   {  _speed = 0.5;  _steer = 0.2;  }  // TURN_LEFT_1
-	else if( _action == TURN_RIGHT_3 )  {  _speed = 0.8;  _steer = 0.7;  }  // TURN_RIGHT_3
-	else if( _action == TURN_LEFT_3 )   {  _speed = 0.5;  _steer = 0.3;  }  // TURN_LEFT_3
-	else if( _action == TURN_RIGHT_2 )  {  _speed = 0.8;  _steer = 0.7;  }  // TURN_RIGHT_2
-	else if( _action == TURN_LEFT_2 )   {  _speed = 0.5;  _steer = 0.3;  }  // TURN_LEFT_2
-	else if( _action == REVERSE )       {  _speed = 0.2;  _steer = 0.5;  }  // REVERSE
-	else if( _action == FREEZE )        {  _speed = 0.5;  _steer = 0.5;  }  // FREEZE
-  */      
-       if( _action == FORWARD )              {  _speed_percent = 100;  _movement = 9;  }  // FORWARD
-       else if( _action == TURN_RIGHT )      {  _speed_percent = 100;  _movement = 1;  }  // TURN_RIGHT_1
-        else if( _action == TURN_LEFT )      {  _speed_percent = 100;  _movement = 2;  }  // TURN_LEFT_1
+	/*
+	   if( _action == FORWARD )            {  _speed = 0.8;  _steer = 0.5;  }  // FORWARD
+	   else if( _action == TURN_RIGHT_1 )  {  _speed = 0.8;  _steer = 0.7;  }  // TURN_RIGHT_1
+	   else if( _action == TURN_LEFT_1 )   {  _speed = 0.5;  _steer = 0.2;  }  // TURN_LEFT_1
+	   else if( _action == TURN_RIGHT_3 )  {  _speed = 0.8;  _steer = 0.7;  }  // TURN_RIGHT_3
+	   else if( _action == TURN_LEFT_3 )   {  _speed = 0.5;  _steer = 0.3;  }  // TURN_LEFT_3
+	   else if( _action == TURN_RIGHT_2 )  {  _speed = 0.8;  _steer = 0.7;  }  // TURN_RIGHT_2
+	   else if( _action == TURN_LEFT_2 )   {  _speed = 0.5;  _steer = 0.3;  }  // TURN_LEFT_2
+	   else if( _action == REVERSE )       {  _speed = 0.2;  _steer = 0.5;  }  // REVERSE
+	   else if( _action == FREEZE )        {  _speed = 0.5;  _steer = 0.5;  }  // FREEZE
+	   */      
+	if( _action == FORWARD )              {  _speed_percent = 100;  _movement = 9;  }  // FORWARD
+	else if( _action == TURN_RIGHT )      {  _speed_percent = 100;  _movement = 1;  }  // TURN_RIGHT_1
+	else if( _action == TURN_LEFT )      {  _speed_percent = 100;  _movement = 2;  }  // TURN_LEFT_1
 	else if( _action == REVERSE )        {  _speed_percent = 100;  _movement = 3;  }  // REVERSE
 	else if( _action == FREEZE )         {  _speed_percent = 0;   _movement = 9;  }  // FREEZE
-	
- 
-//	while( (monitor_current_nav == LRN) && (!is_route_obsolete) && (SUB_FORWARD < TOTAL_SUB_FORWARD)
-//			&& (SUB_TURN_RIGHT_1 < TOTAL_SUB_TURN_RIGHT_1) && (SUB_TURN_LEFT_1 < TOTAL_SUB_TURN_LEFT_1)
-//			&& (SUB_TURN_RIGHT_3 < TOTAL_SUB_TURN_RIGHT_3) && (SUB_TURN_LEFT_3 < TOTAL_SUB_TURN_LEFT_3)
-//			&& (SUB_TURN_RIGHT_2 < TOTAL_SUB_TURN_RIGHT_2) && (SUB_TURN_LEFT_2 < TOTAL_SUB_TURN_LEFT_2) )
-//	{        
-        while( (monitor_current_nav == LRN) && (!is_route_obsolete) && (SUB_FORWARD < TOTAL_SUB_FORWARD)
+
+
+	//	while( (monitor_current_nav == LRN) && (!is_route_obsolete) && (SUB_FORWARD < TOTAL_SUB_FORWARD)
+	//			&& (SUB_TURN_RIGHT_1 < TOTAL_SUB_TURN_RIGHT_1) && (SUB_TURN_LEFT_1 < TOTAL_SUB_TURN_LEFT_1)
+	//			&& (SUB_TURN_RIGHT_3 < TOTAL_SUB_TURN_RIGHT_3) && (SUB_TURN_LEFT_3 < TOTAL_SUB_TURN_LEFT_3)
+	//			&& (SUB_TURN_RIGHT_2 < TOTAL_SUB_TURN_RIGHT_2) && (SUB_TURN_LEFT_2 < TOTAL_SUB_TURN_LEFT_2) )
+	//	{        
+	while( (monitor_current_nav == LRN) && (!is_route_obsolete) && (SUB_FORWARD < TOTAL_SUB_FORWARD)
 			&& (SUB_TURN_RIGHT < TOTAL_SUB_TURN_RIGHT) && (SUB_TURN_LEFT < TOTAL_SUB_TURN_LEFT) )
 	{
 		if( !is_move_ready )
@@ -497,54 +510,54 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
 				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_1, TOTAL_SUB_TURN_LEFT_1, CURRENT_BATTERY);
 				fprintf(fp_moves, "R%2d | 2 : TURN_LEFT\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
 			}
-//			else if( _action == TURN_RIGHT_1 )
-//			{
-//				SUB_TURN_RIGHT_1++;
-//				N_TURN_RIGHT_1++;
-//				CURRENT_BATTERY-=POWER_RIGHT_1;
-//				fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_1, TOTAL_SUB_TURN_RIGHT_1, CURRENT_BATTERY);
-//				fprintf(fp_moves, "R%2d | 1 : TURN_RIGHT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-//			}
-//			else if( _action == TURN_LEFT_1 )
-//			{
-//				SUB_TURN_LEFT_1++;
-//				N_TURN_LEFT_1++;
-//				CURRENT_BATTERY-=POWER_LEFT_1;
-//				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_1, TOTAL_SUB_TURN_LEFT_1, CURRENT_BATTERY);
-//				fprintf(fp_moves, "R%2d | 2 : TURN_LEFT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-//			}
-//			else if( _action == TURN_RIGHT_3 )
-//			{
-//				SUB_TURN_RIGHT_3++;
-//				N_TURN_RIGHT_3++;
-//				CURRENT_BATTERY-=POWER_RIGHT_3;
-//				fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_3 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_3, TOTAL_SUB_TURN_RIGHT_3, CURRENT_BATTERY);
-//				fprintf(fp_moves, "R%2d | 3 : TURN_RIGHT_3\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-//			}
-//			else if( _action == TURN_LEFT_3 )
-//			{
-//				SUB_TURN_LEFT_3++;
-//				N_TURN_LEFT_3++;
-//				CURRENT_BATTERY-=POWER_LEFT_3;
-//				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_3 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_3, TOTAL_SUB_TURN_LEFT_3, CURRENT_BATTERY);
-//				fprintf(fp_moves, "R%2d | 4 : TURN_LEFT_3\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-//			}
-//			else if( _action == TURN_RIGHT_2 )
-//			{
-//				SUB_TURN_RIGHT_2++;
-//				N_TURN_RIGHT_2++;
-//				CURRENT_BATTERY-=POWER_RIGHT_2;
-//				fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_2, TOTAL_SUB_TURN_RIGHT_2, CURRENT_BATTERY);
-//				fprintf(fp_moves, "R%2d | 5 : TURN_RIGHT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-//			}
-//			else if( _action == TURN_LEFT_2 )
-//			{
-//				SUB_TURN_LEFT_2++;
-//				N_TURN_LEFT_2++;
-//				CURRENT_BATTERY-=POWER_LEFT_2;
-//				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_2, TOTAL_SUB_TURN_LEFT_2, CURRENT_BATTERY);
-//				fprintf(fp_moves, "R%2d | 6 : TURN_LEFT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-//			}
+			//			else if( _action == TURN_RIGHT_1 )
+			//			{
+			//				SUB_TURN_RIGHT_1++;
+			//				N_TURN_RIGHT_1++;
+			//				CURRENT_BATTERY-=POWER_RIGHT_1;
+			//				fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_1, TOTAL_SUB_TURN_RIGHT_1, CURRENT_BATTERY);
+			//				fprintf(fp_moves, "R%2d | 1 : TURN_RIGHT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+			//			}
+			//			else if( _action == TURN_LEFT_1 )
+			//			{
+			//				SUB_TURN_LEFT_1++;
+			//				N_TURN_LEFT_1++;
+			//				CURRENT_BATTERY-=POWER_LEFT_1;
+			//				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_1, TOTAL_SUB_TURN_LEFT_1, CURRENT_BATTERY);
+			//				fprintf(fp_moves, "R%2d | 2 : TURN_LEFT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+			//			}
+			//			else if( _action == TURN_RIGHT_3 )
+			//			{
+			//				SUB_TURN_RIGHT_3++;
+			//				N_TURN_RIGHT_3++;
+			//				CURRENT_BATTERY-=POWER_RIGHT_3;
+			//				fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_3 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_3, TOTAL_SUB_TURN_RIGHT_3, CURRENT_BATTERY);
+			//				fprintf(fp_moves, "R%2d | 3 : TURN_RIGHT_3\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+			//			}
+			//			else if( _action == TURN_LEFT_3 )
+			//			{
+			//				SUB_TURN_LEFT_3++;
+			//				N_TURN_LEFT_3++;
+			//				CURRENT_BATTERY-=POWER_LEFT_3;
+			//				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_3 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_3, TOTAL_SUB_TURN_LEFT_3, CURRENT_BATTERY);
+			//				fprintf(fp_moves, "R%2d | 4 : TURN_LEFT_3\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+			//			}
+			//			else if( _action == TURN_RIGHT_2 )
+			//			{
+			//				SUB_TURN_RIGHT_2++;
+			//				N_TURN_RIGHT_2++;
+			//				CURRENT_BATTERY-=POWER_RIGHT_2;
+			//				fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_2, TOTAL_SUB_TURN_RIGHT_2, CURRENT_BATTERY);
+			//				fprintf(fp_moves, "R%2d | 5 : TURN_RIGHT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+			//			}
+			//			else if( _action == TURN_LEFT_2 )
+			//			{
+			//				SUB_TURN_LEFT_2++;
+			//				N_TURN_LEFT_2++;
+			//				CURRENT_BATTERY-=POWER_LEFT_2;
+			//				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_2, TOTAL_SUB_TURN_LEFT_2, CURRENT_BATTERY);
+			//				fprintf(fp_moves, "R%2d | 6 : TURN_LEFT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+			//			}
 			else if( _action == REVERSE )
 			{	SUB_FORWARD++;
 				N_REVERSE++;
@@ -559,10 +572,10 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
 				CURRENT_BATTERY-=POWER_FREEZE;
 				fprintf(stdout, "IRMA-II: LRN - FREEZE\t\tBATTERY : %f\r", CURRENT_BATTERY);
 				fprintf(fp_moves, "R%2d | 8 : FREEZE\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-                                if(freeze_times++ > 3){
-                                    
-                                };
-                                
+				if(freeze_times++ > 3){
+
+				};
+
 			}
 
 			//         for(unsigned int i = 0; i < 100; i++)
@@ -671,7 +684,7 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
 	SUB_TURN_LEFT_3 = 0;
 	SUB_TURN_RIGHT_2 = 0;
 	SUB_TURN_LEFT_2 = 0;
-        SUB_TURN_RIGHT= 0;
+	SUB_TURN_RIGHT= 0;
 	SUB_TURN_LEFT = 0;
 	//···································································
 }
@@ -694,8 +707,8 @@ void LRNProcessor::Deliver_Motor_Commands(const int _speed_percent, const int _m
 {
 	// Deliver the magnitudes for the next step
 	cda.lockArea(LONG_NAV_AREA);
-        pCDALongNav->lrn_speed_percent = _speed_percent;
-        pCDALongNav->lrn_movement = _movement;
+	pCDALongNav->lrn_speed_percent = _speed_percent;
+	pCDALongNav->lrn_movement = _movement;
 	// Inform that a new move is ready
 	pCDALongNav->lrn_move_ready_flag = true;
 	cda.unlockArea(LONG_NAV_AREA);
@@ -774,193 +787,185 @@ void LRNProcessor::Update_elite_phenotype(void)
 void LRNProcessor::Update_Internal_Map(void)
 {
 	int obstacles_nr = 0;
+	/*  aca va el algoritmo del mapa */
 
-	int width = 4000;
-	int height = 4000;
-        
-                        
-   
-        //  o_routes.o_ffitness.o_virtualMotion.o_MAP.Set_SLAM_Map(width,height,_MAP[][height]);
-            o_routes.o_ffitness.Set_Map_Dimensions(width,height);
-              //  o_routes.o_ffitness.Set_SLAM_MAP();
-                    //o_final_route.init_fart_map(obstacles_nr);
-                                  
-                        
-                                
-		        // Update map in ELite
-			char MAP_FILE[50];
-			snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map%d", route_nr);
-			o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
-		
 
-/*
-         if( experimentation_room == FART_ROOM )
+
+
+	// Update map in ELite
+	char MAP_FILE[50];
+	snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map%d", route_nr);
+	o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
+
+
+	/*
+	   if( experimentation_room == FART_ROOM )
+	   {
+
+	// take data from Mapper
+	cda.lockArea(MAPPER_AREA);
+
+	width = pCDAMapper->room_width;
+	height = pCDAMapper->room_height;
+	obstacles_nr = pCDAMapper->activeNodes;
+	// Make dynamic array - and init internal map
+	// make a new farmap with the new categories
+	o_routes.o_ffitness.Init_Fart_MAP(obstacles_nr, width, height);
+	// o_routes.o_ffitness.o_virtualMotion.set_selected_room(FART_ROOM);
+
+	// Fill dynamic array
+	for(int _cat = 0; _cat < obstacles_nr; _cat++)
 	{
-
-		// take data from Mapper
-		cda.lockArea(MAPPER_AREA);
-
-		width = pCDAMapper->room_width;
-		height = pCDAMapper->room_height;
-		obstacles_nr = pCDAMapper->activeNodes;
-		// Make dynamic array - and init internal map
-		// make a new farmap with the new categories
-		o_routes.o_ffitness.Init_Fart_MAP(obstacles_nr, width, height);
-		// o_routes.o_ffitness.o_virtualMotion.set_selected_room(FART_ROOM);
-
-		// Fill dynamic array
-		for(int _cat = 0; _cat < obstacles_nr; _cat++)
-		{
-			o_routes.o_ffitness.FART_MAP[_cat][0] = pCDAMapper->categories[_cat][0];
-			o_routes.o_ffitness.FART_MAP[_cat][1] = pCDAMapper->categories[_cat][1];
-			o_routes.o_ffitness.FART_MAP[_cat][2] = pCDAMapper->categories[_cat][2];
-			o_routes.o_ffitness.FART_MAP[_cat][3] = pCDAMapper->categories[_cat][3];
-		}
-		cda.unlockArea(MAPPER_AREA);
+	o_routes.o_ffitness.FART_MAP[_cat][0] = pCDAMapper->categories[_cat][0];
+	o_routes.o_ffitness.FART_MAP[_cat][1] = pCDAMapper->categories[_cat][1];
+	o_routes.o_ffitness.FART_MAP[_cat][2] = pCDAMapper->categories[_cat][2];
+	o_routes.o_ffitness.FART_MAP[_cat][3] = pCDAMapper->categories[_cat][3];
+	}
+	cda.unlockArea(MAPPER_AREA);
 
 
 
-		// Update Internal Map Function Fitness with categories info
-		o_routes.o_ffitness.Set_FART_MAP();
-		// Update map in ELite
-		double temp_cat[4];
-		o_final_route.init_fart_map(obstacles_nr);
-		for(int _i = 0; _i < obstacles_nr; _i++)
-		{
-			temp_cat[0] = o_routes.o_ffitness.FART_MAP[_i][0];
-			temp_cat[1] = o_routes.o_ffitness.FART_MAP[_i][1];
-			temp_cat[2] = o_routes.o_ffitness.FART_MAP[_i][2];
-			temp_cat[3] = o_routes.o_ffitness.FART_MAP[_i][3];
-			o_final_route.set_fart_map(_i, temp_cat);
-		}
-		char MAP_FILE[50];
-		snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map_%d", route_nr);
-		o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
+	// Update Internal Map Function Fitness with categories info
+	o_routes.o_ffitness.Set_FART_MAP();
+	// Update map in ELite
+	double temp_cat[4];
+	o_final_route.init_fart_map(obstacles_nr);
+	for(int _i = 0; _i < obstacles_nr; _i++)
+	{
+	temp_cat[0] = o_routes.o_ffitness.FART_MAP[_i][0];
+	temp_cat[1] = o_routes.o_ffitness.FART_MAP[_i][1];
+	temp_cat[2] = o_routes.o_ffitness.FART_MAP[_i][2];
+	temp_cat[3] = o_routes.o_ffitness.FART_MAP[_i][3];
+	o_final_route.set_fart_map(_i, temp_cat);
+	}
+	char MAP_FILE[50];
+	snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map_%d", route_nr);
+	o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
 	}
 	else
 	{
-		if( experimentation_room == H_ROOM )
-		{
-			double temp_cat[4];
-			o_final_route.init_fart_map(CATEGORIES_H_ROOM);
-			for(int _cat = 0; _cat < CATEGORIES_H_ROOM; _cat++)
-			{
-				temp_cat[0] = FART_H_ROOM[_cat][0];
-				temp_cat[1] = FART_H_ROOM[_cat][1];
-				temp_cat[2] = FART_H_ROOM[_cat][2];
-				temp_cat[3] = FART_H_ROOM[_cat][3];
-				o_final_route.set_fart_map(_cat, temp_cat);
-			}
-			o_routes.o_ffitness.o_virtualMotion.set_selected_room(H_ROOM);
-		}
-		else if( experimentation_room == L_ROOM )
-		{
-			double temp_cat[4];
-			o_final_route.init_fart_map(CATEGORIES_L_ROOM);
-			for(int _cat = 0; _cat < CATEGORIES_L_ROOM; _cat++)
-			{
-				temp_cat[0] = FART_L_ROOM[_cat][0];
-				temp_cat[1] = FART_L_ROOM[_cat][1];
-				temp_cat[2] = FART_L_ROOM[_cat][2];
-				temp_cat[3] = FART_L_ROOM[_cat][3];
-				o_final_route.set_fart_map(_cat, temp_cat);
-			}
-			o_routes.o_ffitness.o_virtualMotion.set_selected_room(L_ROOM);
-		}
-		else if( experimentation_room == O_ROOM )
-		{
-			double temp_cat[4];
-			o_final_route.init_fart_map(CATEGORIES_O_ROOM);
-			for(int _cat = 0; _cat < CATEGORIES_O_ROOM; _cat++)
-			{
-				temp_cat[0] = FART_O_ROOM[_cat][0];
-				temp_cat[1] = FART_O_ROOM[_cat][1];
-				temp_cat[2] = FART_O_ROOM[_cat][2];
-				temp_cat[3] = FART_O_ROOM[_cat][3];
-				o_final_route.set_fart_map(_cat, temp_cat);
-			}
-			o_routes.o_ffitness.o_virtualMotion.set_selected_room(O_ROOM);
-		}
-		else if( experimentation_room == S_ROOM )
-		{
-			double temp_cat[4];
-			o_final_route.init_fart_map(CATEGORIES_S_ROOM);
-			for(int _cat = 0; _cat < CATEGORIES_S_ROOM; _cat++)
-			{
-				temp_cat[0] = FART_S_ROOM[_cat][0];
-				temp_cat[1] = FART_S_ROOM[_cat][1];
-				temp_cat[2] = FART_S_ROOM[_cat][2];
-				temp_cat[3] = FART_S_ROOM[_cat][3];
-				o_final_route.set_fart_map(_cat, temp_cat);
-			}
-			o_routes.o_ffitness.o_virtualMotion.set_selected_room(S_ROOM);
-		}
-		else if( experimentation_room == T_ROOM )
-		{
-			double temp_cat[4];
-			o_final_route.init_fart_map(CATEGORIES_T_ROOM);
-			for(int _cat = 0; _cat < CATEGORIES_T_ROOM; _cat++)
-			{
-				temp_cat[0] = FART_T_ROOM[_cat][0];
-				temp_cat[1] = FART_T_ROOM[_cat][1];
-				temp_cat[2] = FART_T_ROOM[_cat][2];
-				temp_cat[3] = FART_T_ROOM[_cat][3];
-				o_final_route.set_fart_map(_cat, temp_cat);
-			}
-			o_routes.o_ffitness.o_virtualMotion.set_selected_room(T_ROOM);
-		}
+	if( experimentation_room == H_ROOM )
+	{
+	double temp_cat[4];
+	o_final_route.init_fart_map(CATEGORIES_H_ROOM);
+	for(int _cat = 0; _cat < CATEGORIES_H_ROOM; _cat++)
+	{
+	temp_cat[0] = FART_H_ROOM[_cat][0];
+	temp_cat[1] = FART_H_ROOM[_cat][1];
+	temp_cat[2] = FART_H_ROOM[_cat][2];
+	temp_cat[3] = FART_H_ROOM[_cat][3];
+	o_final_route.set_fart_map(_cat, temp_cat);
+	}
+	o_routes.o_ffitness.o_virtualMotion.set_selected_room(H_ROOM);
+	}
+	else if( experimentation_room == L_ROOM )
+	{
+	double temp_cat[4];
+	o_final_route.init_fart_map(CATEGORIES_L_ROOM);
+	for(int _cat = 0; _cat < CATEGORIES_L_ROOM; _cat++)
+	{
+	temp_cat[0] = FART_L_ROOM[_cat][0];
+	temp_cat[1] = FART_L_ROOM[_cat][1];
+	temp_cat[2] = FART_L_ROOM[_cat][2];
+	temp_cat[3] = FART_L_ROOM[_cat][3];
+	o_final_route.set_fart_map(_cat, temp_cat);
+}
+o_routes.o_ffitness.o_virtualMotion.set_selected_room(L_ROOM);
+}
+else if( experimentation_room == O_ROOM )
+{
+	double temp_cat[4];
+	o_final_route.init_fart_map(CATEGORIES_O_ROOM);
+	for(int _cat = 0; _cat < CATEGORIES_O_ROOM; _cat++)
+	{
+		temp_cat[0] = FART_O_ROOM[_cat][0];
+		temp_cat[1] = FART_O_ROOM[_cat][1];
+		temp_cat[2] = FART_O_ROOM[_cat][2];
+		temp_cat[3] = FART_O_ROOM[_cat][3];
+		o_final_route.set_fart_map(_cat, temp_cat);
+	}
+	o_routes.o_ffitness.o_virtualMotion.set_selected_room(O_ROOM);
+}
+else if( experimentation_room == S_ROOM )
+{
+	double temp_cat[4];
+	o_final_route.init_fart_map(CATEGORIES_S_ROOM);
+	for(int _cat = 0; _cat < CATEGORIES_S_ROOM; _cat++)
+	{
+		temp_cat[0] = FART_S_ROOM[_cat][0];
+		temp_cat[1] = FART_S_ROOM[_cat][1];
+		temp_cat[2] = FART_S_ROOM[_cat][2];
+		temp_cat[3] = FART_S_ROOM[_cat][3];
+		o_final_route.set_fart_map(_cat, temp_cat);
+	}
+	o_routes.o_ffitness.o_virtualMotion.set_selected_room(S_ROOM);
+}
+else if( experimentation_room == T_ROOM )
+{
+	double temp_cat[4];
+	o_final_route.init_fart_map(CATEGORIES_T_ROOM);
+	for(int _cat = 0; _cat < CATEGORIES_T_ROOM; _cat++)
+	{
+		temp_cat[0] = FART_T_ROOM[_cat][0];
+		temp_cat[1] = FART_T_ROOM[_cat][1];
+		temp_cat[2] = FART_T_ROOM[_cat][2];
+		temp_cat[3] = FART_T_ROOM[_cat][3];
+		o_final_route.set_fart_map(_cat, temp_cat);
+	}
+	o_routes.o_ffitness.o_virtualMotion.set_selected_room(T_ROOM);
+}
 */
-	
-        
+
+
 }
 
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
 void LRNProcessor::Update_Missions_list(void){
 
-	
-	//	visited_feature_nr = 0;
-        /* IRMA3 not necessary
-	if( mission_op_mode == NORMAL )
-	{
-		cda.lockArea(FEATURE_NAV_AREA);
-		missions_nr = pCDAFeatureNav->fn_nFeatures;
-		for(int _im = 0; _im < missions_nr; _im++)
-		{
-			mission_coord[_im][0] = 90;   // Orientation
-			mission_coord[_im][1] = pCDAFeatureNav->fn_featureArray[_im][0];   // X Coord
-			mission_coord[_im][2] = pCDAFeatureNav->fn_featureArray[_im][1];   // Y Coord
-		}
 
-		//Renato
-		new_features_flag = false;
-		pCDAFeatureNav->fn_feature_list_ready_flag  = false;
-		//END Renato
-		cda.unlockArea(FEATURE_NAV_AREA);
-	
-        }
-         */
-    if( mission_op_mode == TEST ){
-        
-            missions_nr = 3;
-            mission_coord[0][0] = 0;
-            mission_coord[0][1] = 3000;
-            mission_coord[0][2] = 3000;
-            mission_coord[1][0] = 270;
-            mission_coord[1][1] = 1000;
-            mission_coord[1][2] = 2000;
-            mission_coord[2][0] = 90;
-            mission_coord[2][1] = 500;
-            mission_coord[2][2] = 2500;
+	//	visited_feature_nr = 0;
+	/* IRMA3 not necessary
+	   if( mission_op_mode == NORMAL )
+	   {
+	   cda.lockArea(FEATURE_NAV_AREA);
+	   missions_nr = pCDAFeatureNav->fn_nFeatures;
+	   for(int _im = 0; _im < missions_nr; _im++)
+	   {
+	   mission_coord[_im][0] = 90;   // Orientation
+	   mission_coord[_im][1] = pCDAFeatureNav->fn_featureArray[_im][0];   // X Coord
+	   mission_coord[_im][2] = pCDAFeatureNav->fn_featureArray[_im][1];   // Y Coord
+	   }
+
+	//Renato
+	new_features_flag = false;
+	pCDAFeatureNav->fn_feature_list_ready_flag  = false;
+	//END Renato
+	cda.unlockArea(FEATURE_NAV_AREA);
+
+	}
+	*/
+	if( mission_op_mode == TEST ){
+
+		missions_nr = 3;
+		mission_coord[0][0] = 0;
+		mission_coord[0][1] = 3000;
+		mission_coord[0][2] = 3000;
+		mission_coord[1][0] = 270;
+		mission_coord[1][1] = 1000;
+		mission_coord[1][2] = 2000;
+		mission_coord[2][0] = 90;
+		mission_coord[2][1] = 500;
+		mission_coord[2][2] = 2500;
 
 
 	}
-  
-            o_final_route.init_missions(missions_nr);
-        
+
+	o_final_route.init_missions(missions_nr);
+
 	int _distance;
 	int temp_mission[3];
-        
+
 	for(int _im = 0; _im < missions_nr; _im++){
 		temp_mission[0] = mission_coord[_im][0];
 		temp_mission[1] = mission_coord[_im][1];
@@ -975,10 +980,50 @@ void LRNProcessor::Update_Missions_list(void){
 		mission_coord[_im][7] = start_coord[2];
 	}
 }
+/* *
+ * \brief Update step_lenght & angle_lenght values from VirtualExecutive.
+ *  The function takes the executed steps  of the Executive class. It calculates the
+ *  distance between and replaces this value with the step_lenght and the angle
+ *  difference. 
+ *  \param none
+ *  \return none
+ */
+void LRNProcessor::Update_Move_Lenght(void){
+
+	int _delta[1][2];
+	int _executed_step;
+	int _step_lenght=0;
+	int _angle_lenght=0;
+
+	cda.lockArea(EXECUTIVE_AREA);
+	_executed_step = pCDAExecutive->steps_number;
+	for (int i = 0; i <= 1; i++){
+		_delta[i][1] = pCDAExecutive->path[_executed_step-1+i][1];
+		_delta[i][2] = pCDAExecutive->path[_executed_step-1+i][2];
+		_delta[i][0] = pCDAExecutive->path[_executed_step-1+i][0];
+	}
+	cda.lockArea(EXECUTIVE_AREA);
+
+	if(_executed_step > 0 ){
+
+	_step_lenght = o_routes.o_ffitness.o_virtualMotion.Calculate_Distance(_delta[0], _delta[1]);
+	_angle_lenght = _delta[0][0] - _delta[1][0];
+	if (_angle_lenght > 0)
+		o_routes.o_ffitness.o_virtualMotion.set_angle_lenght(_angle_lenght);
+	if(_step_lenght > 0)
+		o_routes.o_ffitness.o_virtualMotion.set_step_lenght(_step_lenght);
+	}
+}
+//-------------------------------------------------------------------
+void LRNProcessor::Set_Start_position(void){	
+
+	o_routes.o_ffitness.o_virtualMotion.Set_StartCoordinates(start_coord);
+	o_final_route.Set_StartCoordinates(start_coord);
+}
 
 //-------------------------------------------------------------------
 void LRNProcessor::Update_Start_position(void){	
-    
+
 	cda.lockArea(EXECUTIVE_AREA);
 	start_coord[0] = pCDAExecutive->current_orientation;   // Current Orientation
 	start_coord[1] = (pCDAExecutive->current_X)*10;   // Current X Coord*10cm
@@ -1032,6 +1077,7 @@ int LRNProcessor::Read_Configuration_File(void)
 	else if( temp_var.compare(0,6, "T_ROOM") == 0 )     {  experimentation_room = T_ROOM; }
 	else if( temp_var.compare(0,9, "FART_ROOM") == 0 )  {  experimentation_room = FART_ROOM; }
 	else  {  experimentation_room = SLAM_ROOM; }
+
 
 	config.readInto<double>(m_curiosity, "MOTIVATION_CURIOSITY", 1.0);
 	config.readInto<double>(m_energy, "MOTIVATION_ENERGY", 0.0);
@@ -1206,9 +1252,12 @@ int main()
 
 	LRNProcessor lrn;
 
+
+	lrn.test();
+
 	srand(time(NULL)); // set seed for random functions
 
-	lrn.execute();
+//	lrn.execute();
 
 	//lrn.cleanup();
 
@@ -1217,3 +1266,13 @@ int main()
 //*******************************************************************
 // MAIN FUNCTION Class Implementation: END
 //*******************************************************************
+//
+
+int LRNProcessor::test(){
+
+	fprintf(stdout, "\nIRMA3: test\n");
+
+	o_routes.CleanGenes();
+	o_routes.Evaluate();
+	return(0);
+}
