@@ -174,12 +174,16 @@ private:
     void Update_elite_data(const int _feature_index);
     // Update Best Path Phenotype
     void Update_elite_phenotype(void);
+    // Set start position to VirtualExecutive and Elite_Individual
+    void Set_Start_position(void);	
     // Update FART MAP from MAPPER Data Area
     void Update_Internal_Map(void);
     // Update mission list from FEATURE NAVIGATOR Data Area
     void Update_Missions_list(void);
     // Update the current position and make it the new start position
     void Update_Start_position(void);
+    // Update the current position and make it the new start position
+    void Update_Move_Lenght(void);
     // Read start File for first configurations
     int Read_Configuration_File(void);
     // Show parameters
@@ -200,6 +204,7 @@ public:
     int init(void);
     int step(void);
     int cleanup(void);
+    int test(void);
 };
 //*******************************************************************
 // LRNProcessor Class Declaration: END
