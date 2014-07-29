@@ -47,4 +47,14 @@ float get_new_dir(float vd, float vi, float dir, float d_eje, float dt);
 void get_new_pose(float vd, float vi, float intervalo, float d_eje, PMScan *datos);
 void ekf_calc_kk(struct ekf *valores);
 void ekf_calc_1(struct ekf *valores);
+void ekf_set_valores(
+    struct ekf *ekf_valores,
+    struct Pose pose_anterior,
+    struct Pose pose_anterior_laser,
+    int l_eje,
+    float vr,
+    float vl,
+    float dth,
+    float dx,
+    float dy);
 #endif

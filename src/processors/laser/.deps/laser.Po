@@ -133,7 +133,7 @@ laser.o: laser.cpp laser.h /usr/include/c++/4.6/vector \
  /usr/include/X11/Xlib.h /usr/include/X11/X.h \
  /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h \
  /usr/include/X11/Xutil.h /usr/include/X11/keysym.h \
- /usr/include/X11/keysymdef.h ekf.h view.h ../base/processor.h \
+ /usr/include/X11/keysymdef.h ekf.h view.h calculos.h ../base/processor.h \
  ../base/../../common/CDA/commonDataArea.h \
  ../base/../../common/CDA/../irmaErrors.h \
  ../base/../../common/CDA/../process.h \
@@ -527,6 +527,8 @@ CImg.h:
 ekf.h:
 
 view.h:
+
+calculos.h:
 
 ../base/processor.h:
 

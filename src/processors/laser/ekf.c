@@ -5,6 +5,61 @@ int isnan_float(float f) {
 }
 float vd_historial[201];
 float vi_historial[201];
+void ekf_set_valores(
+    struct ekf *ekf_valores,
+    struct Pose pose_anterior,
+    struct Pose pose_anterior_laser,
+    int l_eje,
+    float vr,float vl,float dth, float dx, float dy)
+{
+        Pose p_x_k_ = get_new_pose_model(vr, vl, 0.25, l_eje, pose_anterior);
+        float v = (vr + vl) / 2;
+
+        ekf_valores->x_k_[0][0] = p_x_k_.x;
+        ekf_valores->x_k_[1][0] = p_x_k_.y;
+        ekf_valores->x_k_[2][0] = p_x_k_.th;
+
+        //TODO: REALIZAR TRANSFORMACIÓN Y SUMAR A POSE DE KALMAN        
+
+        //float tth = segundo->th;
+        ekf_valores->z_k[2][0] = dth + pose_anterior_laser.th;
+        //float xx = segundo->rx * cos(tempth) - segundo->ry * sin(tempth);
+        ekf_valores->z_k[0][0] =
+                (pose_anterior_laser.x
+                + dx * cos(pose_anterior_laser.th) - dy * sin(pose_anterior_laser.th))
+                - cos(ekf_valores->z_k[2][0])*15.5;
+        //float yy = segundo->rx * sin(tempth) + segundo->ry * cos(tempth);
+        ekf_valores->z_k[1][0] =
+                (pose_anterior_laser.y
+                + dx * sin(pose_anterior_laser.th) + dy * cos(pose_anterior_laser.th))
+                - sin(ekf_valores->z_k[2][0])*15.5;
+
+        ekf_valores->f_k[0][0] = 1.0;
+        ekf_valores->f_k[0][1] = 0.0;
+        ekf_valores->f_k[0][2] = -0.25 * v * sin(pose_anterior.th);
+        ekf_valores->f_k[1][0] = 0.0;
+        ekf_valores->f_k[1][1] = 1.0;
+        ekf_valores->f_k[1][2] = 0.25 * v * cos(pose_anterior.th);
+        ekf_valores->f_k[2][0] = 0.0;
+        ekf_valores->f_k[2][1] = 0.0;
+        ekf_valores->f_k[2][2] = 1.0;
+
+        /*  Segun v y W*/
+        //        ekf_valores->f_v[0][0] = 0.25 * cosf(ekf_valores.x_k_[2][0]);
+        //        ekf_valores->f_v[0][1] = 0;
+        //        ekf_valores->f_v[1][0] = 0.25 * sinf(ekf_valores.x_k_[2][0]);
+        //        ekf_valores->f_v[1][1] = 0;
+        //        ekf_valores->f_v[2][0] = 0;
+        //        ekf_valores->f_v[2][1] = 0.25;
+
+        /*  Segun vd y vi */
+        ekf_valores->f_v[0][0] = 0.25 * (1.0 / 2.0) * cos(pose_anterior.th);
+        ekf_valores->f_v[0][1] = 0.25 * (1.0 / 2.0) * cos(pose_anterior.th);
+        ekf_valores->f_v[1][0] = 0.25 * (1.0 / 2.0) * sin(pose_anterior.th);
+        ekf_valores->f_v[1][1] = 0.25 * (1.0 / 2.0) * sin(pose_anterior.th);
+        ekf_valores->f_v[2][0] = -0.25 * (1.0 /l_eje);
+        ekf_valores->f_v[2][1] = 0.25 * (1.0 / l_eje);
+}
 float get_vi_old(float v_i) {
     float v;
     if (v_i < 0)
@@ -53,7 +108,7 @@ float get_vd_old(float v_d) {
     } else if (v <= 60) {
         //valor = v / 1.58;
         valor = ((40.0 / 26.0) + ((60.0 / 41.0 - (40.0 / 26.0)) / (60 - 40.0))*(v - 40));
-        valor = v / valor;
+        valor = (v / valor)-5;
     } else if (v <= 80) {
         valor = (1.25 + ((1.51 - 1.25) / (80 - 60))*(v - 60));
         valor = v / valor;
@@ -205,6 +260,7 @@ void ekf_init(struct ekf *ekf_valores) {
         ekf_valores->p_k[2][1] = 2.0;
         ekf_valores->p_k[2][2] = 2.0;
      */
+/*
     ekf_valores->p_k[0][1]=2.0;
     ekf_valores->p_k[0][2]=2.0;
     ekf_valores->p_k[1][0]=2.0;
@@ -213,6 +269,20 @@ void ekf_init(struct ekf *ekf_valores) {
     ekf_valores->p_k[2][0]=2.0;
     ekf_valores->p_k[2][1]=2.0;
     ekf_valores->p_k[2][2]=2.0;
+*/
+
+ekf_valores->p_k[0][0]=2.658942;    
+ekf_valores->p_k[0][1]=0.366914;
+ekf_valores->p_k[0][2]=0.004276;
+ekf_valores->p_k[1][0]=0.622768;
+ekf_valores->p_k[1][1]=1.171261;
+ekf_valores->p_k[1][2]=0.003539;
+ekf_valores->p_k[2][0]=0.000000;
+ekf_valores->p_k[2][1]=0.002030;
+ekf_valores->p_k[2][2]=0.003248;
+
+    
+    
 /*
     ekf_valores->p_k[0][0] = 2.0;
     ekf_valores->p_k[0][1] = 2.0;

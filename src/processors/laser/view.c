@@ -195,21 +195,22 @@ void dibujar_robot(PMScan *segundo, struct Pose pose_laser, struct Pose pose_rob
 }
 
 void set_image_color(PMScan *segundo, struct Pose pose, CImg<unsigned char>& img, const unsigned char color[]) {
+    float base = PM_FI_MIN + pose.th;
     for (unsigned int h = 1; h < sizeof (segundo->r) && h < PM_L_POINTS; h++) {
-        float angulo1 = ((float) h - 1) * M_PI / 512 + PM_FI_MIN + pose.th;
+        float angulo1 = ((float) h - 1) * M_PI / 512 + base;
         float angulo2 = ((float) h) * M_PI / 512 + PM_FI_MIN + pose.th;
         if ((segundo->r[h - 1] < 500) && (segundo->r[h - 1] > 30) && !((h > 23 && h < 50) || (h > 642 && h < 669))) {
             float dx1 = ((segundo->r[h - 1] * cos(angulo1)) - (segundo->r[h] * cos(angulo2))) * resolucion;
-            float dy1 = ((segundo->r[h - 1] * sin(angulo1)) - (segundo->r[h] * sin(angulo1))) * resolucion;
+            float dy1 = ((segundo->r[h - 1] * sin(angulo1)) - (segundo->r[h] * sin(angulo2))) * resolucion;
             float distancia = sqrt(dx1 * dx1 + dy1 * dy1);
             if (distancia < 5.0 * resolucion) {
                 int x = IMG_ANCHO / 2 + (int) (segundo->r[h - 1] * resolucion * cos(angulo1)) + pose.x*resolucion;
-                int y = IMG_ALTO / 2 + (int) (segundo->r[h - 1] * sin(angulo1) * resolucion) + pose.y*resolucion;
+                int y = IMG_ALTO / 2 +  (int) (segundo->r[h - 1] * resolucion * sin(angulo1)) + pose.y*resolucion;
                 img.draw_line(
                         x,
                         y,
-                        IMG_ANCHO / 2 + (int) (segundo->r[h] * cos(angulo2) * resolucion) + pose.x*resolucion,
-                        IMG_ALTO / 2 + (int) (segundo->r[h] * sin(angulo2) * resolucion + pose.y * resolucion), color);
+                        IMG_ANCHO / 2 + (int) (segundo->r[h] * cos(angulo2) * resolucion + pose.x * resolucion),
+                        IMG_ALTO / 2 + (int)  (segundo->r[h] * sin(angulo2) * resolucion + pose.y * resolucion), color);
 
             }
         }

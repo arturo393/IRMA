@@ -319,13 +319,14 @@ int LaserProcessor::step() {
         
         //set_image(segundo, poses_laser[n_pose], img);
         set_image_color_blanco(segundo, poses_laser[n_pose], img);
-        CImg<unsigned char> img_temp(img);
+/*        CImg<unsigned char> img_temp(img);
         dibujar_robot(segundo, poses_laser[n_pose], poses_robot[n_pose], img_temp);
         dibujar_poses(poses_laser, poses_robot, n_pose, img_temp);
         img_temp.draw_text(50,5,"PosX = %g\nPosY:%g\nPosDir:%g",
                 white,NULL,1,temprx,tempry,tempth);
         disp.display(img_temp);
-
+*/
+        disp.display(img);
         tercero = segundo;
         segundo = primero;
         primero = tercero;

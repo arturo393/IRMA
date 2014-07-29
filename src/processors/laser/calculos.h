@@ -11,8 +11,7 @@
 #include "ekf.h"
 #include "polar_matching/polar_matching/polar_match.h"
 #include "CImg.h"
-void calculos(PMScan *primero,
-        PMScan *segundo);
+void calculos(PMScan *primero, PMScan *segundo);
 void init_poses(Pose poses_laser[1000], 
         Pose poses_robot[1000], 
         Pose poses_modelo[1000],
