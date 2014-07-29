@@ -38,7 +38,6 @@ struct ExecutiveData {
     float exec_steering;
     int exec_speed_percent;
     int exec_movement;
-    int exec_current_nav;
     float exec_adc[5];
 
     // posX and posY are measured in milimeters.

@@ -238,8 +238,12 @@ int ExecutiveProcessor::step() {
     steer = pExecutive->exec_steering;
     speed_percent = pExecutive->exec_speed_percent;
     movement = pExecutive->exec_movement;
+
     cda.unlockArea(EXECUTIVE_AREA);
     
+        cda.lockArea(MONITOR_AREA);
+        current_nav = pMonitor->monitor_current_nav;
+        cda.unlockArea(MONITOR_AREA);
     
 
 #ifdef MANUAL_MOVE
@@ -250,6 +254,7 @@ int ExecutiveProcessor::step() {
         
         
         getLaserReading(pExecutive, pLaser, 0, 0, 0);
+	
 
 #ifdef MANUAL_MOVE
         if (use_manual_to_move && times > movement_times) {
@@ -288,9 +293,7 @@ int ExecutiveProcessor::step() {
             saveLog(ss.str());
         }
 #endif
-        cda.lockArea(MONITOR_AREA);
-        current_nav = pMonitor->monitor_current_nav;
-        cda.unlockArea(MONITOR_AREA);
+
         
         
         pExecutive->on_moving = 1;
@@ -358,6 +361,7 @@ int ExecutiveProcessor::move() {
     float speed, steer;
     int speed_percent = 0;
     int movement = 0;
+    int current_nav;
 
     cda.lockArea(EXECUTIVE_AREA);
     move_ready_flag = pExecutive->exec_move_ready_flag;
@@ -366,6 +370,10 @@ int ExecutiveProcessor::move() {
     speed_percent = pExecutive->exec_speed_percent;
     movement = pExecutive->exec_movement;
     cda.unlockArea(EXECUTIVE_AREA);
+
+    cda.lockArea(MONITOR_AREA);
+    current_nav = pMonitor->monitor_current_nav;
+    cda.unlockArea(MONITOR_AREA);
 
 
     getLaserReading(pExecutive, pLaser, 0, 0, 0);
@@ -421,12 +429,12 @@ int ExecutiveProcessor::move() {
         saveLog(ss.str());
     }
 #endif
-    if (pExecutive->exec_current_nav == LRN) {
+    if (current_nav == LRN) {
         serial->move_lrn(speed_percent, movement); //
         usleep(STEP_SIZE);
         cout << "\t";
         serial->move_lrn(0, 9);
-    } else if (pExecutive->exec_current_nav == CRN) {
+    } else if (current_nav == CRN) {
         serial->move_v(vR, vL); //
         usleep(STEP_SIZE);
         cout << "\t";
