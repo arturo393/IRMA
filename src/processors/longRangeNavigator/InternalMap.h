@@ -48,8 +48,8 @@
 
 //*******************************************************************
 // Define MACROS
-const int MAP_CELLS_HEIGHT = 250;  // 2.5 Meters
-const int MAP_CELLS_WIDTH  = 250;  // 2.5 Meters
+const int MAP_CELLS_HEIGHT = 100;  // 2.5 Meters
+const int MAP_CELLS_WIDTH  = 100;  // 2.5 Meters
 
 const int MAP_WIDHT   = 4000;
 const int MAP_HEIGHT  = 4000;

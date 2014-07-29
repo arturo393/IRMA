@@ -72,21 +72,24 @@ const double CROSSOVER_RATE = 0.80;  // 75%
 const double MOTIVATION_CURIOSITY = 1.00;  // RANGE [0, 1]
 const double MOTIVATION_ENERGY    = 0.00;  // RANGE [0, 1]
 const double MOTIVATION_HOMING    = 0.00;  // RANGE [0, 1]
-const double MOTIVATION_MISSIONS  = 0.00;  // RANGE [0, 1]
+const double MOTIVATION_MISSIONS  = 1.00;  // RANGE [0, 1]
 
 const double REVISITED_PENALTY = 0.30;  // Used when a map cell is revisited (Patricio: was 0.20)
 const char SELECTED_ROOM = H_ROOM;     // Ideal Room
 
 const int START_ANGLE      = 90;  // Starting Angle - DEGREES
-const int START_X_COORD    = 200;  // Starting X Coordinate - Millimeters
-const int START_Y_COORD    = 200;  // Starting Y Coordinate - Millimeters
+const int START_X_COORD    = 1000;  // Starting X Coordinate - Millimeters
+const int START_Y_COORD    = 1000;  // Starting Y Coordinate - Millimeters
 const double STARTING_BATTERY = 1.0;   // Starting Battery Level - RANGE [0, 1] Same value for each GA iteration
 static double CURRENT_BATTERY = 25.0;   // Updated when the robot actually moves. (Patricio: POWER_FORWARD*MAX_STEPS_NUMBER = 0.005*1000)
 // CURRENT_BATTERY: Each 30 steps can consume up to 1.0 of Battery. For 1000 steps can consume up to 33.3 of Battery. <-- Calculated manually (should be in configFile)
 
-const int GOAL_ANGLE    = START_ANGLE;   // Starting Angle - DEGREES
-const int GOAL_X_COORD  = START_X_COORD;   // Starting X Coordinate - Millimeters
-const int GOAL_Y_COORD  = START_Y_COORD;   // Starting Y Coordinate - Millimeters
+const int GOAL_ANGLE    = START_ANGLE;   // Home Angle - DEGREES
+const int GOAL_X_COORD  = START_X_COORD;   // Home X Coordinate - Millimeters
+const int GOAL_Y_COORD  = START_Y_COORD;   // Home Y Coordinate - Millimeters
+const int HOME_ANGLE    = START_ANGLE;   // Home Angle - DEGREES
+const int HOME_X_COORD  = START_X_COORD;   // Home X Coordinate - Millimeters
+const int HOME_Y_COORD  = START_Y_COORD;   // Home Y Coordinate - Millimeters
 //===================================================================
 // Actions
 const char FORWARD      = 0;  // 0
@@ -111,7 +114,7 @@ const double MISSION_AREA = 1.0;  // Related to the robot diameter
 const double MISSION_MAX_RANGE = (8.0);  // Range is GOAL_SIGNAL_RANGE times GOAL SIZE
 // Robot Characteristics
 const int ROBOT_DIAMETER = 385;  // Variables in Millimeters
-const int SENSOR_RANGE   = 10;  // Variables in Millimeters
+const int SENSOR_RANGE   = 100;  // Variables in Millimeters
 
 // original values:
 // Calc_Fitness_Energy divides current by initial battery and current
@@ -291,6 +294,7 @@ class VirtualExecutive
       // Homing Related Variables
       int startPosition[3];   // Start Orientation and Position, degrees and cms
       int goalPosition[3];    // Goal Orientation and Position, degrees and cms
+      int homePosition[3];    // Home  Orientation and Position, degrees and cms
       // Missions Related Variables
       int currentPosition[3]; // Current Orientation and Position, degrees and cms
       int totalMissions;         // Total number of Missions
@@ -340,7 +344,7 @@ class VirtualExecutive
 //      void Set_Missions(const int _quantity, const int _coordinates[MAX_MISSIONS][3]);
       void Show_Missions(void) const;
       void set_step_lenght(const int _value);
-      void set_angle_length(const int _value);
+      void set_angle_lenght(const int _value);
       void set_selected_room(const char _value);
 
       void get_start_position(int _coordinates[]) const;

@@ -236,20 +236,25 @@ Population::~Population() {
 
 
 //-------------------------------------------------------------------
-// Need only to make successive experiments
+// Needed only to make successive experiments
 
 void Population::Reinit(void) {
-    // Crossover pointsy
+    // Crossover points
     a_points[0] = genesNumber / (crossPointsNumber);
+
     for (int _ipts = 1; _ipts < crossPointsNumber - 1; _ipts++)
         a_points[_ipts] = a_points[_ipts - 1] + genesNumber / (crossPointsNumber);
+
     a_points[crossPointsNumber - 1] = genesNumber;
 
     // Ranking list
     for (int _iorg = 0; _iorg < this->populationSize; _iorg++) {
+
         this->a_popList[_iorg] = _iorg;
+
         for (int _igen = 0; _igen < genesNumber; _igen++)
             this->ao_pool[_iorg].setGene(_igen, (_gen) RandomRange(ACTIONS_NUMBER - 1));
+
         this->ao_pool[_iorg].setFitness(-1.0);
         this->ao_pool[_iorg].setRanking(-1);
     }
@@ -291,30 +296,28 @@ void Population::Evolve(const char _verbose) {
     //···································································
 #ifndef T_EVOLVE
 
-  //  std::cout << "Displaying Pool Before Clean:" << std::endl;
-  //  this->DisplayPool(VERBOSE_LOW);
+
+    //   std::cout << "Evaluate BEFORE starting GA" << std::endl;
+    // Fix the movements (left followed right) of the top 1 ranking organism	
     this->CleanGenes();
-  //  std::cout << "Displaying pool AFTER clean:"<<std::endl;
-  //  this->DisplayPool(VERBOSE_LOW);
-    
- //   std::cout << "Evaluate BEFORE starting GA" << std::endl;
+    // Evaluate de fitness of the first generation
     this->Evaluate();
-  //  this->DisplayPool(VERBOSE_LOW);
- //   std::cout << "Displaying pool AFTER evaluate:"<<std::endl;
+    this->DisplayPool(_verbose);
+    //   std::cout << "Displaying pool AFTER evaluate:"<<std::endl;
 
 
     // Only when Elite is used the ranking is calculated and used
     for (int _ign = 0; _ign < generationsNumber; _ign++) {
-        printf("generationsNumber = %d\n", generationsNumber);
+        //   printf("generationsNumber = %d\n", generationsNumber);
         if (_verbose >= VERBOSE_MIN)
             printf("(%3d) - COMPUTING GENERATION: %5d FROM %5d\n", DEBUG_ITERATIONS, _ign, generationsNumber);
 
         this->Select(selectionMethod);
         this->Crossover();
         this->Mutate();
-        //this->CleanGenes();
+        //        this->CleanGenes();
         this->Evaluate();
- //       this->DisplayPool(VERBOSE_LOW);
+        this->DisplayPool(_verbose);
 
         this->RankingUpdate(); // Sort the population and Update sumFitness and avgFitness
         if (ao_pool[a_popList[0]].getFitness() <= 0.0)
@@ -364,7 +367,13 @@ void Population::Evolve(const char _verbose) {
     printf("*********************************************************************\n");
     DEBUG_ITERATIONS++;
 }
-
+/**
+ * \brief Fix the left followed by right movement of the top 1 organism  
+ * Whenever there are a TURN_RIGHT followed by TURN_LEFT, or viceversa, it avoid this step and decreases 
+ * the useful steps of the. Only takes the top 1 organism.
+ * \param none
+ * \return none
+ */
 void Population::CleanGenes() {
     //···································································
 #ifdef T_CLEAN_GENES
@@ -372,7 +381,7 @@ void Population::CleanGenes() {
 #endif   // end T_CLEAN_GENES
     //···································································
 
-    int _iorg = a_popList[0];
+    int _iorg = a_popList[0]; //just for the number 1 ranking
     _gen _temp_a_genes[GENES_NUMBER];
     int _igen = 0;
     _gen _action = 0;
@@ -385,17 +394,19 @@ void Population::CleanGenes() {
     for (_igen = 0; _igen < _genesNumber; _igen++) {
         _action = ao_pool[_iorg].getGene(_igen);
 
+
         if ((_index_temp > 0) &&
-                (_action == TURN_RIGHT && _temp_a_genes[_index_temp - 1] == TURN_LEFT))
+                ((_action == TURN_RIGHT && _temp_a_genes[_index_temp-1] == TURN_LEFT) || \
+                 (_action == TURN_LEFT  && _temp_a_genes[_index_temp-1] == TURN_RIGHT)))
             _index_temp--;
-            //          if ((_index_temp > 0) &&
-            //              ((_action == TURN_RIGHT_1 && _temp_a_genes[_index_temp-1] == TURN_LEFT_1)  ||
-            //               (_action == TURN_LEFT_1  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_1) ||
-            //               (_action == TURN_RIGHT_2 && _temp_a_genes[_index_temp-1] == TURN_LEFT_2)  ||
-            //               (_action == TURN_LEFT_2  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_2) ||
-            //               (_action == TURN_RIGHT_3 && _temp_a_genes[_index_temp-1] == TURN_LEFT_3)  ||
-            //               (_action == TURN_LEFT_3  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_3)))
-            //                    _index_temp--;
+        //          if ((_index_temp > 0) &&
+        //              ((_action == TURN_RIGHT_1 && _temp_a_genes[_index_temp-1] == TURN_LEFT_1)  ||
+        //               (_action == TURN_LEFT_1  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_1) ||
+        //               (_action == TURN_RIGHT_2 && _temp_a_genes[_index_temp-1] == TURN_LEFT_2)  ||
+        //               (_action == TURN_LEFT_2  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_2) ||
+        //               (_action == TURN_RIGHT_3 && _temp_a_genes[_index_temp-1] == TURN_LEFT_3)  ||
+        //               (_action == TURN_LEFT_3  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_3)))
+        //                    _index_temp--;
         else {
             _temp_a_genes[_index_temp] = _action;
             _index_temp++;
@@ -410,15 +421,12 @@ void Population::CleanGenes() {
 }
 
 
-//-------------------------------------------------------------------
-//-------------------------------------------------------------------
-
+/**
+ * \brief Set  fitness, useful steps, minimun goal distance to mission and final position 
+ * on each organism of the population.
+ * \return 0
+ */
 int Population::Evaluate() {
-    //···································································
-#ifdef T_EVALUATE
-    printf("\nTEST EVALUATE:");
-#endif   // end T_EVALUATE
-    //···································································
 
     int _iorg;
     int _goal_step;
@@ -426,11 +434,11 @@ int Population::Evaluate() {
     int _final_coord[3];
     double _fitness = -1.0;
 
+
     for (_iorg = 0; _iorg < populationSize; _iorg++) {
         //      if( this->getFitness(_iorg) == -1.0)
         //      {
         _fitness = this->o_ffitness.CalcFitness(ao_pool[_iorg]);
-
         _goal_step = genesNumber;
         _goal_distance = -1;
         this->o_ffitness.o_virtualMotion.get_current_position(_final_coord);
@@ -450,11 +458,6 @@ int Population::Evaluate() {
         //      }  // end if(this->getFitness(_iorg) == -1)
     } // end for(_iorg = 0; _iorg < populationSize; _iorg++)
 
-    //···································································
-#ifdef T_EVALUATE
-    this->DisplayPool(VERBOSE_LOW);
-#endif   // end T_EVALUATE
-    //···································································
     return (populationSize - _iorg);
 }
 
@@ -683,7 +686,7 @@ void Population::Elite_Fix_Function(void) {
         }
         if (_action == TURN_RIGHT) {
             if (ao_matingPool[0].getGene(_igen) == TURN_LEFT)
- {
+            {
                 _change = true;
             }
         }
@@ -777,7 +780,7 @@ void Population::Roulette(void) {
             a_popList[_orgN], getSlice(a_popList[_orgN]), getSlice(a_popList[_orgN]));
     for (_orgN = 1; _orgN < populationSize; _orgN++)
         printf("\nORG: %3d   SLICE: %1.6f   ACCUM: %1.6f",
-            a_popList[_orgN], getSlice(a_popList[_orgN]) - getSlice(a_popList[_orgN - 1]), getSlice(a_popList[_orgN]));
+                a_popList[_orgN], getSlice(a_popList[_orgN]) - getSlice(a_popList[_orgN - 1]), getSlice(a_popList[_orgN]));
 #endif   // end T_ROULETTE_SLICE
     //···································································
 
@@ -916,7 +919,7 @@ void Population::CrossParents(const int _parents[], const int _children[], const
         ao_pool[_children[0]].setFitness(-1.0); // The fitness of the child must be calculated
         ao_pool[_children[1]].setFitness(-1.0); // The fitness of the child must be calculated
     }        // If no cross operation is perfermed the children
-        // fitness is equal to the parents fitness
+    // fitness is equal to the parents fitness
     else {
         ao_pool[_children[0]].setFitness(ao_matingPool[_parents[0]].getFitness());
         ao_pool[_children[1]].setFitness(ao_matingPool[_parents[1]].getFitness());
@@ -1134,7 +1137,7 @@ void Population::ToMating(int _iorg) {
         for (_igen = 0; _igen < genesNumber; _igen++)
             this->ao_matingPool[selected].setGene(_igen, ao_pool[_iorg].getGene(_igen));
     }// end if( _iorg >= 0 )
-        // if _iorg is equal to -1 a RANDOM IMMIGRANT is placed in the mating pool
+    // if _iorg is equal to -1 a RANDOM IMMIGRANT is placed in the mating pool
     else {
         // The genes are randomly created
         for (_igen = 0; _igen < genesNumber; _igen++)
@@ -1303,7 +1306,7 @@ void Population::DisplayPool(char _verbose) const {
         // Show Individual Identificator
         if (_verbose >= VERBOSE_MIN) {
             std::cout << "Pool Member "<< _iorg << " of " << populationSize-1;
-  
+
         } // end if( _verbose >= 0 )
 
         // Show Fitness and Ranking
@@ -1585,7 +1588,7 @@ FitnessFunction::FitnessFunction() {
     a_motivations[3] = MOTIVATION_MISSIONS;
     NormalizeTo_1(a_motivations, 4, a_motivations, 4);
 
-    fart_categories = 0;
+    //fart_categories = 0;
 }
 
 //-------------------------------------------------------------------
@@ -1597,16 +1600,21 @@ FitnessFunction::~FitnessFunction() {
     delete [] FART_MAP;
 }
 
-
-//-------------------------------------------------------------------
+/**
+ * \brief Calculates fitness of one organism
+ * First execute de movementes of organism, then calculates its fitness according to the 
+ * motivations. For the fitness it uses mandami fuzzy logic.
+ * \param c_organism organism with the path.
+ * \return _fitness one fitness value.
+ */
 
 double FitnessFunction::CalcFitness(const c_organism& agent) {
-    
-    
+
+
     this->o_virtualMotion.Executor(agent, a_fitness);
     //···································································
 #ifdef T_MOTIVATION_FITNESS
-    printf("\na_fitness: CURIOSITY: %f   ENERGY: %f   HOMING: %f   MISSIONS: %f +", a_fitness[0], a_fitness[1], a_fitness[2], a_fitness[3]);
+    printf("\na_fitness: Curiosity: %f | Energy: %f | Homing: %f | Missions: %f +", a_fitness[0], a_fitness[1], a_fitness[2], a_fitness[3]);
     printf("\na_motivations: CURIOSITY: %f   ENERGY: %f   HOMING: %f   MISSIONS: %f +", a_motivations[0], a_motivations[1], a_motivations[2], a_motivations[3]);
 #endif   // end T_MOTIVATION_FITNESS
     //···································································
@@ -1902,12 +1910,12 @@ VirtualExecutive::VirtualExecutive() {
     currentPosition[1] = startPosition[1];
     currentPosition[2] = startPosition[2];
     totalMissions = 0;
-    _genesNumber = 400;
+    _genesNumber = GENES_NUMBER;
 
     step_lenght = STEP_SIZE;
     angle_length = ANGLE_SIZE;
 
-    o_MAP.SetTestScenario(SELECTED_ROOM);
+    //o_MAP.SetTestScenario(SELECTED_ROOM);
 
     // Decreasing Priority of Mission; X Coordinate of the missions;
     // Y Coordinate of mission; Accomplishment (1)
@@ -1933,13 +1941,11 @@ void VirtualExecutive::CleanAll(void) {
     currentPosition[2] = startPosition[2]; // Current Robot Position: Y Coord
 
 
-    /* Check if this can be removed
     goalPosition[0] = GOAL_ANGLE;     // Final Robot Position: Angle
     goalPosition[1] = GOAL_X_COORD;   // Final Robot Position: X Coord
     goalPosition[2] = GOAL_Y_COORD;   // Final Robot Position: Y Coord
-     */
     if (totalMissions != 0) {
-        missionPosition[0][3] = -1;
+        missionPosition[0][3] = -1; //fitness value
         this->Distance_Missions(currentPosition, 0);
     }
 }
@@ -1953,8 +1959,15 @@ void VirtualExecutive::Executor(const c_organism& agent, double a_fitness[]) {
     printf("\nTEST VIRTUAL EXECUTIVE");
 #endif   // end T_EXECUTOR
     //···································································
+    /* set all the map as free
+     * set battery level to initials
+     * set current posito as start position
+     * i think this is not needed. Correction, is needed for the battery
+     */
     this->CleanAll();
 
+
+    this->crashFlag = false; // Crashes
     int _prevCoord[3]; // Angle, X Coord, Y Coord
     int _igen = 0;
     _gen _action = FREEZE;
@@ -1971,28 +1984,19 @@ void VirtualExecutive::Executor(const c_organism& agent, double a_fitness[]) {
         _prevCoord[2] = currentPosition[2];
 
         if (_action != FREEZE) {
-            
+
             this->ComputeNextPosition(currentPosition, _action);
-            
+
             if (totalMissions != 0)
                 this->Distance_Missions(currentPosition, _igen);
-            
+
             // Verify any crash and set Visited and Revisited cells
-            /*
-            if(RobotCrash_MapBorderCoord() == true) this->crashFlag = true;
-            else if(RobotCrash_MapBorderCells(_prevCoord,_action) == true) this->crashFlag = true;
-            */
             this->crashFlag = this->RobotSweptArea(_prevCoord, _action);
-                
-           // this->crashFlag = this->RobotSweptArea(_prevCoord, _action);
         }
- 
-      // Set Current Battery Level
-      this->UpdateBatteryLevel(_action);
-      if( currentBattery <= 0.0 )  _emptyBatteryFlag = true;
+
         // Set Current Battery Level
         this->UpdateBatteryLevel(_action);
-        if (currentBattery <= 0.0) _emptyBatteryFlag = true;
+        if( currentBattery <= 0.0 )  _emptyBatteryFlag = true;
 
         //···································································
 #ifdef T_EXECUTOR
@@ -2062,7 +2066,7 @@ void VirtualExecutive::set_step_lenght(const int _value) {
 }
 //-------------------------------------------------------------------
 
-void VirtualExecutive::set_angle_length(const int _value) {
+void VirtualExecutive::set_angle_lenght(const int _value) {
     angle_length = _value;
 }
 //-------------------------------------------------------------------
@@ -2164,9 +2168,9 @@ double VirtualExecutive::Calc_Fitness_Homing(void) {
     if (_distance < _homePerimeter) {
         _fitness = 1.0;
     }
-        // The Individual Homing Fitness is inversely proportional to the
-        // home distance between _homePerimeter and twice _homePerimeter
-        // if the home distance is bigger then th Individual Fitness become minimal = 0.0
+    // The Individual Homing Fitness is inversely proportional to the
+    // home distance between _homePerimeter and twice _homePerimeter
+    // if the home distance is bigger then th Individual Fitness become minimal = 0.0
     else if ((_distance > _homePerimeter) && (_distance < (_maxAllowedDistance))) {
         _fitness = (GOAL_SIGNAL_RANGE / (GOAL_SIGNAL_RANGE - 1)) - (_distance / (_homePerimeter * (GOAL_SIGNAL_RANGE - 1)));
     } else if (_distance > _maxAllowedDistance) {
@@ -2197,8 +2201,8 @@ double VirtualExecutive::Calc_Fitness_Mission(void) {
     if (_distance < _goalPerimeter) {
         _fitness_dist = 1.0;
     }        // The Individual Homing Fitness is inversely proportional to the
-        // home distance between _homePerimeter and twice _homePerimeter
-        // if the home distance is bigger then th Individual Fitness become minimal = 0.0
+    // home distance between _homePerimeter and twice _homePerimeter
+    // if the home distance is bigger then th Individual Fitness become minimal = 0.0
     else if ((_distance > _goalPerimeter) && (_distance < (_maxAllowedDistance))) {
         _fitness_dist = (MISSION_MAX_RANGE / (MISSION_MAX_RANGE - 1)) - (_distance / (_goalPerimeter * (MISSION_MAX_RANGE - 1)));
     } else if (_distance > _maxAllowedDistance) {
@@ -2245,7 +2249,8 @@ void VirtualExecutive::ComputeNextPosition(int _currentPosition[], const _gen _a
     //···································································
 #ifdef T_C_NEXT_POSITION
     printf("\nTEST COMPUTE NEXT POSITION:");
-    printf("\nSTART COORINATES:\n ANGLE: %3d\tX COORD: %5d\tY COORD: %5d", _currentPosition[0], _currentPosition[1], _currentPosition[2]);
+    printf("\nSTART COORINATES:\n ANGLE: %3d\tX COORD: %5d\tY COORD: %5d" \
+            , _currentPosition[0], _currentPosition[1], _currentPosition[2]);
 #endif   // end T_C_NEXT_POSITION
     //···································································
     if (_action == FORWARD) {
@@ -2272,53 +2277,53 @@ void VirtualExecutive::ComputeNextPosition(int _currentPosition[], const _gen _a
         if (_currentPosition[0] > 360)
             _currentPosition[0] = _currentPosition[0] - 360;
     }        //   else if( _action == TURN_RIGHT_1 )
-        //   {
-        //      _currentPosition[0] -= angle_length;
-        //      if( _currentPosition[0] < 0 )
-        //         _currentPosition[0] = 360 + _currentPosition[0];
-        //      if( _currentPosition[0] > 360 )
-        //         _currentPosition[0] = _currentPosition[0] - 360;
-        //   }
-        //   else if( _action == TURN_LEFT_1 )
-        //   {
-        //      _currentPosition[0] += angle_length;
-        //      if( _currentPosition[0] < 0 )
-        //         _currentPosition[0] = 360 + _currentPosition[0];
-        //      if( _currentPosition[0] > 360 )
-        //         _currentPosition[0] = _currentPosition[0] - 360;
-        //   }
-        //   else if( _action == TURN_RIGHT_2 )
-        //   {
-        //      _currentPosition[0] -= angle_length*2;
-        //      if( _currentPosition[0] < 0 )
-        //         _currentPosition[0] = 360 + _currentPosition[0];
-        //      if( _currentPosition[0] > 360 )
-        //         _currentPosition[0] = _currentPosition[0] - 360;
-        //   }
-        //   else if( _action == TURN_LEFT_2 )
-        //   {
-        //      _currentPosition[0] += angle_length*2;
-        //      if( _currentPosition[0] < 0 )
-        //         _currentPosition[0] = 360 + _currentPosition[0];
-        //      if( _currentPosition[0] > 360 )
-        //         _currentPosition[0] = _currentPosition[0] - 360;
-        //   }
-        //   else if( _action == TURN_RIGHT_3 )
-        //   {
-        //      _currentPosition[0] -= angle_length*3;
-        //      if( _currentPosition[0] < 0 )
-        //         _currentPosition[0] = 360 + _currentPosition[0];
-        //      if( _currentPosition[0] > 360 )
-        //         _currentPosition[0] = _currentPosition[0] - 360;
-        //   }
-        //   else if( _action == TURN_LEFT_3 )
-        //   {
-        //      _currentPosition[0] += angle_length*3;
-        //      if( _currentPosition[0] < 0 )
-        //         _currentPosition[0] = 360 + _currentPosition[0];
-        //      if( _currentPosition[0] > 360 )
-        //         _currentPosition[0] = _currentPosition[0] - 360;
-        //   }
+    //   {
+    //      _currentPosition[0] -= angle_length;
+    //      if( _currentPosition[0] < 0 )
+    //         _currentPosition[0] = 360 + _currentPosition[0];
+    //      if( _currentPosition[0] > 360 )
+    //         _currentPosition[0] = _currentPosition[0] - 360;
+    //   }
+    //   else if( _action == TURN_LEFT_1 )
+    //   {
+    //      _currentPosition[0] += angle_length;
+    //      if( _currentPosition[0] < 0 )
+    //         _currentPosition[0] = 360 + _currentPosition[0];
+    //      if( _currentPosition[0] > 360 )
+    //         _currentPosition[0] = _currentPosition[0] - 360;
+    //   }
+    //   else if( _action == TURN_RIGHT_2 )
+    //   {
+    //      _currentPosition[0] -= angle_length*2;
+    //      if( _currentPosition[0] < 0 )
+    //         _currentPosition[0] = 360 + _currentPosition[0];
+    //      if( _currentPosition[0] > 360 )
+    //         _currentPosition[0] = _currentPosition[0] - 360;
+    //   }
+    //   else if( _action == TURN_LEFT_2 )
+    //   {
+    //      _currentPosition[0] += angle_length*2;
+    //      if( _currentPosition[0] < 0 )
+    //         _currentPosition[0] = 360 + _currentPosition[0];
+    //      if( _currentPosition[0] > 360 )
+    //         _currentPosition[0] = _currentPosition[0] - 360;
+    //   }
+    //   else if( _action == TURN_RIGHT_3 )
+    //   {
+    //      _currentPosition[0] -= angle_length*3;
+    //      if( _currentPosition[0] < 0 )
+    //         _currentPosition[0] = 360 + _currentPosition[0];
+    //      if( _currentPosition[0] > 360 )
+    //         _currentPosition[0] = _currentPosition[0] - 360;
+    //   }
+    //   else if( _action == TURN_LEFT_3 )
+    //   {
+    //      _currentPosition[0] += angle_length*3;
+    //      if( _currentPosition[0] < 0 )
+    //         _currentPosition[0] = 360 + _currentPosition[0];
+    //      if( _currentPosition[0] > 360 )
+    //         _currentPosition[0] = _currentPosition[0] - 360;
+    //   }
     else if (_action == FREEZE) {
         ;
     }
@@ -2363,177 +2368,173 @@ void VirtualExecutive::Distance_Missions(const int _currentPosition[], const int
 
 bool VirtualExecutive::RobotSweptArea(const int _prevCoord[], const _gen _action) 
 {
-    
-//···································································
+    //···································································
 #ifdef T_CRASH_CHECKER
-printf("\nTEST CRASH CHECKER:");
+    printf("\nTEST CRASH CHECKER:");
 #endif   // end T_CRASH_CHECKER
-//···································································
-   int _leftWall = this->currentPosition[1] - robotRadius;
-   int _lowerWall = this->currentPosition[2] - robotRadius;
-   int _rightWall = this->currentPosition[1] + robotRadius;
-   int _upperWall = this->currentPosition[2] + robotRadius;
+    //···································································
+    int _leftWall = this->currentPosition[1] - robotRadius;
+    int _lowerWall = this->currentPosition[2] - robotRadius;
+    int _rightWall = this->currentPosition[1] + robotRadius;
+    int _upperWall = this->currentPosition[2] + robotRadius;
 
-   // Verify Crash with Map's boundaries
-   // Main position + Robot Diameter, perhaps even part of the sensores range
-   // Crash with Maps Left wall
-   if( _leftWall <= 0 )
-   {
-//···································································
+    // Verify Crash with Map's boundaries
+    // Main position + Robot Diameter, perhaps even part of the sensores range
+    // Crash with Maps Left wall
+    if( _leftWall <= 0 )
+    {
+        //···································································
 #ifdef T_CRASH_CHECKER
-printf("\nCrash with Maps Left wall:");
+        printf("\nCrash with Maps Left wall:");
 #endif   // end T_CRASH_CHECKER
-//···································································
-      return(true);
-   }
-   // Crash with Maps Lower wall
-   else if( _lowerWall <= 0 )
-   {
-//···································································
+        //···································································
+        return(true);
+    }
+    // Crash with Maps Lower wall
+    else if( _lowerWall <= 0 )
+    {
+        //···································································
 #ifdef T_CRASH_CHECKER
-printf("\nCrash with Maps Lower wall:");
+        printf("\nCrash with Maps Lower wall:");
 #endif   // end T_CRASH_CHECKER
-//···································································
-      return(true);
-   }
-   // Crash with Maps Right wall
-   else if( _rightWall >= _velv_mapWidth )
-   {
-//···································································
+        //···································································
+        return(true);
+    }
+    // Crash with Maps Right wall
+    else if( _rightWall >= _velv_mapWidth )
+    {
+        //···································································
 #ifdef T_CRASH_CHECKER
-printf("\nCrash with Maps Right wall:");
+        printf("\nCrash with Maps Right wall:");
 #endif   // end T_CRASH_CHECKER
-//···································································
-      return(true);
-   }
-   // Crash with Maps Upper wall
-   else if( _upperWall >= _velv_mapHeight )
-   {
-//···································································
+        //···································································
+        return(true);
+    }
+    // Crash with Maps Upper wall
+    else if( _upperWall >= _velv_mapHeight )
+    {
+        //···································································
 #ifdef T_CRASH_CHECKER
-printf("\nCrash with Maps Upper wall:");
+        printf("\nCrash with Maps Upper wall:");
 #endif   // end T_CRASH_CHECKER
-//···································································
-      return(true);
-   }
-   // Compute the main cell of the robot representation
-   // int lroundf(double x);
-   // round their argument to the nearest integer value,
-   // rounding always away from zero.
-   int _startXCell = lround(_prevCoord[1]/_velv_mapMeshSize);
-   int _startYCell = lround(_prevCoord[2]/_velv_mapMeshSize);
-   int _stopXCell = lround(currentPosition[1]/_velv_mapMeshSize);
-   int _stopYCell = lround(currentPosition[2]/_velv_mapMeshSize);
+        //···································································
+        return(true);
+    }
+    // Compute the main cell of the robot representation
+    // int lroundf(double x);
+    // round their argument to the nearest integer value,
+    // rounding always away from zero.
+    int _startXCell = lround(_prevCoord[1]/_velv_mapMeshSize);
+    int _startYCell = lround(_prevCoord[2]/_velv_mapMeshSize);
+    int _stopXCell = lround(currentPosition[1]/_velv_mapMeshSize);
+    int _stopYCell = lround(currentPosition[2]/_velv_mapMeshSize);
 
-   // Calculate the displacement, this is part of the stop condition
-   double temp;
-   double _delta_x = (_startXCell - _stopXCell)*1.0;
-   double _delta_y = (_startYCell - _stopYCell)*1.0;
-   temp = pow(_delta_x, 2.0) + pow(_delta_y, 2.0);
+    // Calculate the displacement, this is part of the stop condition
+    double temp;
+    double _delta_x = (_startXCell - _stopXCell)*1.0;
+    double _delta_y = (_startYCell - _stopYCell)*1.0;
+    temp = pow(_delta_x, 2.0) + pow(_delta_y, 2.0);
 
-   double _totalDisplacement = sqrt(temp);
-   double _displacement = 0.0; // Accumulate Displacement
+    double _totalDisplacement = sqrt(temp);
+    double _displacement = 0.0; // Accumulate Displacement
 
-   // Convert angle form degree to radians to use trigonometric functions
-   double _angle = (_prevCoord[0]/180.0)*M_PI;
+    // Convert angle form degree to radians to use trigonometric functions
+    double _angle = (_prevCoord[0]/180.0)*M_PI;
 
-   int _crrntXCell = _startXCell, _crrntYCell = _startYCell;
-   int auxXS, auxYS, auxXE, auxYE;
-   bool _stop = false;
-// BEGIN : Verify crashes in the (local) start position
-   do {
-      auxXS = _crrntXCell - robotCellRadius;
-      auxYS = _crrntYCell - robotCellRadius;
-      auxXE = _crrntXCell + robotCellRadius;
-      auxYE = _crrntYCell + robotCellRadius;
+    int _crrntXCell = _startXCell, _crrntYCell = _startYCell;
+    int auxXS, auxYS, auxXE, auxYE;
+    bool _stop = false;
+    // BEGIN : Verify crashes in the (local) start position
+    do {
+        auxXS = _crrntXCell - robotCellRadius;
+        auxYS = _crrntYCell - robotCellRadius;
+        auxXE = _crrntXCell + robotCellRadius;
+        auxYE = _crrntYCell + robotCellRadius;
 
-      // Could the robot's border been crashing with the MAP boundaries??
-      if( auxXS < 0 )   return(true);
-      if( auxYS < 0 )   return(true);
-      if( auxXE >= _velv_mapXDim ) return(true);
-      if( auxYE >= _velv_mapYDim ) return(true);
+        // Could the robot's border been crashing with the MAP boundaries??
+        if( auxXS < 0 )   return(true);
+        if( auxYS < 0 )   return(true);
+        if( auxXE >= _velv_mapXDim ) return(true);
+        if( auxYE >= _velv_mapYDim ) return(true);
 
-      auxXS = _crrntXCell - robotCellRadiusPlusSensors;
-      auxYS = _crrntYCell - robotCellRadiusPlusSensors;
-      auxXE = _crrntXCell + robotCellRadiusPlusSensors;
-      auxYE = _crrntYCell + robotCellRadiusPlusSensors;
+        auxXS = _crrntXCell - robotCellRadiusPlusSensors;
+        auxYS = _crrntYCell - robotCellRadiusPlusSensors;
+        auxXE = _crrntXCell + robotCellRadiusPlusSensors;
+        auxYE = _crrntYCell + robotCellRadiusPlusSensors;
 
-      // The robot's sensor are sensing outside the MAP boundaries??
-      if( auxXS < 0 )   auxXS = 0;
-      if( auxYS < 0 )   auxYS = 0;
-      if( auxXE > _velv_mapXDim ) auxXE = _velv_mapXDim;
-      if( auxYE > _velv_mapYDim ) auxYE = _velv_mapYDim;
+        // The robot's sensor are sensing outside the MAP boundaries??
+        if( auxXS < 0 )   auxXS = 0;
+        if( auxYS < 0 )   auxYS = 0;
+        if( auxXE > _velv_mapXDim ) auxXE = _velv_mapXDim;
+        if( auxYE > _velv_mapYDim ) auxYE = _velv_mapYDim;
 
-// For Debug Use: BEGIN
-if( auxXS < 0 )   fprintf(stdout, "RobotSweptArea Map O: X0 = %d\n", auxXS);
-if( auxYS < 0 )   fprintf(stdout, "RobotSweptArea Map O: Y0 = %d\n", auxYS);
-if( auxXE > this->o_MAP.getMapXDim() )  fprintf(stdout, "RobotSweptArea Map O: X1 = %d\n", auxXE);
-if( auxYE > this->o_MAP.getMapYDim() )  fprintf(stdout, "RobotSweptArea Map O: Y1 = %d\n", auxYE);
-// For Debug Use: END
+        // For Debug Use: BEGIN
+        if( auxXS < 0 )   fprintf(stdout, "RobotSweptArea Map O: X0 = %d\n", auxXS);
+        if( auxYS < 0 )   fprintf(stdout, "RobotSweptArea Map O: Y0 = %d\n", auxYS);
+        if( auxXE > this->o_MAP.getMapXDim() )  fprintf(stdout, "RobotSweptArea Map O: X1 = %d\n", auxXE);
+        if( auxYE > this->o_MAP.getMapYDim() )  fprintf(stdout, "RobotSweptArea Map O: Y1 = %d\n", auxYE);
+        // For Debug Use: END
 
-      // Could the robot been crashing with something else??
-      for(int _y = auxYS; _y < auxYE; _y++)
-      {
-         for(int _x = auxXS; _x < auxXE; _x++)
-         {
-            // Are there Obstacles here????
-            if( this->o_MAP.cCellObstacle(_x, _y) )
+        // Could the robot been crashing with something else??
+        for(int _y = auxYS; _y < auxYE; _y++)
+        {
+            for(int _x = auxXS; _x < auxXE; _x++)
             {
-//···································································
+                // Are there Obstacles here????
+                if( this->o_MAP.cCellObstacle(_x, _y) )
+                {
+                    //···································································
 #ifdef T_CRASH_CHECKER
-printf("\nSTART: Are there Obstacles here????: (%4d, %4d)", _x, _y);
+                    printf("\nSTART: Are there Obstacles here????: (%4d, %4d)", _x, _y);
 #endif   // end T_CRASH_CHECKER
-//···································································
-               return(true);
-            }
+                    //···································································
+                    return(true);
+                }
 
-            // Set this cell as visited or revisited
-            if( !this->o_MAP.cCellVisited(_x, _y) )
-                this->o_MAP.setcCellVisited(_x, _y);
-            else
-                this->o_MAP.setcCellRevisited(_x, _y);
-         }  // end for auxYS
-      }  // end for auxXS
+                // Set this cell as visited or revisited
+                if( !this->o_MAP.cCellVisited(_x, _y) )
+                    this->o_MAP.setcCellVisited(_x, _y);
+                else
+                    this->o_MAP.setcCellRevisited(_x, _y);
+            }  // end for auxYS
+        }  // end for auxXS
 
-      // update current cell postition 
-      if( _action == FORWARD ){
-          
-         _crrntXCell += lround(cos(_angle)*robotCellDiameter);
-         _crrntYCell += lround(sin(_angle)*robotCellDiameter);
-      }
-      if( _action == REVERSE ){
-          
-         _crrntXCell -= lround(cos(_angle)*robotCellDiameter);
-         _crrntYCell -= lround(sin(_angle)*robotCellDiameter);
-      }
-      
-      // Calculate the displacement, this is part of the stop condition      
-      _delta_x = (_crrntXCell - _stopXCell)*1.0;
-      _delta_y = (_crrntYCell - _stopYCell)*1.0;
-     
-      //_delta_x = (_startXCell - _stopXCell)*1.0;
-      //_delta_y = (_startYCell - _stopYCell)*1.0;
+        // update current cell postition 
+        if( _action == FORWARD )
+        {
+            _crrntXCell += lround(cos(_angle)*robotCellDiameter);
+            _crrntYCell += lround(sin(_angle)*robotCellDiameter);
+        }
+        if( _action == REVERSE )
+        {
+            _crrntXCell -= lround(cos(_angle)*robotCellDiameter);
+            _crrntYCell -= lround(sin(_angle)*robotCellDiameter);
+        }
+        // Calculate the displacement, this is part of the stop condition      
 
-       temp = pow(_delta_x, 2.0) + pow(_delta_y, 2.0);
+        _delta_x = (_startXCell - _stopXCell)*1.0;
+        _delta_y = (_startYCell - _stopYCell)*1.0;
 
-      _displacement = sqrt(temp);
-      if( _displacement >= _totalDisplacement )
-      {
-         _stop = true;
-         _crrntXCell = _stopXCell;
-         _crrntYCell = _stopYCell;
-      }
-   }while( !_stop );
-// END : Verify crashes in the (local) start position
+        temp = pow(_delta_x, 2.0) + pow(_delta_y, 2.0);
 
-   return(false);
+        _displacement = sqrt(temp);
+        if( _displacement >= _totalDisplacement )
+        {
+            _stop = true;
+            _crrntXCell = _stopXCell;
+            _crrntYCell = _stopYCell;
+        }
+    }while( !_stop );
+    // END : Verify crashes in the (local) start position
+
+    return(false);
 }
 
 
 bool VirtualExecutive::RobotCrash_MapBorderCoord() {
     //···································································
 #ifdef T_CRASH_CHECKER
-//    printf("\nTEST MAP BORDER CRASH CHECKER:");
+    //    printf("\nTEST MAP BORDER CRASH CHECKER:");
 #endif   // end T_CRASH_CHECKER
     //···································································
     int _leftWall = this->currentPosition[1] - robotRadius;
@@ -2586,14 +2587,14 @@ bool VirtualExecutive::RobotCrash_MapBorderCells(const int _prevCoord[], const _
     int robot_right_XCell;
     int robot_up_YCell;
 
-    int startXCell = lround(_prevCoord[1] / _velv_mapMeshSize);
-    int startYCell = lround(_prevCoord[2] / _velv_mapMeshSize);
-    int stopXCell = lround(currentPosition[1] / _velv_mapMeshSize);
-    int stopYCell = lround(currentPosition[2] / _velv_mapMeshSize);
+    int _startXCell = lround(_prevCoord[1] / _velv_mapMeshSize);
+    int _startYCell = lround(_prevCoord[2] / _velv_mapMeshSize);
+    int _stopXCell  = lround(currentPosition[1] / _velv_mapMeshSize);
+    int _stopYCell  = lround(currentPosition[2] / _velv_mapMeshSize);
 
     // Calculate the displacement, this is part of the stop condition
-    double _delta_x = (startXCell - stopXCell)*1.0;
-    double _delta_y = (startYCell - stopYCell)*1.0;
+    double _delta_x = (_startXCell - _stopXCell)*1.0;
+    double _delta_y = (_startYCell - _stopYCell)*1.0;
     double _totalDisplacement = sqrt(pow(_delta_x, 2.0) + pow(_delta_y, 2.0));
     double _displacement = 0.0; // Accumulate Displacement
 
@@ -2601,45 +2602,45 @@ bool VirtualExecutive::RobotCrash_MapBorderCells(const int _prevCoord[], const _
     double _angle = (_prevCoord[0] / 180.0) * M_PI;
     bool stop = false;
 
-    int currentXCell = startXCell;
-    int currentYCell = startYCell;
+    int _currentXCell = _startXCell;
+    int _currentYCell = _startYCell;
     // BEGIN : Verify crashes in the (local) start position
     do {
 
-        robot_left_XCell = currentXCell - robotCellRadius;
-        robot_down_YCell = currentYCell - robotCellRadius;
-        robot_right_XCell = currentXCell + robotCellRadius;
-        robot_up_YCell = currentYCell + robotCellRadius;
-        
+        robot_left_XCell  = _currentXCell - robotCellRadius;
+        robot_down_YCell  = _currentYCell - robotCellRadius;
+        robot_right_XCell = _currentXCell + robotCellRadius;
+        robot_up_YCell    = _currentYCell + robotCellRadius;
+
         // Could the robot's border been crashing with the MAP boundaries??
-        if (robot_left_XCell < 0) return (true);
-        if (robot_down_YCell < 0) return (true);
+        if (robot_left_XCell <= 0) return (true);
+        if (robot_down_YCell <= 0) return (true);
         if (robot_right_XCell >= _velv_mapXDim) return (true);
         if (robot_up_YCell >= _velv_mapYDim) return (true);
 
-         // Should consider the action, because the angle it is not enough
+        // Should consider the action, because the angle it is not enough
         if (_action == FORWARD) {
-            currentXCell += lround(cos(_angle) * robotCellDiameter);
-            currentYCell += lround(sin(_angle) * robotCellDiameter);
+            _currentXCell += lround(cos(_angle) * robotCellDiameter);
+            _currentYCell += lround(sin(_angle) * robotCellDiameter);
         }
         if (_action == REVERSE) {
-            currentXCell -= lround(cos(_angle) * robotCellDiameter);
-            currentYCell -= lround(sin(_angle) * robotCellDiameter);
+            _currentXCell -= lround(cos(_angle) * robotCellDiameter);
+            _currentYCell -= lround(sin(_angle) * robotCellDiameter);
         }
 
-        _delta_x = (currentXCell - stopXCell)*1.0;
-        _delta_y = (currentYCell - stopYCell)*1.0;
- 
-      
+        _delta_x = (_currentXCell - _stopXCell)*1.0;
+        _delta_y = (_currentYCell - _stopYCell)*1.0;
+
+
         _displacement = sqrt(pow(_delta_x, 2.0) + pow(_delta_y, 2.0));
         if (_displacement >= _totalDisplacement) {
             stop = true;
-            currentXCell = stopXCell;
-            currentYCell = stopYCell;
+            _currentXCell = _stopXCell;
+            _currentYCell = _stopYCell;
         }
     } while (!stop);
-    
-   
+
+
 }
 
 bool VirtualExecutive::SensorCrash_MapBorderCells(const int _prevCoord[], const _gen _action) {
@@ -2732,29 +2733,29 @@ void VirtualExecutive::UpdateBatteryLevel(const _gen _action) {
     } else if (_action == TURN_LEFT) {
         this->currentBattery -= POWER_LEFT_1;
     }        //   else if( _action == TURN_RIGHT_1 )
-        //   {
-        //      this->currentBattery -= POWER_RIGHT_1;
-        //   }
-        //   else if( _action == TURN_LEFT_1 )
-        //   {
-        //      this->currentBattery -= POWER_LEFT_1;
-        //   }
-        //   else if( _action == TURN_RIGHT_2 )
-        //   {
-        //      this->currentBattery -= POWER_RIGHT_2;
-        //   }
-        //   else if( _action == TURN_LEFT_2 )
-        //   {
-        //      this->currentBattery -= POWER_LEFT_2;
-        //   }
-        //   else if( _action == TURN_RIGHT_3 )
-        //   {
-        //      this->currentBattery -= POWER_RIGHT_3;
-        //   }
-        //   else if( _action == TURN_LEFT_3 )
-        //   {
-        //      this->currentBattery -= POWER_LEFT_3;
-        //   }
+    //   {
+    //      this->currentBattery -= POWER_RIGHT_1;
+    //   }
+    //   else if( _action == TURN_LEFT_1 )
+    //   {
+    //      this->currentBattery -= POWER_LEFT_1;
+    //   }
+    //   else if( _action == TURN_RIGHT_2 )
+    //   {
+    //      this->currentBattery -= POWER_RIGHT_2;
+    //   }
+    //   else if( _action == TURN_LEFT_2 )
+    //   {
+    //      this->currentBattery -= POWER_LEFT_2;
+    //   }
+    //   else if( _action == TURN_RIGHT_3 )
+    //   {
+    //      this->currentBattery -= POWER_RIGHT_3;
+    //   }
+    //   else if( _action == TURN_LEFT_3 )
+    //   {
+    //      this->currentBattery -= POWER_LEFT_3;
+    //   }
     else if (_action == FREEZE) {
         this->currentBattery -= POWER_FREEZE;
     }
@@ -2880,12 +2881,13 @@ void VirtualExecutive::PrintMAPtoFile(const char a_fileName[]) {
 Elite_Invidivual::Elite_Invidivual() {
     robot_diameter = ROBOT_DIAMETER; // Millimeters
     robot_diameter_sensors = ROBOT_DIAMETER + SENSOR_RANGE; // Millimeters
-    genes_nr = 1;
+    //genes_nr
+    genes_nr = GENES_NUMBER;
     a_genes = new _gen[genes_nr];
 
-    home_coord[0] = START_ANGLE; // Angle Degrees
-    home_coord[1] = START_X_COORD; // X Coord Millimeters
-    home_coord[2] = START_Y_COORD; // Y Coord Millimeters
+    home_coord[0] = HOME_ANGLE; // Angle Degrees
+    home_coord[1] = HOME_X_COORD; // X Coord Millimeters
+    home_coord[2] = HOME_Y_COORD; // Y Coord Millimeters
     start_coord[0] = START_ANGLE; // Angle Degrees
     start_coord[1] = START_X_COORD; // X Coord Millimeters
     start_coord[2] = START_Y_COORD; // Y Coord Millimeters
@@ -2909,12 +2911,12 @@ Elite_Invidivual::Elite_Invidivual() {
     a_fitness[1] = 0.0; // Fitness fulfillment product for Energy
     a_fitness[2] = 0.0; // Fitness fulfillment product for Homing
     a_fitness[3] = 0.0; // Fitness fulfillment product for Missions
-
-    fart_categories = 1;
-    a_FART_map = new double*[fart_categories];
-    for (int _y = 0; _y < fart_categories; _y++)
-        a_FART_map[_y] = new double[4];
-
+    /* 
+       fart_categories = 1;
+       a_FART_map = new double*[fart_categories];
+       for (int _y = 0; _y < fart_categories; _y++)
+       a_FART_map[_y] = new double[4];
+       */
     a_path = new int*[genes_nr];
     for (int _y = 0; _y < genes_nr; _y++)
         a_path[_y] = new int[3];
@@ -2932,10 +2934,11 @@ Elite_Invidivual::~Elite_Invidivual() {
         delete [] a_missions_coord[_y];
     delete [] a_missions_coord;
 
-    for (int _y = 0; _y < fart_categories; _y++)
-        delete [] a_FART_map[_y];
-    delete [] a_FART_map;
-
+    /* IRMA 3 does not use features
+       for (int _y = 0; _y < fart_categories; _y++)
+       delete [] a_FART_map[_y];
+       delete [] a_FART_map;
+       */
     for (int _y = 0; _y < genes_nr; _y++)
         delete [] a_path[_y];
     delete [] a_path;

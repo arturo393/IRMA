@@ -176,14 +176,16 @@ private:
     void Update_elite_phenotype(void);
     // Set start position to VirtualExecutive and Elite_Individual
     void Set_Start_position(void);	
-    // Update FART MAP from MAPPER Data Area
+    // Update SLAM map from MAPPER Data Area
+    int Update_Slam_Map(void);
+    // Update mission list from FEATURE NAVIGATOR Data Area
     void Update_Internal_Map(void);
     // Update mission list from FEATURE NAVIGATOR Data Area
     void Update_Missions_list(void);
     // Update the current position and make it the new start position
     void Update_Start_position(void);
     // Update the current position and make it the new start position
-    void Update_Move_Lenght(void);
+    void Update_Step_Lenght(void);
     // Read start File for first configurations
     int Read_Configuration_File(void);
     // Show parameters
