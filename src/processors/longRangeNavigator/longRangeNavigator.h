@@ -119,6 +119,7 @@ private:
     MapperData *pCDAMap;
     MonitorData *pCDAMonitor;
     MapperData *pCDAMapper;
+    LaserData *pCDALaser;
     FeatureNavData *pCDAFeatureNav;
 
     bool is_move_ready;

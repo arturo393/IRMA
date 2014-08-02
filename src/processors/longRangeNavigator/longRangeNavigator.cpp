@@ -49,6 +49,7 @@ int LRNProcessor::init()
     pCDALongNav = (LongNavData *)cda.getMemPtr(LONG_NAV_AREA);
     pCDAExecutive = (ExecutiveData *)cda.getMemPtr(EXECUTIVE_AREA);
     pCDAMonitor = (MonitorData *)cda.getMemPtr(MONITOR_AREA);
+    pCDALaser = (LaserData *)cda.getMemPtr(LASER_AREA);
 
     /* IRMA 3 no necessary
      * pCDAMapper = (MapperData *)cda.getMemPtr(MAPPER_AREA);
@@ -772,6 +773,37 @@ int LRNProcessor::Update_Slam_Map(void){
 
 
     int obstacles_nr = 0;
+    int _point;
+    cda.lockArea(LASER_AREA);
+
+    o_routes.o_ffitness.o_virtualMotion.o_MAP.CleanMap();
+
+    for (int _x=0 ; _x< MAP_WIDTH ; _x++){
+        for(int _y=0; _y<MAP_HEIGTH ; _y++){
+            _point = pLaser->map[_x][_y];
+            if(_point == 0) {
+              o_routes.o_ffitness.o_virtualMotion.o_MAP.setcCellObstacle(_x,_y);
+            }
+            else if(_point == 127){
+            
+            }
+            else if(_point == 255){
+
+            }
+            else {
+            }
+                    
+
+        }
+
+
+        }
+    
+    
+        
+
+    
+    cda.unlockArea(LASER_AREA);
 
 
     // Update map in ELite

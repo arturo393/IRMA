@@ -49,7 +49,7 @@ InternalMap::InternalMap()
    mapHeight = MAP_HEIGHT;
    mapMeshSize = MAP_MESH_SIZE;
    mapVisitedCells = 0;
-   selectedRoom = FART_ROOM;
+   selectedRoom = SLAM_ROOM;
 
    this->RebuildMap();
 }
