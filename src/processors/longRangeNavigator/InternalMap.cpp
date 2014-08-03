@@ -681,7 +681,7 @@ void InternalMap::setcCellMission(const int _XCoord, const int _YCoord)
 void InternalMap::setcCellObstacle(const int _XCoord, const int _YCoord)
 {
    if( (_XCoord >= mapXDim) || (_YCoord >= mapYDim) )
-      printf("\nERROR: COORDINATES OUTSIDE THE MAP - InternalMap::setcCellObstacle");
+      printf("\nERROR: COORDINATES (%d,%d)OUTSIDE THE MAP - InternalMap::setcCellObstacle",_XCoord,_YCoord);
 
    this->MAP[(mapYDim-1)-_YCoord][_XCoord] |= OBSTACLE;
 }

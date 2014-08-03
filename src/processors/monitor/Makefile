@@ -33,10 +33,11 @@ vpath %.c  %.cpp $(COMMON) $(SHARED)
 
 CPPFLAGS += -I . -I $(COMMON) -I $(SHARED)
 CFLAGS 	 += -Wall
+LDFLAGS += -ggdb
 
 ifeq ($(PC), true)
-CPPFLAGS += -DPC 
-CFLAGS   += -DPC 
+CPPFLAGS += -DPC -ggdb 
+CFLAGS   += -DPC -ggdb
 CC = g++
 CXX = g++
 

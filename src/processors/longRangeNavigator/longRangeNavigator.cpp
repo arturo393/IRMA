@@ -774,35 +774,51 @@ int LRNProcessor::Update_Slam_Map(void){
 
     int obstacles_nr = 0;
     int _point;
+    int _width,_height;
+    int _mapMeshSize;
+    int _xc, _yc;
+
+
     cda.lockArea(LASER_AREA);
+   // _width = pCDALaser->room_width;
+   // _height = pCDALaser->room_height;
+   _width = 4096;
+   _height = 4096;
 
-    o_routes.o_ffitness.o_virtualMotion.o_MAP.CleanMap();
+    o_routes.o_ffitness.Set_Map_Dimension(_width,_height);
+    
+    o_routes.o_ffitness.Set_SLAM_MAP();
 
-    for (int _x=0 ; _x< MAP_WIDTH ; _x++){
-        for(int _y=0; _y<MAP_HEIGTH ; _y++){
-            _point = pLaser->map[_x][_y];
+    _mapMeshSize = o_routes.o_ffitness.o_virtualMotion.o_MAP.getMapMeshSize();
+
+
+    for (int _x=0 ; _x < _width ; _x++){
+        for(int _y=0; _y < _height ; _y++){
+            _point = pCDALaser->map[_x][_y];
+            _xc =lround((_x*1.0)/_mapMeshSize);
+            _yc =lround((_y*1.0)/_mapMeshSize);
             if(_point == 0) {
-              o_routes.o_ffitness.o_virtualMotion.o_MAP.setcCellObstacle(_x,_y);
+                o_routes.o_ffitness.o_virtualMotion.o_MAP.setcCellObstacle(_xc,_yc);
             }
             else if(_point == 127){
-            
+
             }
             else if(_point == 255){
 
             }
             else {
             }
-                    
-
-        }
 
 
         }
-    
-    
-        
 
-    
+
+    }
+
+
+
+
+
     cda.unlockArea(LASER_AREA);
 
 
@@ -950,7 +966,7 @@ void LRNProcessor::Update_Missions_list(void){
     if( mission_op_mode == NORMAL )
     {
 
-    visited_feature_nr = 0;
+        visited_feature_nr = 0;
         cda.lockArea(FEATURE_NAV_AREA);
         missions_nr = pCDAFeatureNav->fn_nFeatures;
         for(int _im = 0; _im < missions_nr; _im++)

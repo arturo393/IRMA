@@ -118,6 +118,7 @@ int ExecutiveProcessor::init() {
     cda.lockArea(EXECUTIVE_AREA, control);
     pCtrl->loop = run_cmd;
     pExecutive->exec_move_ready_flag = true;
+
     cda.unlockArea(EXECUTIVE_AREA, control);
 
 #ifdef LOG
@@ -151,9 +152,7 @@ int ExecutiveProcessor::init() {
     //loadSplineModel();
     config.readInto(MAX_STEPS, "MAX_STEPS", 400);
 
-    cda.lockArea(EXECUTIVE_AREA);
-    pExecutive->path_length = MAX_STEPS;
-    cda.unlockArea(EXECUTIVE_AREA);
+
 
     config.readInto(GPS_STEPS, "GPS_STEPS", 50);
     config.readInto(InitPosX, "InitPosX", 213);
@@ -163,6 +162,11 @@ int ExecutiveProcessor::init() {
     
     std::cout << InitPosX << std::endl;
     std::cout << InitPosY << std::endl;
+    cda.lockArea(EXECUTIVE_AREA);
+    pExecutive->path_length = MAX_STEPS;
+    pExecutive->current_X =  InitPosX;
+    pExecutive->current_Y =  InitPosY;
+    cda.unlockArea(EXECUTIVE_AREA);
     /************************END: Config File reading.**************************/
     //   // Assignation of initial position and orientation
     //   cda.lockArea(EXECUTIVE_AREA);

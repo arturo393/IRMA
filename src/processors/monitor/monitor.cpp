@@ -354,7 +354,6 @@ void MonitorProcessor::updateExecutiveData() {
             pCDAExecutive->exec_speed_percent = _speed_percent;
             pCDAExecutive->exec_movement = _movement;
             pCDAExecutive->exec_move_ready_flag = _move_flag;
-            pCDAExecutive->exec_current_nav = current_nav;
             cda.unlockArea(EXECUTIVE_AREA);
             cout << "Executing Navigator";
             exec_or_nav = EXEC;

@@ -1855,7 +1855,6 @@ void FitnessFunction::Set_FART_MAP(void) {
 }
 
 
-
 //-------------------------------------------------------------------
 
 void FitnessFunction::Update_Motivations(const double _motivations[]) {
@@ -2865,7 +2864,7 @@ int VirtualExecutive::get_min_missions_steps(void) const {
 //-------------------------------------------------------------------
 
 void VirtualExecutive::PrintMAPtoFile(const char a_fileName[]) {
-    o_MAP.PrintMAPtoFile(a_fileName);
+   this->o_MAP.PrintMAPtoFile(a_fileName);
 }
 //*******************************************************************
 // VirtualExecutive Class Implementation: END
