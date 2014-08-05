@@ -408,7 +408,7 @@ class FitnessFunction
 
       /* SLAM IRMA3 MAP */
       void Set_Map_Dimensions(const int _width, const int _height);
-      void Set_SLAM_MAP(void);   
+      void Set_SLAM_MAP(const int _point, const int _x, const int _y);   
       void Set_Object_Obstacle(const int xs, const int ys, const int xe, const int ye);
 
       void Update_Motivations(const double _motivations[]);

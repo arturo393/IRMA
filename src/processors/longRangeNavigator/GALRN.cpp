@@ -1787,6 +1787,9 @@ void FitnessFunction::PrintMAP(const char a_fileName[]) {
     printf("TESTING ROBOT BEHAVIOR:\n");
     o_virtualMotion.PrintMAPtoFile(a_fileName);
 }
+/*! \brief Creates a new InternalMap
+ *  Creates a new free map in the InternalMap class of widthxheight.
+ * */
 
 void FitnessFunction::Set_Map_Dimensions(const int _width, const int _height) {
     map_width = _width;
@@ -1794,12 +1797,26 @@ void FitnessFunction::Set_Map_Dimensions(const int _width, const int _height) {
     this->o_virtualMotion.o_MAP.Set_MAP_Dimension(map_width, map_height);
 }
 
-void FitnessFunction::Set_SLAM_MAP(void) {
-    /* innecesario*/
-    // this->o_virtualMotion.o_MAP.CleanMap();
+/*! \brief Set obstacles values to the InternalMap
+ *   Giving a value of the mapper, xcoord and ycoord; the function puts the _point value
+ *   either it is obstacle or unknow, in the InternalMap
+ */
+void FitnessFunction::Set_SLAM_MAP(const int _point, const int _x , const int _y) {
 
-    this->Set_Object_Obstacle(20, 0, 30, 8);
-    this->Set_Object_Obstacle(20, 32, 30, 40);
+    _mapMeshSize = this->o_virtualMotion.o_MAP.getMapMeshSize();
+    int  _xc =lround((_x*1.0)/_mapMeshSize);
+    int  _yc =lround((_y*1.0)/_mapMeshSize);
+    if(_point == 0) {
+        this->o_virtualMotion.o_MAP.setcCellObstacle(_xc,_yc);
+    }
+    else if(_point == 127){
+
+    }
+    else if(_point == 255){
+
+    }
+    else {
+    }
 }
 
 void FitnessFunction::Set_Object_Obstacle(const int xleft, const int ydown, const int xrigth, const int yup) {

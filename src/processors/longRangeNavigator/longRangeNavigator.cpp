@@ -1,6 +1,4 @@
 //*******************************************************************
-// Title: longRangeNavigator.cpp
-//
 // Copyright (C) 2009 by IRMA Project
 // Contact: tomas.arredondo@usm.cl
 //
@@ -61,6 +59,7 @@ int LRNProcessor::init()
     pCtrl = &(pCDALongNav->ctrl);
     sem_area = LONG_NAV_AREA;
     pCtrl->loop = run_cmd;
+
 
     // Initialization: Variables of the share memory  the long range navigator
     cda.lockArea(LONG_NAV_AREA);
@@ -774,49 +773,35 @@ int LRNProcessor::Update_Slam_Map(void){
 
     int obstacles_nr = 0;
     int _point;
-    int _width,_height;
-    int _mapMeshSize;
-    int _xc, _yc;
 
 
     cda.lockArea(LASER_AREA);
    // _width = pCDALaser->room_width;
    // _height = pCDALaser->room_height;
-   _width = 4096;
-   _height = 4096;
+   int _width = 4096;
+   int _height = 4096;
 
-    o_routes.o_ffitness.Set_Map_Dimension(_width,_height);
-    
-    o_routes.o_ffitness.Set_SLAM_MAP();
+    o_routes.o_ffitness.Set_Map_Dimensions(_width,_height);
 
-    _mapMeshSize = o_routes.o_ffitness.o_virtualMotion.o_MAP.getMapMeshSize();
+
 
 
     for (int _x=0 ; _x < _width ; _x++){
         for(int _y=0; _y < _height ; _y++){
-            _point = pCDALaser->map[_x][_y];
-            _xc =lround((_x*1.0)/_mapMeshSize);
-            _yc =lround((_y*1.0)/_mapMeshSize);
-            if(_point == 0) {
-                o_routes.o_ffitness.o_virtualMotion.o_MAP.setcCellObstacle(_xc,_yc);
-            }
-            else if(_point == 127){
-
-            }
-            else if(_point == 255){
-
-            }
-            else {
-            }
-
-
+            o_routes.o_ffitness.Set_SLAM_MAP(pCDALaser->map[_x][_y],_x,_y);
         }
-
-
     }
-
-
-
+     /*   o_final_route.init_fart_map(obstacles_nr);
+        for(int _i = 0; _i < obstacles_nr; _i++)
+        {
+            temp_cat[0] = o_routes.o_ffitness.FART_MAP[_i][0];
+            temp_cat[1] = o_routes.o_ffitness.FART_MAP[_i][1];
+            temp_cat[2] = o_routes.o_ffitness.FART_MAP[_i][2];
+            temp_cat[3] = o_routes.o_ffitness.FART_MAP[_i][3];
+            o_final_route.set_fart_map(_i, temp_cat);
+        }
+        o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
+        */
 
 
     cda.unlockArea(LASER_AREA);
@@ -845,7 +830,7 @@ void LRNProcessor::Update_Internal_Map(void)
         // Make dynamic array - and init internal map
         // make a new farmap with the new categories
         o_routes.o_ffitness.Init_Fart_MAP(obstacles_nr, width, height);
-        // o_routes.o_ffitness.o_virtualMotion.set_selected_room(FART_ROOM);
+       // o_routes.o_ffitness.o_virtualMotion.set_selected_room(FART_ROOM);
 
         // Fill dynamic array
         for(int _cat = 0; _cat < obstacles_nr; _cat++)
