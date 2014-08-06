@@ -1803,10 +1803,12 @@ void FitnessFunction::Set_Map_Dimensions(const int _width, const int _height) {
  */
 void FitnessFunction::Set_SLAM_MAP(const int _point, const int _x , const int _y) {
 
-    _mapMeshSize = this->o_virtualMotion.o_MAP.getMapMeshSize();
-    int  _xc =lround((_x*1.0)/_mapMeshSize);
-    int  _yc =lround((_y*1.0)/_mapMeshSize);
+    int _mapMeshSize = this->o_virtualMotion.o_MAP.getMapMeshSize();
+    int  _xc =_x/_mapMeshSize;
+    int  _yc =_y/_mapMeshSize;
+    int _obstacle_nr;
     if(_point == 0) {
+        _obstacle_nr;
         this->o_virtualMotion.o_MAP.setcCellObstacle(_xc,_yc);
     }
     else if(_point == 127){
