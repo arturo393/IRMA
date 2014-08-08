@@ -771,9 +771,7 @@ void LRNProcessor::Update_elite_phenotype(void)
 int LRNProcessor::Update_Slam_Map(void){
 
 
-    int _obstacle_nr = 0;
-    int _obstacle_percent = 50;
-    int _point;
+
     int _width = 4096;
     int _height = 4096;
     int _xc,_yc;
@@ -781,43 +779,15 @@ int LRNProcessor::Update_Slam_Map(void){
 
     o_routes.o_ffitness.Set_Map_Dimensions(_width,_height);
     int _mapMeshSize = o_routes.o_ffitness.o_virtualMotion.o_MAP.getMapMeshSize();
+
     cda.lockArea(LASER_AREA);
     // _width = pCDALaser->room_width;
     // _height = pCDALaser->room_height;
-    for (int _y=0 ; _y < _height ; _y + _mapMeshSize){
-
-        for(int _x=0; _x < _width; _x++){
-
-            _point = pCDALaser->map[_x][_y];
-
-
-                if(_point == 0) {
-                    _obstacle_nr++;
-                }
-                if (_obstacle_nr >= _obstacle_percent){
-                    _obstacle_nr=0;
-                    _xc =_x/_mapMeshSize;
-                    _yc =_y/_mapMeshSize;
-                    o_routes.o_ffitness.o_virtualMotion.o_MAP.setcCellObstacle(_xc,_yc);
-                }
-            }
-
-
-           // o_routes.o_ffitness.Set_SLAM_MAP(pCDALaser->map[_x][_y],_x,_y);
+    for (int _y=0 ; _y < _height; _y += _mapMeshSize){
+        for(int _x=0 ; _x < _width; _x += _mapMeshSize){
+            o_routes.o_ffitness.Set_SLAM_MAP(_x,_y,pCDALaser->map);
         }
     }
-     /*   o_final_route.init_fart_map(obstacles_nr);
-        for(int _i = 0; _i < obstacles_nr; _i++)
-        {
-            temp_cat[0] = o_routes.o_ffitness.FART_MAP[_i][0];
-            temp_cat[1] = o_routes.o_ffitness.FART_MAP[_i][1];
-            temp_cat[2] = o_routes.o_ffitness.FART_MAP[_i][2];
-            temp_cat[3] = o_routes.o_ffitness.FART_MAP[_i][3];
-            o_final_route.set_fart_map(_i, temp_cat);
-        }
-        o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
-        */
-
     cda.unlockArea(LASER_AREA);
 
 

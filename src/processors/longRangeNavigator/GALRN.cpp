@@ -1801,23 +1801,36 @@ void FitnessFunction::Set_Map_Dimensions(const int _width, const int _height) {
  *   Giving a value of the mapper, xcoord and ycoord; the function puts the _point value
  *   either it is obstacle or unknow, in the InternalMap
  */
-void FitnessFunction::Set_SLAM_MAP(const int _point, const int _x , const int _y) {
+void FitnessFunction::Set_SLAM_MAP(const int _xs, const int _ys , const unsigned char _map[][4096]) {
 
-    int _mapMeshSize = this->o_virtualMotion.o_MAP.getMapMeshSize();
-    int  _xc =_x/_mapMeshSize;
-    int  _yc =_y/_mapMeshSize;
-    int _obstacle_nr;
-    if(_point == 0) {
-        _obstacle_nr;
-        this->o_virtualMotion.o_MAP.setcCellObstacle(_xc,_yc);
-    }
-    else if(_point == 127){
+    int _point;
+    int _xc,_yc;
+    int _ocount = 0;
+    int _opercent = 0.5;
+    int _mapMeshSize; 
+    int _onr; 
+    _mapMeshSize= this->o_virtualMotion.o_MAP.getMapMeshSize();
+    _onr= _mapMeshSize*_mapMeshSize/2;
 
-    }
-    else if(_point == 255){
+    for (int _y=_ys ; _y < _mapMeshSize + _ys; _y++){
+        for(int _x=_xs; _x < _mapMeshSize + _xs; _x++){
+            _point = _map[_x][_y];
 
-    }
-    else {
+            if(_point == 0) 
+                _ocount++;
+
+            if (_ocount >= _onr){
+                _ocount = 0;
+                _xc =_x/_mapMeshSize;
+                _yc =_y/_mapMeshSize;
+                this->o_virtualMotion.o_MAP.setcCellObstacle(_xc,_yc);
+                _x = _mapMeshSize;
+                _y = _mapMeshSize;
+
+
+            }
+        }
+        // o_routes.o_ffitness.Set_SLAM_MAP(pCDALaser->map[_x][_y],_x,_y);
     }
 }
 
