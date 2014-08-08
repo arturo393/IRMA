@@ -280,13 +280,35 @@ int ExecutiveProcessor::step() {
             movement = temp_movement;
             times++;
         }
-#endif            
+int vR = 0;
+int vL = 0;
+
+    if (movement == 9){
+        vR = speed_percent;
+        vL = speed_percent;
+        }
+    else if(movement == 1){
+        vR = -speed_percent;
+        vL = speed_percent;
+    }
+    else if(movement == 2){
+        vR = speed_percent;
+        vL = -speed_percent;
+    }
+    else if(movement == 3){
+        vR = -speed_percent;
+        vL = -speed_percent;
+    }
+    
+#else 
         int vR = getRVel(speed, steer);
         int vL = getLVel(speed, steer);
         if (speed > 1 || steer > 1) {
             vR = speed;
             vL = steer;
         }
+
+#endif            
         
 
 #ifdef LOG
@@ -529,6 +551,8 @@ void ExecutiveProcessor::getLaserReading(ExecutiveData *pExecutive, LaserData *p
     pLaser-> vr = vr;
     pLaser-> vl = vl;
     pLaser-> sensar = 1;
+
+printf("vr %d, vl %d\n",vr,vl); 
     cda.unlockArea(LASER_AREA);
     while (true) {
         if (pLaser->sensar == 0) {
