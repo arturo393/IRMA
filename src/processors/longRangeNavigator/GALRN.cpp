@@ -1811,9 +1811,12 @@ void FitnessFunction::Set_SLAM_MAP(const int _xs, const int _ys , const unsigned
     int _onr; 
     _mapMeshSize= this->o_virtualMotion.o_MAP.getMapMeshSize();
     _onr= _mapMeshSize*_mapMeshSize/2;
+    int auxY = _mapMeshSize+_ys;
+    int auxX = _mapMeshSize+_xs;
 
-    for (int _y=_ys ; _y < _mapMeshSize + _ys; _y++){
-        for(int _x=_xs; _x < _mapMeshSize + _xs; _x++){
+
+    for (int _y=_ys ; _y < auxY ;_y++){
+        for(int _x=_xs; _x < auxX; _x++){
             _point = _map[_x][_y];
 
             if(_point == 0) 
@@ -1824,8 +1827,8 @@ void FitnessFunction::Set_SLAM_MAP(const int _xs, const int _ys , const unsigned
                 _xc =_x/_mapMeshSize;
                 _yc =_y/_mapMeshSize;
                 this->o_virtualMotion.o_MAP.setcCellObstacle(_xc,_yc);
-                _x = _mapMeshSize;
-                _y = _mapMeshSize;
+                _x = auxX;
+                _y = auxY;
 
 
             }
