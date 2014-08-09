@@ -223,7 +223,7 @@ void MonitorProcessor::setNavigationMode() {
     int old_nav = current_nav;
 
     if (old_nav == CRN) {
-        if (status_LRN == ON && hysteresis_flag && !collision_flag && !flag_fn) {
+        if (status_LRN == ON && hysteresis_flag && !collision_flag && !flag_fn || num_steps == 50) {
             current_nav = LRN;
             fprintf(stdout, "Actual Navigation Mode: Long Range Navigator\n");
         } else if (status_FN == ON && hysteresis_flag && !collision_flag && flag_fn) {
@@ -355,7 +355,12 @@ void MonitorProcessor::updateExecutiveData() {
             pCDAExecutive->exec_movement = _movement;
             pCDAExecutive->exec_move_ready_flag = _move_flag;
             cda.unlockArea(EXECUTIVE_AREA);
+
             cout << "Executing Navigator";
+            if (current_nav == LRN)
+                cout <<" LRN" ;
+            else if (current_nav == CRN)
+                cout <<" CRN" ;
             exec_or_nav = EXEC;
         }
     }// end if( exec_or_nav == NAV )
@@ -391,7 +396,7 @@ void MonitorProcessor::updateExecutiveData() {
             }
             exec_or_nav = NAV;
             num_steps++;
-            fprintf(stdout, "Paso %d ejecutado.\n", num_steps);
+            fprintf(stdout, " - Paso %d/%d ejecutado.\n", num_steps,max_steps_nr);
             //if (num_steps%25 == 0)
             //getchar();
         }

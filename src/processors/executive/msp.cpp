@@ -53,7 +53,10 @@ int MSP::encoder(int channel) {
 void MSP::move_v(float vd,float vi)
 {       
 	set_M_left_v(vd,uartDev);
+    fprintf(stdout," - ");
 	set_M_right_v(vi,uartDev);
+    fprintf(stdout,"\n ");
+
 }
 void MSP::move_test(float vd,float vi)
 {       

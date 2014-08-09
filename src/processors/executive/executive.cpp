@@ -280,25 +280,25 @@ int ExecutiveProcessor::step() {
             movement = temp_movement;
             times++;
         }
-int vR = 0;
-int vL = 0;
+        int vR = 0;
+        int vL = 0;
 
-    if (movement == 9){
-        vR = speed_percent;
-        vL = speed_percent;
+        if (movement == 9){
+            vR = speed_percent;
+            vL = speed_percent;
         }
-    else if(movement == 1){
-        vR = -speed_percent;
-        vL = speed_percent;
-    }
-    else if(movement == 2){
-        vR = speed_percent;
-        vL = -speed_percent;
-    }
-    else if(movement == 3){
-        vR = -speed_percent;
-        vL = -speed_percent;
-    }
+        else if(movement == 1){
+            vR = -speed_percent;
+            vL = speed_percent;
+        }
+        else if(movement == 2){
+            vR = speed_percent;
+            vL = -speed_percent;
+        }
+        else if(movement == 3){
+            vR = -speed_percent;
+            vL = -speed_percent;
+        }
     
 #else 
         int vR = getRVel(speed, steer);
@@ -327,20 +327,18 @@ int vL = 0;
         if (current_nav == LRN) {
             serial->move_lrn(speed_percent, movement); //
             usleep(STEP_SIZE);
-            cout << "\t";
             serial->move_lrn(0, 9);
         } else if (current_nav == CRN) {
             serial->move_v(vR, vL); //
             usleep(STEP_SIZE);
-            cout << "\t";
             serial->move_v(0, 0);
         } else if (use_manual_to_move) {
             serial->move_lrn(speed_percent, movement); //
             usleep(STEP_SIZE);
-            cout << "\t";
             serial->move_lrn(0, 9);
         }
         pExecutive->on_moving = 0;
+        fprintf(stdout," ###########\n");
 
 #ifdef LOG
         if (fout != NULL) {
@@ -458,17 +456,14 @@ int ExecutiveProcessor::move() {
     if (current_nav == LRN) {
         serial->move_lrn(speed_percent, movement); //
         usleep(STEP_SIZE);
-        cout << "\t";
         serial->move_lrn(0, 9);
     } else if (current_nav == CRN) {
         serial->move_v(vR, vL); //
         usleep(STEP_SIZE);
-        cout << "\t";
         serial->move_v(0, 0);
     } else if (use_manual_to_move) {
         serial->move_lrn(speed_percent, movement); //
         usleep(STEP_SIZE);
-        cout << "\t";
         serial->move_lrn(0, 9);
     }
 
@@ -552,7 +547,6 @@ void ExecutiveProcessor::getLaserReading(ExecutiveData *pExecutive, LaserData *p
     pLaser-> vl = vl;
     pLaser-> sensar = 1;
 
-printf("vr %d, vl %d\n",vr,vl); 
     cda.unlockArea(LASER_AREA);
     while (true) {
         if (pLaser->sensar == 0) {

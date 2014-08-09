@@ -104,7 +104,7 @@ int CRNProcessor::step()
 	cda.unlockArea(CLOSE_NAV_AREA);
 
 	printf("Inputs %f %f %f %f %f\n", x[0], x[1], x[2], x[3], x[4]);
-	printf("Outputs %f %f\n\n", drive.speed, drive.steer);
+	printf("Outputs speed:%f - steer:%f\n\n", drive.speed, drive.steer);
 
 	cda.lockArea(CLOSE_NAV_AREA);
 		// Inform executive that a new move is ready
