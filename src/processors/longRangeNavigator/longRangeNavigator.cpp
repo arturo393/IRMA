@@ -103,7 +103,7 @@ int LRNProcessor::init()
      * Print map
      */
 
-    Update_Slam_Map();
+//    Update_Slam_Map();
 
     /* Setting number of missions
      * Set mission's coord o_final
