@@ -223,7 +223,7 @@ void MonitorProcessor::setNavigationMode() {
     int old_nav = current_nav;
 
     if (old_nav == CRN) {
-        if (status_LRN == ON && hysteresis_flag && !collision_flag && !flag_fn || num_steps == 50) {
+        if (status_LRN == ON && hysteresis_flag && !collision_flag && !flag_fn) {
             current_nav = LRN;
             fprintf(stdout, "Actual Navigation Mode: Long Range Navigator\n");
         } else if (status_FN == ON && hysteresis_flag && !collision_flag && flag_fn) {
@@ -233,7 +233,7 @@ void MonitorProcessor::setNavigationMode() {
         if (collision_flag)
             hysteresis_CRN_steps = 0;
     } else if (old_nav == LRN) {
-        if ((status_CRN == ON && collision_flag) || status_LRN == OFF) {
+        if ((status_CRN == ON && collision_flag) || status_LRN == OFF || num_steps <= 50) {
             current_nav = CRN;
             hysteresis_CRN_steps = 0;
             fprintf(stdout, "Actual Navigation Mode: Close Range Navigator\n");
