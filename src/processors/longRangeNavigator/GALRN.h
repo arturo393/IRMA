@@ -43,9 +43,18 @@
 #include <iostream>
 #include "Utils.h"
 
+
 // Used by Virtual Executive
 #include <math.h>
 #include "InternalMap.h"
+#include <mrpt/base.h>
+#include <mrpt/slam.h>
+
+using namespace mrpt;
+using namespace mrpt::utils;
+using namespace mrpt::poses;
+using namespace mrpt::slam;
+using namespace std;
 
 // Used by FitnessFunction
 #include "MandamiFuzzyModel.h"
@@ -322,6 +331,7 @@ class VirtualExecutive
     
    public:
       c_Map o_MAP;      // Must be public to be updated with FART map values
+      
 
       VirtualExecutive();     // Default Constructor
       ~VirtualExecutive();    // Destructor
