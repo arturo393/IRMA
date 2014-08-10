@@ -766,6 +766,3 @@ void InternalMap::setCellVisited(const int _col, const int _row)
 
    this->MAP[_row][_col] |= VISITED;
 }
-//*******************************************************************
-// Internal Map Class Implementation: BEGIN
-//*******************************************************************
