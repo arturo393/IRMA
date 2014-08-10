@@ -103,7 +103,7 @@ int LRNProcessor::init()
      * Print map
      */
 
-    Update_Slam_Map();
+    //Update_Slam_Map();
 
     /* Setting number of missions
      * Set mission's coord o_final
@@ -777,6 +777,7 @@ int LRNProcessor::Update_Slam_Map(void){
     int _xc,_yc;
 
 
+    char MAP_FILE[50];
     o_routes.o_ffitness.Set_Map_Dimensions(_width,_height);
     int _mapMeshSize = o_routes.o_ffitness.o_virtualMotion.o_MAP.getMapMeshSize();
 
@@ -785,16 +786,21 @@ int LRNProcessor::Update_Slam_Map(void){
     // _height = pCDALaser->room_height;
     for (int _y=0 ; _y < _height; _y += _mapMeshSize){
         for(int _x=0 ; _x < _width; _x += _mapMeshSize){
+
             o_routes.o_ffitness.Set_SLAM_MAP(_x,_y,pCDALaser->map);
+
+            if ( _x%_mapMeshSize == 0){
+                snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map%d", ++route_nr);
+                o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
+            }
         }
     }
     cda.unlockArea(LASER_AREA);
 
 
     // Update map in ELite
-    char MAP_FILE[50];
-    snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map%d", route_nr);
-    o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
+
+
 
 }
 void LRNProcessor::Update_Internal_Map(void)
