@@ -4,6 +4,7 @@ int isnan_float(float f) {
     return (f != f);
 }
 float vd_historial[201];
+
 float vi_historial[201];
 void ekf_set_valores(
     struct ekf *ekf_valores,
@@ -277,7 +278,7 @@ ekf_valores->p_k[0][2]=0.004276;
 ekf_valores->p_k[1][0]=0.622768;
 ekf_valores->p_k[1][1]=1.171261;
 ekf_valores->p_k[1][2]=0.003539;
-ekf_valores->p_k[2][0]=0.000000;
+ekf_valores->p_k[2][0]=0.001000;
 ekf_valores->p_k[2][1]=0.002030;
 ekf_valores->p_k[2][2]=0.003248;
 
@@ -306,11 +307,11 @@ ekf_valores->p_k[2][2]=0.003248;
     ekf_valores->h[2][0] = 0.0;
     ekf_valores->h[2][1] = 0.0;
     ekf_valores->h[2][2] = 1.0;
-
-    ekf_valores->q_k_1[0][0] = 120.0;
+//VARIABLE A PROBAR 
+    ekf_valores->q_k_1[0][0] = 60.0;
     ekf_valores->q_k_1[0][1] = 0.0;
     ekf_valores->q_k_1[1][0] = 0.0;
-    ekf_valores->q_k_1[1][1] = 120.0;
+    ekf_valores->q_k_1[1][1] = 60.0;
 
     /*
         ekf_valores->r[0][0] = 0.25;
@@ -334,11 +335,11 @@ ekf_valores->p_k[2][2]=0.003248;
         ekf_valores->r[2][1] = 0.0017307;
         ekf_valores->r[2][2] = 0.0004;
      */
-    ekf_valores->r[0][0] = 5.0;
+    ekf_valores->r[0][0] = 3.0;
     ekf_valores->r[0][1] = 0.0;
     ekf_valores->r[0][2] = 0.0;
     ekf_valores->r[1][0] = 0.0;
-    ekf_valores->r[1][1] = 5.0;
+    ekf_valores->r[1][1] = 3.0;
     ekf_valores->r[1][2] = 0.0;
     ekf_valores->r[2][0] = 0.0;
     ekf_valores->r[2][1] = 0.0;

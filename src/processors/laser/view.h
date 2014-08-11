@@ -8,8 +8,8 @@
 
 using namespace cimg_library;
 
-const int IMG_ANCHO = 1600;
-const int IMG_ALTO = 1600;
+const int IMG_ANCHO = 500;
+const int IMG_ALTO = 500;
 const PM_TYPE PM_FI_MIN = -1.3008157081 - M_PI / 4; //-1.3008157081;
 const unsigned char white[] = {255, 255, 255, 255}; // Define a purple color
 const unsigned char black[] = {0, 0, 0, 255}; // Define a purple color    

@@ -102,7 +102,7 @@ private:
     bool primera_medicion;
     PMScan *primero;
     PMScan *segundo;
-
+    PMScan *img_scan;
 public:
 
     LaserProcessor() {
@@ -111,6 +111,7 @@ public:
         primera_medicion = true;
         primero = (PMScan *) malloc(sizeof (PMScan));
         segundo = (PMScan *) malloc(sizeof (PMScan));
+        img_scan = (PMScan *) malloc(sizeof (PMScan));
     }
 
     int init();

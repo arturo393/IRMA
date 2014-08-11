@@ -132,7 +132,7 @@ $(PSM_DIR)/draw.o:
 $(PSM_DIR)/polar_match.o :  $(PSM_DIR)/polar_match.cpp $(PSM_DIR)/polar_match.h $(PSM_DIR)/draw.o
 	gcc -c -g -Wall -lrt -I$(PSM_DIR) $(PSM_DIR)/polar_match.cpp  -o $(PSM_DIR)/polar_match.o
 
-laser.o: laser.cpp $(PSM_DIR)/draw.h $(PSM_DIR)/polar_match.h CImg.h ekf.h view.h matlabfile.h
+laser.o: laser.cpp $(PSM_DIR)/draw.h $(PSM_DIR)/polar_match.h CImg.h calculos.h ekf.h view.h matlabfile.h
 	gcc -c -g -Wall -I$(PSM_DIR) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -o $@ $< 
 	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
 #	source='$<' object='$@' libtool=no \
@@ -141,9 +141,9 @@ laser.o: laser.cpp $(PSM_DIR)/draw.h $(PSM_DIR)/polar_match.h CImg.h ekf.h view.
 
 #laser: $(OBJS)
 	
-laser: $(gdScan_OBJECTS) lib$(PSM_LIB).a ekf.o view.o matlabfile.o
+laser: $(gdScan_OBJECTS) lib$(PSM_LIB).a ekf.o view.o calculos.o matlabfile.o
 	@rm -f laserprocess
-	$(CXXLINK) $(gdScan_OBJECTS) ekf.o view.o $(gdScan_LDADD) $(LIBS) $(PSM_LINK) $(CIMG_LINK) 
+	$(CXXLINK) $(gdScan_OBJECTS) ekf.o view.o calculos.o $(gdScan_LDADD) $(LIBS) $(PSM_LINK) $(CIMG_LINK) 
 
 clean:
 	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .tmp_versions $(PSM_DIR)/*.o
