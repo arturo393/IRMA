@@ -1,4 +1,4 @@
-PROJECT(mrpt_example1)
+PROJECT(longRangeNavigator)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 if(COMMAND cmake_policy)
