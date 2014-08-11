@@ -774,12 +774,9 @@ void LRNProcessor::Update_elite_phenotype(void)
 
 int LRNProcessor::Update_Slam_Map(void){
 
-
-
     int _width = 4096;
     int _height = 4096;
     int _xc,_yc;
-
 
     char MAP_FILE[50];
     o_routes.o_ffitness.Set_Map_Dimensions(_width,_height);

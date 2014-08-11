@@ -1,5 +1,5 @@
 #!/bin/bash
-DIR=$HOME"/Dropbox/IRMAIII_oficial" 
+DIR=$HOME"/IRMA" 
 sudo chown irma /dev/ttyACM0
 sudo chown irma /dev/ttyUSB0
 xterm -e "$DIR/src/init/init-cda" &

@@ -1,5 +1,5 @@
 #include "view.h"
-const float resolucion = 2; //PIXEL POR CETIMETROS
+const float resolucion = 1; //PIXEL POR CENTIMETROS
 
 Pose get_pose_global(Pose anterior, Pose diferencia) {
     Pose k_dp;
@@ -39,6 +39,10 @@ void set_img_scan(PMScan *imagen, Pose pose, CImg<unsigned char>& img, PMScan *p
         for (int i = 0; i < 400 * resolucion; i++) {
             int x = (i) * cos(angulo) + pose.x * resolucion + IMG_ANCHO / 2;
             int y = (i) * sin(angulo) + pose.y * resolucion + IMG_ALTO / 2;
+            if (y < 0 || y > IMG_ALTO || x < 0 || x > IMG_ANCHO) {
+                imagen->r[h] = primero->r[h];
+                break;
+            }
             int ptr = (int) img(x, y, 0, 0);
             if (ptr == 0) {
                 n++;
@@ -47,7 +51,7 @@ void set_img_scan(PMScan *imagen, Pose pose, CImg<unsigned char>& img, PMScan *p
                     //imagen->r[h] = 0;
                 } else {
                     sum_r += i;
-                    for (int drr = 1; drr < 30 * resolucion; drr++) {
+                    for (int drr = 1; drr < 15 * resolucion; drr++) {
                         ptr = (int) img(x + (drr) * cos(angulo), y + (drr) * sin(angulo), 0, 0);
                         if (ptr == 0) {
                             sum_r += i + drr;
@@ -60,9 +64,7 @@ void set_img_scan(PMScan *imagen, Pose pose, CImg<unsigned char>& img, PMScan *p
                 float promedio = (sum_r / resolucion) / n;
                 if (sum_r == 0) {
                     imagen->r[h] = primero->r[h];
-                } else if (primero->r[h] > 30 && primero->r[h] < 4000) {
-                    imagen->r[h] = promedio;
-                } else {
+                }else{
                     imagen->r[h] = promedio;
                 }
 
