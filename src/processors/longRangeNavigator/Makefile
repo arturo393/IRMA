@@ -33,9 +33,11 @@ I32 = /usr/include/x86_64-linux-gnu/c++/4.7/bits/
 
 vpath %.c  %.cpp $(COMMON) $(SHARED)
 
-CPPFLAGS +=  -I . -I $(COMMON) -I $(SHARED) -I$(I32)
-CFLAGS 	 += -Wall -I$(I32)
-LDFLAGS += -m32 -ggdb
+CPPFLAGS   +=  -I . -I $(COMMON) -I $(SHARED) -I$(I32)
+CFLAGS 	   += -Wall -I$(I32)
+LDFLAGS    += -m32 -ggdb
+#CFLAGS     += `pkg-config --cflags mrpt-base mrpt-slam`
+#DFLAGS    += `pkg-config --libs mrpt-base mrpt-slam`
  
 ifeq ($(PC), true)
 CPPFLAGS += -DPC -m32 -ggdb

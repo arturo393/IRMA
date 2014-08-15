@@ -52,6 +52,9 @@ struct LaserData
     double dir;
     int vr;
     int vl;
+
+    int img_alto;
+    int img_ancho;
 };
 
 #endif

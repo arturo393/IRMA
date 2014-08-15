@@ -55,6 +55,8 @@ int LaserProcessor::init() {
     pCtrl = &(pCDALaser->ctrl); // Todos los procesadores tienen que definir pCtrl
     sem_area = LASER_AREA; // Todos los procesadores tienen que definir sem_area
     pCDALaser->sensar = true;
+    pCDALaser->img_alto = IMG_ALTO;
+    pCDALaser->img_ancho = IMG_ANCHO;
     pCtrl->loop = run_cmd;
     printf("Sensar %s\n", (pCDALaser->sensar) ? "SI" : "NO");
     //cda.lockArea(EXECUTIVE_AREA);
@@ -338,6 +340,9 @@ int LaserProcessor::step() {
         pCDALaser -> y = tempry;
         pCDALaser -> dir = tempth;
         pCDALaser -> sensar = false;
+        pCDALaser -> dx = xx;
+        pCDALaser -> dy = yy;
+        pCDALaser -> ddir = tth;
         cimg_forXY(img,xx,yy){
             pCDALaser -> map[xx][yy] = img(xx,yy,0);
         }
