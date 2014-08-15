@@ -52,6 +52,10 @@ struct LaserData
     double dir;
     int vr;
     int vl;
+<<<<<<< HEAD
+=======
+
+>>>>>>> GridMap
     int img_alto;
     int img_ancho;
 };

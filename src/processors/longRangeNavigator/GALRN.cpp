@@ -1803,25 +1803,26 @@ void FitnessFunction::Set_Map_Dimensions(const int _width, const int _height) {
  */
 void FitnessFunction::Set_SLAM_MAP(const int _xs, const int _ys , const unsigned char _map[][4096]) {
 
-    int _point;
-    int _xc,_yc;
-    int _ocount = 0;
-    int _opercent = 0.5;
+    int _point;          // cell value: obstacle, free or unknow
+    int _xc,_yc;         // new x,y coord 
+    int _ocount = 0;     // obstacle percentage
+    int _opercent = 0.5; // obstacle percent
+    int _onr;            // number of obstacles
     int _mapMeshSize; 
-    int _onr; 
     _mapMeshSize= this->o_virtualMotion.o_MAP.getMapMeshSize();
-    _onr= _mapMeshSize*_mapMeshSize/2;
-    int auxY = _mapMeshSize+_ys;
-    int auxX = _mapMeshSize+_xs;
 
+    _onr= _mapMeshSize*_mapMeshSize/2; // taking 50% of the cell area as obstacle 
+    int auxY = _mapMeshSize+_ys;       // Y size of the new map cell
+    int auxX = _mapMeshSize+_xs;       // X size of the new map cell
 
+    //Searching obstacles in the _mapMeshSize cell
     for (int _y=_ys ; _y < auxY ;_y++){
         for(int _x=_xs; _x < auxX; _x++){
             _point = _map[_x][_y];
-
+            // Check for obstacle
             if(_point == 0) 
                 _ocount++;
-
+            // checking obstacle area 
             if (_ocount >= _onr){
                 _ocount = 0;
                 _xc =_x/_mapMeshSize;

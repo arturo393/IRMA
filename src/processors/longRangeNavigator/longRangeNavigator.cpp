@@ -775,30 +775,29 @@ void LRNProcessor::Update_elite_phenotype(void)
 int LRNProcessor::Update_Slam_Map(void){
 
     int _width = 4096;
-    int _height = 4096;
+    int _heigh = 4096;
     int _xc,_yc;
+    int _aux = 0;
 
     char MAP_FILE[50];
-    o_routes.o_ffitness.Set_Map_Dimensions(_width,_height);
+    o_routes.o_ffitness.Set_Map_Dimensions(_width,_heigh);
     int _mapMeshSize = o_routes.o_ffitness.o_virtualMotion.o_MAP.getMapMeshSize();
 
     cda.lockArea(LASER_AREA);
-    // _width = pCDALaser->room_width;
-    // _height = pCDALaser->room_height;
-    for (int _y=0 ; _y < _height; _y += _mapMeshSize){
+     _width = pCDALaser->img_ancho;
+     _heigh = pCDALaser->img_alto;
+    for (int _y=0 ; _y < _heigh; _y += _mapMeshSize){
         for(int _x=0 ; _x < _width; _x += _mapMeshSize){
-
             o_routes.o_ffitness.Set_SLAM_MAP(_x,_y,pCDALaser->map);
-
-            if ( _x%_mapMeshSize == 0){
-                snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map%d", ++route_nr);
-                o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
-            }
+            snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_map%d", _aux++);
+            o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
         }
     }
     cda.unlockArea(LASER_AREA);
 
-
+    snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map%d", route_nr);
+    o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
+            
     // Update map in ELite
 
 

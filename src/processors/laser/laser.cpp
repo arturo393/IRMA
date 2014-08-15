@@ -75,8 +75,13 @@ int LaserProcessor::init() {
     pCtrl = &(pCDALaser->ctrl); // Todos los procesadores tienen que definir pCtrl
     sem_area = LASER_AREA; // Todos los procesadores tienen que definir sem_area
     pCDALaser->sensar = true;
+<<<<<<< HEAD
     pCDALaser->img_ancho = IMG_ANCHO;
     pCDALaser->img_alto = IMG_ALTO;
+=======
+    pCDALaser->img_alto = IMG_ALTO;
+    pCDALaser->img_ancho = IMG_ANCHO;
+>>>>>>> GridMap
     pCtrl->loop = run_cmd;
     printf("Sensar %s\n", (pCDALaser->sensar) ? "SI" : "NO");
     //cda.lockArea(EXECUTIVE_AREA);
@@ -431,11 +436,18 @@ int LaserProcessor::step() {
         pCDALaser -> dx = xx;
         pCDALaser -> dy = yy;
         pCDALaser -> ddir = tth;
+<<<<<<< HEAD
      
 		//Copia información de la grilla de ocupación en la memoria compartida
         cimg_forXY(img_EKF_blanco,xx,yy){
             pCDALaser -> map[xx][yy] = img_EKF_blanco(xx,yy,0);
         }                
+=======
+        cimg_forXY(img,xx,yy){
+            pCDALaser -> map[xx][yy] = img(xx,yy,0);
+        }
+                
+>>>>>>> GridMap
         cda.unlockArea(LASER_AREA);
 
     }
