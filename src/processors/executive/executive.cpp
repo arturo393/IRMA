@@ -324,7 +324,7 @@ int ExecutiveProcessor::step() {
         
         pExecutive->on_moving = 1;
               
-        if (current_nav == LRN) {
+        if (current_nav == LRN || current_nav == NN) {
             serial->move_lrn(speed_percent, movement); //
             usleep(STEP_SIZE);
             serial->move_lrn(0, 9);

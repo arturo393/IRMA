@@ -98,8 +98,7 @@ int MonitorProcessor::init() {
 
 
     //Initial Navigation mode
-    //current_nav = LRN;
-    current_nav = CRN;
+    current_nav = LRN;
     cda.lockArea(MONITOR_AREA);
     pCDAMonitor->monitor_current_nav = current_nav;
     cda.unlockArea(MONITOR_AREA);
@@ -212,6 +211,7 @@ void MonitorProcessor::updateVariables() {
     collision_flag = checkSensors();
     flag_fn = checkFlagFN();
 
+
     //   printf("Variable:\nhysteresis=%d\ncollision=%d\nflag_fn =%d,hysteresis_CRN_steps=%d\n",
     //         hysteresis_flag, collision_flag, flag_fn, hysteresis_CRN_steps);
 }
@@ -233,7 +233,7 @@ void MonitorProcessor::setNavigationMode() {
         if (collision_flag)
             hysteresis_CRN_steps = 0;
     } else if (old_nav == LRN) {
-        if ((status_CRN == ON && collision_flag) || status_LRN == OFF || num_steps <= 50) {
+        if ((status_CRN == ON && collision_flag) || status_LRN == OFF) {
             current_nav = CRN;
             hysteresis_CRN_steps = 0;
             fprintf(stdout, "Actual Navigation Mode: Close Range Navigator\n");
@@ -242,6 +242,7 @@ void MonitorProcessor::setNavigationMode() {
             cda.unlockArea(LONG_NAV_AREA);
         }
     }
+
 
     cda.lockArea(MONITOR_AREA);
     pCDAMonitor->monitor_current_nav = current_nav;
@@ -300,10 +301,7 @@ void MonitorProcessor::updateExecutiveData() {
             _steer = pCDACloseNav->crn_steering;
             _move_flag = pCDACloseNav->crn_move_ready_flag;
             cda.unlockArea(CLOSE_NAV_AREA);
-        }
-
-        // Listening to LRN
-        if (current_nav == LRN) {
+        } else if (current_nav == LRN) {
             // cout << "Current Navigator: LRN";
             cda.lockArea(LONG_NAV_AREA);
             _speed = pCDALongNav->lrn_speed;
@@ -313,6 +311,8 @@ void MonitorProcessor::updateExecutiveData() {
             _move_flag = pCDALongNav->lrn_move_ready_flag;
             cda.unlockArea(LONG_NAV_AREA);
         }
+
+
 
         // Listening to FN
 //        if (current_nav == FN) {

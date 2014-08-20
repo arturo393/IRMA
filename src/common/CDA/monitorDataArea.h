@@ -27,6 +27,7 @@ const char CRN	= 1;	// 1: Close Range Navigator
 const char LRN	= 2;	// 2: Long Range Navigator
 const char RTN	= 3;	// 3: Real Time Navigator
 const char FN  = 4;	// 4: Feature Navigator
+const char NN = 5; // 5: No Navigator
 
 // Pointers NOT ALLOWED in this structure!
 struct MonitorData {

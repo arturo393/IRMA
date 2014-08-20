@@ -187,12 +187,10 @@ AVR_SIGNATURE	Common/AvrInfo.h	170;"	d
 AVR_SIGNATURE	Shared/AvrInfo.h	157;"	d
 AVR_STRING	Common/AvrInfo.h	169;"	d
 AVR_STRING	Shared/AvrInfo.h	156;"	d
-AllocData	Common/FILE_Parser.c	/^static  uint8_t *AllocData( FILE_ParsedData_t *parsedData, FILE_ParsedLen_t reqLen );$/;"	p	file:	signature:( FILE_ParsedData_t *parsedData, FILE_ParsedLen_t reqLen )
-AllocData	Common/FILE_Parser.c	/^uint8_t *AllocData( FILE_ParsedData_t *parsedData, FILE_ParsedLen_t reqLen )$/;"	f	signature:( FILE_ParsedData_t *parsedData, FILE_ParsedLen_t reqLen )
-AllowADC	i2c-io.cpp	/^    AllowADC,$/;"	e	enum:__anon16	file:
-AllowADC	uart-io.cpp	/^    AllowADC,$/;"	e	enum:__anon10	file:
-AllowADC_t	i2c-io.cpp	/^} AllowADC_t;$/;"	t	typeref:enum:__anon16	file:
-AllowADC_t	uart-io.cpp	/^} AllowADC_t;$/;"	t	typeref:enum:__anon10	file:
+AllowADC	i2c-io.cpp	/^    AllowADC,$/;"	e	enum:__anon14	file:
+AllowADC	uart-io.cpp	/^    AllowADC,$/;"	e	enum:__anon8	file:
+AllowADC_t	i2c-io.cpp	/^} AllowADC_t;$/;"	t	typeref:enum:__anon14	file:
+AllowADC_t	uart-io.cpp	/^} AllowADC_t;$/;"	t	typeref:enum:__anon8	file:
 Arduino	arduino.cpp	/^Arduino::Arduino() {$/;"	f	class:Arduino	signature:()
 Arduino	arduino.cpp	/^Arduino::Arduino(const Arduino& orig) {$/;"	f	class:Arduino	signature:(const Arduino& orig)
 Arduino	arduino.h	/^    Arduino();$/;"	p	class:Arduino	access:public	signature:()
@@ -213,13 +211,13 @@ Arduino::sense	arduino.h	/^    virtual float sense(int channel);$/;"	p	class:Ard
 Arduino::uartDev	arduino.h	/^    int uartDev;$/;"	m	class:Arduino	access:private
 Arduino::~Arduino	arduino.cpp	/^Arduino::~Arduino() {$/;"	f	class:Arduino	signature:()
 Arduino::~Arduino	arduino.h	/^    virtual ~Arduino();$/;"	p	class:Arduino	access:public	signature:()
-AvrInfo_t	Common/AvrInfo.h	/^} AvrInfo_t;$/;"	t	typeref:struct:__anon3
-AvrInfo_t	Shared/AvrInfo.h	/^} AvrInfo_t;$/;"	t	typeref:struct:__anon29
+AvrInfo_t	Common/AvrInfo.h	/^} AvrInfo_t;$/;"	t	typeref:struct:__anon2
+AvrInfo_t	Shared/AvrInfo.h	/^} AvrInfo_t;$/;"	t	typeref:struct:__anon27
 BAUDRATE	uart-io.cpp	208;"	d	file:
 BL_ADDR_MASK	Shared/BootLoader.h	59;"	d
 BL_API_MIN_VERSION	Shared/BootLoader.h	77;"	d
 BL_API_VERSION	Shared/BootLoader.h	68;"	d
-BL_Addr_t	Shared/BootLoader.h	/^} BL_Addr_t;$/;"	t	typeref:union:__anon20
+BL_Addr_t	Shared/BootLoader.h	/^} BL_Addr_t;$/;"	t	typeref:union:__anon18
 BL_CMD_REBOOT	Shared/BootLoader.h	189;"	d
 BL_CMD_RUN_APP	Shared/BootLoader.h	179;"	d
 BL_CMD_TEST_CALL	Shared/BootLoader.h	242;"	d
@@ -244,7 +242,7 @@ BOOTLOADER_H	Shared/BootLoader.h	32;"	d
 BUILD_ARM	Makefile	/^BUILD_ARM           = $(wildcard $(GUMSTIX_BUILDROOT)\/build_arm*)$/;"	m
 BootLoaderCheckVersion	Common/BootLoader-api.c	/^int BootLoaderCheckVersion( const BootLoaderInfo_t *bootInfo )$/;"	f	signature:( const BootLoaderInfo_t *bootInfo )
 BootLoaderCheckVersion	Common/BootLoader-api.h	/^int BootLoaderCheckVersion( const BootLoaderInfo_t *bootInfo );$/;"	p	signature:( const BootLoaderInfo_t *bootInfo )
-BootLoaderEepromData_t	Shared/BootLoader.h	/^} BootLoaderEepromData_t;$/;"	t	typeref:struct:__anon24
+BootLoaderEepromData_t	Shared/BootLoader.h	/^} BootLoaderEepromData_t;$/;"	t	typeref:struct:__anon22
 BootLoaderGetBootDelay	Common/BootLoader-api.c	/^int BootLoaderGetBootDelay( int i2cDev, const BootLoaderInfo_t *bootInfo, uint8_t *bootDelay )$/;"	f	signature:( int i2cDev, const BootLoaderInfo_t *bootInfo, uint8_t *bootDelay )
 BootLoaderGetBootDelay	Common/BootLoader-api.h	/^int BootLoaderGetBootDelay( int i2cDev, const BootLoaderInfo_t *bootInfo, uint8_t *bootDelay );$/;"	p	signature:( int i2cDev, const BootLoaderInfo_t *bootInfo, uint8_t *bootDelay )
 BootLoaderGetI2cAddr	Common/BootLoader-api.c	/^int BootLoaderGetI2cAddr( int i2cDev, const BootLoaderInfo_t *bootInfo, I2C_Addr_t *i2cAddr )$/;"	f	signature:( int i2cDev, const BootLoaderInfo_t *bootInfo, I2C_Addr_t *i2cAddr )
@@ -253,13 +251,13 @@ BootLoaderGetInfo	Common/BootLoader-api.c	/^int BootLoaderGetInfo( int i2cDev, B
 BootLoaderGetInfo	Common/BootLoader-api.h	/^int BootLoaderGetInfo( int i2cDev, BootLoaderInfo_t *bootInfo );$/;"	p	signature:( int i2cDev, BootLoaderInfo_t *bootInfo )
 BootLoaderGetNodeName	Common/BootLoader-api.c	/^int BootLoaderGetNodeName( int i2cDev, const BootLoaderInfo_t *bootInfo, char *nodeName )$/;"	f	signature:( int i2cDev, const BootLoaderInfo_t *bootInfo, char *nodeName )
 BootLoaderGetNodeName	Common/BootLoader-api.h	/^int BootLoaderGetNodeName( int i2cDev, const BootLoaderInfo_t *bootInfo, char *nodeName );$/;"	p	signature:( int i2cDev, const BootLoaderInfo_t *bootInfo, char *nodeName )
-BootLoaderGlobals_t	Shared/BootLoader.h	/^} BootLoaderGlobals_t;$/;"	t	typeref:struct:__anon25
-BootLoaderInfo_t	Shared/BootLoader.h	/^} BootLoaderInfo_t;$/;"	t	typeref:struct:__anon21
+BootLoaderGlobals_t	Shared/BootLoader.h	/^} BootLoaderGlobals_t;$/;"	t	typeref:struct:__anon23
+BootLoaderInfo_t	Shared/BootLoader.h	/^} BootLoaderInfo_t;$/;"	t	typeref:struct:__anon19
 BootLoaderPrintInfo	Common/BootLoader-api.c	/^void BootLoaderPrintInfo( const BootLoaderInfo_t *bootInfo, int verbose )$/;"	f	signature:( const BootLoaderInfo_t *bootInfo, int verbose )
 BootLoaderPrintInfo	Common/BootLoader-api.h	/^void BootLoaderPrintInfo( const BootLoaderInfo_t *bootInfo, int verbose );$/;"	p	signature:( const BootLoaderInfo_t *bootInfo, int verbose )
 BootLoaderRead	Common/BootLoader-api.c	/^int BootLoaderRead( int i2cDev, uint8_t memType, uint32_t memAddr, uint8_t numBytes, void *readBuf )$/;"	f	signature:( int i2cDev, uint8_t memType, uint32_t memAddr, uint8_t numBytes, void *readBuf )
 BootLoaderRead	Common/BootLoader-api.h	/^int BootLoaderRead( int i2cDev, uint8_t memType, uint32_t memAddr, uint8_t numBytes, void *readBuf );$/;"	p	signature:( int i2cDev, uint8_t memType, uint32_t memAddr, uint8_t numBytes, void *readBuf )
-BootLoaderRead_t	Shared/BootLoader.h	/^} BootLoaderRead_t;$/;"	t	typeref:struct:__anon22
+BootLoaderRead_t	Shared/BootLoader.h	/^} BootLoaderRead_t;$/;"	t	typeref:struct:__anon20
 BootLoaderReboot	Common/BootLoader-api.c	/^int BootLoaderReboot( int i2cDev )$/;"	f	signature:( int i2cDev )
 BootLoaderReboot	Common/BootLoader-api.h	/^int BootLoaderReboot( int i2cDev );$/;"	p	signature:( int i2cDev )
 BootLoaderRunProgram	Common/BootLoader-api.c	/^int BootLoaderRunProgram( int i2cDev )$/;"	f	signature:( int i2cDev )
@@ -274,8 +272,8 @@ BootLoaderSetStructSize	Common/BootLoader-api.c	/^int BootLoaderSetStructSize( i
 BootLoaderSetStructSize	Common/BootLoader-api.c	/^int BootLoaderSetStructSize( int i2cDev, const BootLoaderInfo_t *bootInfo );$/;"	p	file:	signature:( int i2cDev, const BootLoaderInfo_t *bootInfo )
 BootLoaderWrite	Common/BootLoader-api.c	/^int BootLoaderWrite( int i2cDev, uint8_t memType, uint32_t memAddr, uint8_t numBytes, void *writeBuf )$/;"	f	signature:( int i2cDev, uint8_t memType, uint32_t memAddr, uint8_t numBytes, void *writeBuf )
 BootLoaderWrite	Common/BootLoader-api.h	/^int BootLoaderWrite( int i2cDev, uint8_t memType, uint32_t memAddr, uint8_t numBytes, void *writeBuf );$/;"	p	signature:( int i2cDev, uint8_t memType, uint32_t memAddr, uint8_t numBytes, void *writeBuf )
-BootLoaderWrite_t	Shared/BootLoader.h	/^} BootLoaderWrite_t;$/;"	t	typeref:struct:__anon23
-CAPITAL_HEX	Shared/StrPrintf.c	/^	CAPITAL_HEX     = 0x08  \/**< Did we encounter %X?                       *\/$/;"	e	enum:__anon17	file:
+BootLoaderWrite_t	Shared/BootLoader.h	/^} BootLoaderWrite_t;$/;"	t	typeref:struct:__anon21
+CAPITAL_HEX	Shared/StrPrintf.c	/^	CAPITAL_HEX     = 0x08  \/**< Did we encounter %X?                       *\/$/;"	e	enum:__anon15	file:
 CC	Makefile	/^CC = $(CROSS_COMPILE)g++$/;"	m
 CC	Makefile	/^CC = g++ -g  $/;"	m
 CFG_CRC8BLOCK	Config.h	36;"	d
@@ -283,26 +281,26 @@ CFG_LOG_ENABLED	Shared/Log.h	62;"	d
 CFG_LOG_TO_BUFFER	Config.h	34;"	d
 CFG_LOG_USE_STDIO	Shared/Log.h	41;"	d
 CLIENTDUMMY_H	clientdummy.h	9;"	d
-CMD_DEFAULT	i2c-io.cpp	/^    CMD_DEFAULT,$/;"	e	enum:__anon12	file:
-CMD_DEFAULT	uart-io.cpp	/^    CMD_DEFAULT,$/;"	e	enum:__anon7	file:
-CMD_GET	i2c-io.cpp	/^    CMD_GET,$/;"	e	enum:__anon12	file:
-CMD_GET	uart-io.cpp	/^    CMD_GET,$/;"	e	enum:__anon7	file:
-CMD_GET_DIR	i2c-io.cpp	/^    CMD_GET_DIR,$/;"	e	enum:__anon12	file:
-CMD_GET_DIR	uart-io.cpp	/^    CMD_GET_DIR,$/;"	e	enum:__anon7	file:
-CMD_GET_DIST	uart-io.cpp	/^    CMD_GET_DIST,$/;"	e	enum:__anon7	file:
-CMD_GET_GIRO	uart-io.cpp	/^    CMD_GET_GIRO,$/;"	e	enum:__anon7	file:
-CMD_INFO	i2c-io.cpp	/^    CMD_INFO,$/;"	e	enum:__anon12	file:
-CMD_INFO	uart-io.cpp	/^    CMD_INFO,$/;"	e	enum:__anon7	file:
-CMD_READ_REG	i2c-io.cpp	/^    CMD_READ_REG,$/;"	e	enum:__anon12	file:
-CMD_READ_REG	uart-io.cpp	/^    CMD_READ_REG,$/;"	e	enum:__anon7	file:
-CMD_SET	i2c-io.cpp	/^    CMD_SET,$/;"	e	enum:__anon12	file:
-CMD_SET	uart-io.cpp	/^    CMD_SET,$/;"	e	enum:__anon7	file:
-CMD_SET_DIR	i2c-io.cpp	/^    CMD_SET_DIR,$/;"	e	enum:__anon12	file:
-CMD_SET_DIR	uart-io.cpp	/^    CMD_SET_DIR,$/;"	e	enum:__anon7	file:
-CMD_WHEEL_L	uart-io.cpp	/^    CMD_WHEEL_L,$/;"	e	enum:__anon7	file:
-CMD_WHEEL_R	uart-io.cpp	/^    CMD_WHEEL_R,$/;"	e	enum:__anon7	file:
-CMD_WRITE_REG	i2c-io.cpp	/^    CMD_WRITE_REG,$/;"	e	enum:__anon12	file:
-CMD_WRITE_REG	uart-io.cpp	/^    CMD_WRITE_REG,$/;"	e	enum:__anon7	file:
+CMD_DEFAULT	i2c-io.cpp	/^    CMD_DEFAULT,$/;"	e	enum:__anon10	file:
+CMD_DEFAULT	uart-io.cpp	/^    CMD_DEFAULT,$/;"	e	enum:__anon5	file:
+CMD_GET	i2c-io.cpp	/^    CMD_GET,$/;"	e	enum:__anon10	file:
+CMD_GET	uart-io.cpp	/^    CMD_GET,$/;"	e	enum:__anon5	file:
+CMD_GET_DIR	i2c-io.cpp	/^    CMD_GET_DIR,$/;"	e	enum:__anon10	file:
+CMD_GET_DIR	uart-io.cpp	/^    CMD_GET_DIR,$/;"	e	enum:__anon5	file:
+CMD_GET_DIST	uart-io.cpp	/^    CMD_GET_DIST,$/;"	e	enum:__anon5	file:
+CMD_GET_GIRO	uart-io.cpp	/^    CMD_GET_GIRO,$/;"	e	enum:__anon5	file:
+CMD_INFO	i2c-io.cpp	/^    CMD_INFO,$/;"	e	enum:__anon10	file:
+CMD_INFO	uart-io.cpp	/^    CMD_INFO,$/;"	e	enum:__anon5	file:
+CMD_READ_REG	i2c-io.cpp	/^    CMD_READ_REG,$/;"	e	enum:__anon10	file:
+CMD_READ_REG	uart-io.cpp	/^    CMD_READ_REG,$/;"	e	enum:__anon5	file:
+CMD_SET	i2c-io.cpp	/^    CMD_SET,$/;"	e	enum:__anon10	file:
+CMD_SET	uart-io.cpp	/^    CMD_SET,$/;"	e	enum:__anon5	file:
+CMD_SET_DIR	i2c-io.cpp	/^    CMD_SET_DIR,$/;"	e	enum:__anon10	file:
+CMD_SET_DIR	uart-io.cpp	/^    CMD_SET_DIR,$/;"	e	enum:__anon5	file:
+CMD_WHEEL_L	uart-io.cpp	/^    CMD_WHEEL_L,$/;"	e	enum:__anon5	file:
+CMD_WHEEL_R	uart-io.cpp	/^    CMD_WHEEL_R,$/;"	e	enum:__anon5	file:
+CMD_WRITE_REG	i2c-io.cpp	/^    CMD_WRITE_REG,$/;"	e	enum:__anon10	file:
+CMD_WRITE_REG	uart-io.cpp	/^    CMD_WRITE_REG,$/;"	e	enum:__anon5	file:
 COMMON	Makefile	/^COMMON			= Common$/;"	m
 CONFIG_H	Config.h	24;"	d
 CPP	Makefile	/^CPP =		msp.cpp \\$/;"	m
@@ -310,15 +308,12 @@ CRC_H	Shared/Crc8.h	25;"	d
 CROSS_COMPILE	Makefile	/^CROSS_COMPILE       = $(patsubst %g++, %, $(wildcard $(BUILD_ARM)\/staging_dir\/bin\/arm-linux-uclibc*-g++))$/;"	m
 CXX	Makefile	/^CXX = $(CROSS_COMPILE)g++$/;"	m
 CXX	Makefile	/^CXX = g++ -g$/;"	m
-ClearData	Common/FILE_Parser.c	/^static  void ClearData( FILE_ParsedData_t *parsedData );$/;"	p	file:	signature:( FILE_ParsedData_t *parsedData )
-ClearData	Common/FILE_Parser.c	/^void ClearData( FILE_ParsedData_t *parsedData )$/;"	f	signature:( FILE_ParsedData_t *parsedData )
 ClearOption	Shared/StrPrintf.c	93;"	d	file:
-ConfigGpioPin	Common/SerialLog.c	/^static void ConfigGpioPin( int pin, const char *cfgStr )$/;"	f	file:	signature:( int pin, const char *cfgStr )
 Crc8	Shared/Crc8.c	/^unsigned char Crc8( unsigned char inCrc, unsigned char inData )$/;"	f	signature:( unsigned char inCrc, unsigned char inData )
 Crc8	Shared/Crc8.h	/^uint8_t Crc8( uint8_t crc, uint8_t data );$/;"	p	signature:( uint8_t crc, uint8_t data )
 Crc8Block	Shared/Crc8.c	/^uint8_t Crc8Block( uint8_t crc, uint8_t *data, uint8_t len )$/;"	f	signature:( uint8_t crc, uint8_t *data, uint8_t len )
 Crc8Block	Shared/Crc8.h	/^uint8_t Crc8Block( uint8_t crc, uint8_t *data, uint8_t len );$/;"	p	signature:( uint8_t crc, uint8_t *data, uint8_t len )
-DEBUG	msp.cpp	7;"	d	file:
+DEBUG	msp.cpp	20;"	d	file:
 DELAY_H	Shared/Delay.h	24;"	d
 DUMPMEM_H	Shared/DumpMem.h	24;"	d
 DefaultLogFunc	Shared/Log.c	/^void DefaultLogFunc( int logLevel, const char *fmt, va_list args )$/;"	f	signature:( int logLevel, const char *fmt, va_list args )
@@ -339,6 +334,10 @@ DriverSerial::giro	driverSerial.cpp	/^float DriverSerial::giro() {}$/;"	f	class:
 DriverSerial::giro	driverSerial.h	/^        virtual float giro();$/;"	p	class:DriverSerial	access:public	signature:()
 DriverSerial::move	driverSerial.cpp	/^void DriverSerial::move(float speed, float steering) {}$/;"	f	class:DriverSerial	signature:(float speed, float steering)
 DriverSerial::move	driverSerial.h	/^        virtual void move(float speed, float steering);$/;"	p	class:DriverSerial	access:public	signature:(float speed, float steering)
+DriverSerial::move_lrn	driverSerial.cpp	/^void DriverSerial::move_lrn(int seed_percent, int movement) {}$/;"	f	class:DriverSerial	signature:(int seed_percent, int movement)
+DriverSerial::move_lrn	driverSerial.h	/^        virtual void move_lrn(int seed_percent, int movement);$/;"	p	class:DriverSerial	access:public	signature:(int seed_percent, int movement)
+DriverSerial::move_test	driverSerial.cpp	/^void DriverSerial::move_test(int _speed_percent,int _movement){}$/;"	f	class:DriverSerial	signature:(int _speed_percent,int _movement)
+DriverSerial::move_test	driverSerial.h	/^        virtual void move_test(int _speed_percent, int _movement);$/;"	p	class:DriverSerial	access:public	signature:(int _speed_percent, int _movement)
 DriverSerial::move_v	driverSerial.cpp	/^void DriverSerial::move_v(float vd,float vi){}$/;"	f	class:DriverSerial	signature:(float vd,float vi)
 DriverSerial::move_v	driverSerial.h	/^        virtual void move_v(float vd, float vi);$/;"	p	class:DriverSerial	access:public	signature:(float vd, float vi)
 DriverSerial::sense	driverSerial.cpp	/^float DriverSerial::sense(int channel) {}$/;"	f	class:DriverSerial	signature:(int channel)
@@ -347,8 +346,6 @@ DriverSerial::~DriverSerial	driverSerial.cpp	/^DriverSerial::~DriverSerial() {}$
 DriverSerial::~DriverSerial	driverSerial.h	/^        virtual ~DriverSerial();$/;"	p	class:DriverSerial	access:public	signature:()
 DumpMem	Shared/DumpMem.c	/^void DumpMem( const char *prefix, unsigned address, const void *inData, unsigned numBytes )$/;"	f	signature:( const char *prefix, unsigned address, const void *inData, unsigned numBytes )
 DumpMem	Shared/DumpMem.h	/^void DumpMem( const char *prefix, unsigned address, const void *data, unsigned numBytes );$/;"	p	signature:( const char *prefix, unsigned address, const void *data, unsigned numBytes )
-Error	Common/FILE_Parser.c	/^static  void Error( Parser_t *parser, const char *fmt, ... );$/;"	p	file:	signature:( Parser_t *parser, const char *fmt, ... )
-Error	Common/FILE_Parser.c	/^void Error( Parser_t *parser, const char *fmt, ... )$/;"	f	signature:( Parser_t *parser, const char *fmt, ... )
 ExecutiveProcessor	executive.h	/^    ExecutiveProcessor() : ProcessorInterface() {$/;"	f	class:ExecutiveProcessor	access:public	signature:()
 ExecutiveProcessor	executive.h	/^class ExecutiveProcessor : public ProcessorInterface {$/;"	c	inherits:ProcessorInterface
 ExecutiveProcessor::ExecutiveProcessor	executive.h	/^    ExecutiveProcessor() : ProcessorInterface() {$/;"	f	class:ExecutiveProcessor	access:public	signature:()
@@ -400,6 +397,7 @@ ExecutiveProcessor::localizationLSQ	executive.cpp	/^void ExecutiveProcessor::loc
 ExecutiveProcessor::localizationLSQ	executive.h	/^    void localizationLSQ(float, float, int);$/;"	p	class:ExecutiveProcessor	access:public	signature:(float, float, int)
 ExecutiveProcessor::localizationSpline	executive.cpp	/^void ExecutiveProcessor::localizationSpline(float sp, float st) {$/;"	f	class:ExecutiveProcessor	signature:(float sp, float st)
 ExecutiveProcessor::localizationSpline	executive.h	/^    void localizationSpline(float, float);$/;"	p	class:ExecutiveProcessor	access:public	signature:(float, float)
+ExecutiveProcessor::manual_move	executive.h	/^    void manual_move();$/;"	p	class:ExecutiveProcessor	access:public	signature:()
 ExecutiveProcessor::modelo1	executive.h	/^    float modelo4[3][15], modelo3[3][10], modelo2[3][6], modelo1[3][3];$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::modelo2	executive.h	/^    float modelo4[3][15], modelo3[3][10], modelo2[3][6], modelo1[3][3];$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::modelo3	executive.h	/^    float modelo4[3][15], modelo3[3][10], modelo2[3][6], modelo1[3][3];$/;"	m	class:ExecutiveProcessor	access:private
@@ -408,11 +406,13 @@ ExecutiveProcessor::modeloSpline	executive.h	/^    float modeloSpline[61][61][3]
 ExecutiveProcessor::move	executive.cpp	/^int ExecutiveProcessor::move() {$/;"	f	class:ExecutiveProcessor	signature:()
 ExecutiveProcessor::move	executive.h	/^    int move();$/;"	p	class:ExecutiveProcessor	access:public	signature:()
 ExecutiveProcessor::move_ready_flag	executive.h	/^    bool move_ready_flag;$/;"	m	class:ExecutiveProcessor	access:private
+ExecutiveProcessor::movement_times	executive.h	/^      int movement_times;$/;"	m	class:ExecutiveProcessor	access:public
 ExecutiveProcessor::num_executed_steps	executive.h	/^    int num_executed_steps;$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::orient_steps	executive.h	/^    int orient_steps;$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::pExecutive	executive.h	/^    ExecutiveData *pExecutive;$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::pLaser	executive.h	/^    LaserData *pLaser;$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::pMapper	executive.h	/^    MapperData *pMapper;$/;"	m	class:ExecutiveProcessor	access:private
+ExecutiveProcessor::pMonitor	executive.h	/^    MonitorData *pMonitor;$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::pNetwork	executive.h	/^    NetworkData *pNetwork;$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::rightEncoder	executive.h	/^    int rightEncoder;$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::rightEncoderPS	executive.h	/^    int rightEncoderPS;$/;"	m	class:ExecutiveProcessor	access:private
@@ -424,11 +424,13 @@ ExecutiveProcessor::setManualMove	executive.cpp	/^void ExecutiveProcessor::setMa
 ExecutiveProcessor::setManualMove	executive.h	/^    void setManualMove(bool manual_move);$/;"	p	class:ExecutiveProcessor	access:public	signature:(bool manual_move)
 ExecutiveProcessor::step	executive.cpp	/^int ExecutiveProcessor::step() {$/;"	f	class:ExecutiveProcessor	signature:()
 ExecutiveProcessor::step	executive.h	/^    int step();$/;"	p	class:ExecutiveProcessor	access:public	signature:()
+ExecutiveProcessor::temp_movement	executive.h	/^      int temp_movement ;$/;"	m	class:ExecutiveProcessor	access:public
+ExecutiveProcessor::temp_speed_percent	executive.h	/^      int temp_speed_percent;$/;"	m	class:ExecutiveProcessor	access:public
 ExecutiveProcessor::test	executive.h	/^    int test;$/;"	m	class:ExecutiveProcessor	access:private
+ExecutiveProcessor::times	executive.h	/^      int times;$/;"	m	class:ExecutiveProcessor	access:public
 ExecutiveProcessor::use_manual_to_move	executive.h	/^    bool use_manual_to_move;$/;"	m	class:ExecutiveProcessor	access:private
 ExecutiveProcessor::~ExecutiveProcessor	executive.h	/^    ~ExecutiveProcessor() {$/;"	f	class:ExecutiveProcessor	access:public	signature:()
 FALSE	Common/BootLoader-api.c	43;"	d	file:
-FALSE	Common/FILE_Parser.c	37;"	d	file:
 FALSE	Common/i2c-io-api.c	38;"	d	file:
 FALSE	i2c-io.cpp	340;"	d	file:
 FALSE	uart-io.cpp	160;"	d	file:
@@ -442,14 +444,13 @@ FILE_Block_s::data	Common/FILE_Data.h	/^    uint8_t        *data;           \/\/
 FILE_Block_s::next	Common/FILE_Data.h	/^    FILE_Block_t   *next;           \/\/\/< Next block in the chain$/;"	m	struct:FILE_Block_s	access:public
 FILE_Block_t	Common/FILE_Data.h	/^typedef struct FILE_Block_s FILE_Block_t;$/;"	t	typeref:struct:FILE_Block_s
 FILE_DATA_H	Common/FILE_Data.h	24;"	d
-FILE_Data_t	Common/FILE_Data.h	/^} FILE_Data_t;$/;"	t	typeref:struct:__anon5
+FILE_Data_t	Common/FILE_Data.h	/^} FILE_Data_t;$/;"	t	typeref:struct:__anon3
 FILE_FreeData	Common/FILE_Data.c	/^void FILE_FreeData( FILE_Data_t *fileData )$/;"	f	signature:( FILE_Data_t *fileData )
 FILE_FreeData	Common/FILE_Data.h	/^void FILE_FreeData( FILE_Data_t *fileData );$/;"	p	signature:( FILE_Data_t *fileData )
 FILE_LineNum_t	Common/FILE_Parser.h	/^typedef unsigned    FILE_LineNum_t;$/;"	t
 FILE_PARSER_H	Common/FILE_Parser.h	24;"	d
-FILE_ParseFile	Common/FILE_Parser.c	/^int FILE_ParseFile( const char *fileName, FILE_ParserCallback_t *callback )$/;"	f	signature:( const char *fileName, FILE_ParserCallback_t *callback )
 FILE_ParseFile	Common/FILE_Parser.h	/^int FILE_ParseFile( const char *fileName, FILE_ParserCallback_t *callback );$/;"	p	signature:( const char *fileName, FILE_ParserCallback_t *callback )
-FILE_ParsedData_t	Common/FILE_Parser.h	/^} FILE_ParsedData_t;$/;"	t	typeref:struct:__anon2
+FILE_ParsedData_t	Common/FILE_Parser.h	/^} FILE_ParsedData_t;$/;"	t	typeref:struct:__anon1
 FILE_ParsedLen_t	Common/FILE_Parser.h	/^typedef uint8_t     FILE_ParsedLen_t;$/;"	t
 FILE_ParserCallback_s	Common/FILE_Parser.h	/^struct FILE_ParserCallback_s$/;"	s
 FILE_ParserCallback_s::FinishSegment	Common/FILE_Parser.h	/^    int (*FinishSegment)( void *userData, FILE_Addr_t addr, FILE_SegmentLen_t segLen );$/;"	m	struct:FILE_ParserCallback_s	access:public
@@ -466,27 +467,16 @@ FindAvrInfoBySignature	Common/AvrInfo.h	/^const AvrInfo_t *FindAvrInfoBySignatur
 FindAvrInfoBySignature	Shared/AvrInfo.c	/^const AvrInfo_t *FindAvrInfoBySignature( uint16_t signature )$/;"	f	signature:( uint16_t signature )
 FindAvrInfoBySignature	Shared/AvrInfo.h	/^const AvrInfo_t *FindAvrInfoBySignature( uint16_t signature );$/;"	p	signature:( uint16_t signature )
 FinishSegment	Common/FILE_Parser.h	/^    int (*FinishSegment)( void *userData, FILE_Addr_t addr, FILE_SegmentLen_t segLen );$/;"	m	struct:FILE_ParserCallback_s	access:public
-Flush	Common/FILE_Parser.c	/^int Flush( Parser_t *parser )$/;"	f	signature:( Parser_t *parser )
-Flush	Common/FILE_Parser.c	/^static  int Flush( Parser_t *parser );$/;"	p	file:	signature:( Parser_t *parser )
-FmtOption	Shared/StrPrintf.c	/^} FmtOption;$/;"	t	typeref:enum:__anon17	file:
-FreeData	Common/FILE_Parser.c	/^static  void FreeData( FILE_ParsedData_t *parsedData );$/;"	p	file:	signature:( FILE_ParsedData_t *parsedData )
-FreeData	Common/FILE_Parser.c	/^void FreeData( FILE_ParsedData_t *parsedData )$/;"	f	signature:( FILE_ParsedData_t *parsedData )
+FmtOption	Shared/StrPrintf.c	/^} FmtOption;$/;"	t	typeref:enum:__anon15	file:
 GPS_STEPS	executive.h	/^    int GPS_STEPS;$/;"	m	class:ExecutiveProcessor	access:private
-GetByte	Common/FILE_Parser.c	/^int GetByte$/;"	f	signature:( Parser_t *parser, const char **s, unsigned char *b , const char *label )
-GetByte	Common/FILE_Parser.c	/^static  int GetByte( Parser_t *parser, const char **s, unsigned char *b, const char *label );$/;"	p	file:	signature:( Parser_t *parser, const char **s, unsigned char *b, const char *label )
 GetFromMSP	uart-io.cpp	/^void GetFromMSP(char* rec, int len, int uartDev) {$/;"	f	signature:(char* rec, int len, int uartDev)
 GetFromMSP	uart-io.cpp	/^void GetFromMSP(char* rec, int len, int uartDev);$/;"	p	file:	signature:(char* rec, int len, int uartDev)
-GetNibble	Common/FILE_Parser.c	/^int GetNibble$/;"	f	signature:( Parser_t *parser, const char **s, unsigned char *b , const char *label )
-GetNibble	Common/FILE_Parser.c	/^static  int GetNibble( Parser_t *parser, const char **s, unsigned char *b, const char *label );$/;"	p	file:	signature:( Parser_t *parser, const char **s, unsigned char *b, const char *label )
-GetSerialLogFileDescriptor	Common/SerialLog.c	/^int GetSerialLogFileDescriptor( void )$/;"	f	signature:( void )
 GetSerialLogFileDescriptor	Common/SerialLog.h	/^int GetSerialLogFileDescriptor( void );$/;"	p	signature:( void )
-GetWord	Common/FILE_Parser.c	/^int GetWord$/;"	f	signature:( Parser_t *parser, const char **s, unsigned short *b , const char *label )
-GetWord	Common/FILE_Parser.c	/^static  int GetWord( Parser_t *parser, const char **s, unsigned short *b, const char *label );$/;"	p	file:	signature:( Parser_t *parser, const char **s, unsigned short *b, const char *label )
 I2C_API_H	Common/i2c-api.h	25;"	d
 I2C_Addr_t	Shared/i2c.h	/^typedef uint8_t I2C_Addr_t;$/;"	t
 I2C_CRC	Shared/i2c.h	83;"	d
 I2C_CRC	Shared/i2c.h	85;"	d
-I2C_Data_t	Shared/i2c.h	/^} I2C_Data_t;$/;"	t	typeref:struct:__anon38
+I2C_Data_t	Shared/i2c.h	/^} I2C_Data_t;$/;"	t	typeref:struct:__anon36
 I2C_ERROR_ADDR_NACK	Shared/i2c.h	55;"	d
 I2C_ERROR_ARBITRATION_LOST	Shared/i2c.h	57;"	d
 I2C_ERROR_BAD_CRC	Shared/i2c.h	59;"	d
@@ -554,33 +544,33 @@ I2C_IO_GetGPIODir	Common/i2c-io-api.c	/^int I2C_IO_GetGPIODir( int i2cDev, uint8
 I2C_IO_GetGPIODir	Common/i2c-io-api.h	/^int I2C_IO_GetGPIODir( int i2cDev, uint8_t portNum, uint8_t *pinVal );$/;"	p	signature:( int i2cDev, uint8_t portNum, uint8_t *pinVal )
 I2C_IO_GetInfo	Common/i2c-io-api.c	/^int I2C_IO_GetInfo( int i2cDev, I2C_IO_Info_t *info )$/;"	f	signature:( int i2cDev, I2C_IO_Info_t *info )
 I2C_IO_GetInfo	Common/i2c-io-api.h	/^int I2C_IO_GetInfo( int i2cDev, I2C_IO_Info_t *info );$/;"	p	signature:( int i2cDev, I2C_IO_Info_t *info )
-I2C_IO_Get_ADC_t	Shared/i2c-io.h	/^} I2C_IO_Get_ADC_t;$/;"	t	typeref:struct:__anon33
-I2C_IO_Get_GPIO_t	Shared/i2c-io.h	/^} I2C_IO_Get_GPIO_t;$/;"	t	typeref:struct:__anon31
+I2C_IO_Get_ADC_t	Shared/i2c-io.h	/^} I2C_IO_Get_ADC_t;$/;"	t	typeref:struct:__anon31
+I2C_IO_Get_GPIO_t	Shared/i2c-io.h	/^} I2C_IO_Get_GPIO_t;$/;"	t	typeref:struct:__anon29
 I2C_IO_H	Shared/i2c-io.h	25;"	d
-I2C_IO_Info_t	Shared/i2c-io.h	/^} I2C_IO_Info_t;$/;"	t	typeref:struct:__anon30
+I2C_IO_Info_t	Shared/i2c-io.h	/^} I2C_IO_Info_t;$/;"	t	typeref:struct:__anon28
 I2C_IO_READ_REG_16	Shared/i2c-io.h	184;"	d
 I2C_IO_READ_REG_8	Shared/i2c-io.h	169;"	d
 I2C_IO_ReadReg16	Common/i2c-io-api.c	/^int I2C_IO_ReadReg16( int i2cDev, uint8_t reg, uint16_t *regVal )$/;"	f	signature:( int i2cDev, uint8_t reg, uint16_t *regVal )
 I2C_IO_ReadReg16	Common/i2c-io-api.h	/^int I2C_IO_ReadReg16( int i2cDev, uint8_t reg, uint16_t *regVal );$/;"	p	signature:( int i2cDev, uint8_t reg, uint16_t *regVal )
-I2C_IO_ReadReg16_t	Shared/i2c-io.h	/^} I2C_IO_ReadReg16_t;$/;"	t	typeref:struct:__anon35
+I2C_IO_ReadReg16_t	Shared/i2c-io.h	/^} I2C_IO_ReadReg16_t;$/;"	t	typeref:struct:__anon33
 I2C_IO_ReadReg8	Common/i2c-io-api.c	/^int I2C_IO_ReadReg8( int i2cDev, uint8_t reg, uint8_t *regVal )$/;"	f	signature:( int i2cDev, uint8_t reg, uint8_t *regVal )
 I2C_IO_ReadReg8	Common/i2c-io-api.h	/^int I2C_IO_ReadReg8( int i2cDev, uint8_t reg, uint8_t *regVal );$/;"	p	signature:( int i2cDev, uint8_t reg, uint8_t *regVal )
-I2C_IO_ReadReg8_t	Shared/i2c-io.h	/^} I2C_IO_ReadReg8_t;$/;"	t	typeref:struct:__anon34
+I2C_IO_ReadReg8_t	Shared/i2c-io.h	/^} I2C_IO_ReadReg8_t;$/;"	t	typeref:struct:__anon32
 I2C_IO_SET_GPIO	Shared/i2c-io.h	105;"	d
 I2C_IO_SET_GPIO_DIR	Shared/i2c-io.h	135;"	d
 I2C_IO_SetGPIO	Common/i2c-io-api.c	/^int I2C_IO_SetGPIO( int i2cDev, uint8_t portNum, uint8_t pinMask, uint8_t pinVal )$/;"	f	signature:( int i2cDev, uint8_t portNum, uint8_t pinMask, uint8_t pinVal )
 I2C_IO_SetGPIO	Common/i2c-io-api.h	/^int I2C_IO_SetGPIO( int i2cDev, uint8_t portNum, uint8_t pinMask, uint8_t pinVal );$/;"	p	signature:( int i2cDev, uint8_t portNum, uint8_t pinMask, uint8_t pinVal )
 I2C_IO_SetGPIODir	Common/i2c-io-api.c	/^int I2C_IO_SetGPIODir( int i2cDev, uint8_t portNum, uint8_t pinMask, uint8_t pinVal )$/;"	f	signature:( int i2cDev, uint8_t portNum, uint8_t pinMask, uint8_t pinVal )
 I2C_IO_SetGPIODir	Common/i2c-io-api.h	/^int I2C_IO_SetGPIODir( int i2cDev, uint8_t portNum, uint8_t pinMask, uint8_t pinVal );$/;"	p	signature:( int i2cDev, uint8_t portNum, uint8_t pinMask, uint8_t pinVal )
-I2C_IO_Set_GPIO_t	Shared/i2c-io.h	/^} I2C_IO_Set_GPIO_t;$/;"	t	typeref:struct:__anon32
+I2C_IO_Set_GPIO_t	Shared/i2c-io.h	/^} I2C_IO_Set_GPIO_t;$/;"	t	typeref:struct:__anon30
 I2C_IO_WRITE_REG_16	Shared/i2c-io.h	213;"	d
 I2C_IO_WRITE_REG_8	Shared/i2c-io.h	198;"	d
 I2C_IO_WriteReg16	Common/i2c-io-api.c	/^int I2C_IO_WriteReg16( int i2cDev, uint8_t reg, uint16_t regVal )$/;"	f	signature:( int i2cDev, uint8_t reg, uint16_t regVal )
 I2C_IO_WriteReg16	Common/i2c-io-api.h	/^int I2C_IO_WriteReg16( int i2cDev, uint8_t reg, uint16_t regVal );$/;"	p	signature:( int i2cDev, uint8_t reg, uint16_t regVal )
-I2C_IO_WriteReg16_t	Shared/i2c-io.h	/^} I2C_IO_WriteReg16_t;$/;"	t	typeref:struct:__anon37
+I2C_IO_WriteReg16_t	Shared/i2c-io.h	/^} I2C_IO_WriteReg16_t;$/;"	t	typeref:struct:__anon35
 I2C_IO_WriteReg8	Common/i2c-io-api.c	/^int I2C_IO_WriteReg8( int i2cDev, uint8_t reg, uint8_t regVal )$/;"	f	signature:( int i2cDev, uint8_t reg, uint8_t regVal )
 I2C_IO_WriteReg8	Common/i2c-io-api.h	/^int I2C_IO_WriteReg8( int i2cDev, uint8_t reg, uint8_t regVal );$/;"	p	signature:( int i2cDev, uint8_t reg, uint8_t regVal )
-I2C_IO_WriteReg8_t	Shared/i2c-io.h	/^} I2C_IO_WriteReg8_t;$/;"	t	typeref:struct:__anon36
+I2C_IO_WriteReg8_t	Shared/i2c-io.h	/^} I2C_IO_WriteReg8_t;$/;"	t	typeref:struct:__anon34
 I2C_MAX_DATA_LEN	Shared/i2c.h	69;"	d
 I2C_M_IGNORE_NAK	Common/i2c-dev.h	44;"	d
 I2C_M_NOSTART	Common/i2c-dev.h	42;"	d
@@ -716,16 +706,16 @@ LEFT	msp.h	1;"	d
 LEFT	robostix.h	1;"	d
 LIB_I2CDEV_H	Common/i2c-dev.h	25;"	d
 LINE_WIDTH	Shared/DumpMem.c	51;"	d	file:
-LOG	executive.h	54;"	d
+LOG	executive.h	56;"	d
 LOG_BufferIdx_t	Shared/Log.h	/^typedef uint16_t    LOG_BufferIdx_t;$/;"	t
 LOG_BufferIdx_t	Shared/Log.h	/^typedef uint8_t     LOG_BufferIdx_t;$/;"	t
-LOG_Buffer_t	Shared/Log.h	/^} LOG_Buffer_t;$/;"	t	typeref:struct:__anon28
+LOG_Buffer_t	Shared/Log.h	/^} LOG_Buffer_t;$/;"	t	typeref:struct:__anon26
 LOG_EXTRA_PARAMS	Shared/Log.h	100;"	d
 LOG_EXTRA_PARAMS	Shared/Log.h	103;"	d
 LOG_EXTRA_PARAMS_DECL	Shared/Log.h	102;"	d
 LOG_EXTRA_PARAMS_DECL	Shared/Log.h	99;"	d
-LOG_Entry_t	Shared/Log.h	/^} LOG_Entry_t;$/;"	t	typeref:struct:__anon26
-LOG_Entry_t	Shared/Log.h	/^} LOG_Entry_t;$/;"	t	typeref:struct:__anon27
+LOG_Entry_t	Shared/Log.h	/^} LOG_Entry_t;$/;"	t	typeref:struct:__anon24
+LOG_Entry_t	Shared/Log.h	/^} LOG_Entry_t;$/;"	t	typeref:struct:__anon25
 LOG_H	Shared/Log.h	30;"	d
 LOG_LEVEL_ERROR	Shared/Log.h	181;"	d
 LOG_LEVEL_NORMAL	Shared/Log.h	180;"	d
@@ -768,10 +758,9 @@ LogToUartFunc	Shared/Log.c	/^static int LogToUartFunc( void *outParm, int ch )$/
 LogVerbose	Shared/Log.h	199;"	d
 Log_P	Shared/Log.h	/^void Log_P( const prog_char *fmt, ... );$/;"	p	signature:( const prog_char *fmt, ... )
 Log_P	Shared/Log.h	194;"	d
-MANUAL_MOVE	executive.h	53;"	d
 MAX_DEV	executive.h	/^const int MAX_DEV = 360;$/;"	v
 MAX_STEPS	executive.h	/^    int MAX_STEPS;$/;"	m	class:ExecutiveProcessor	access:private
-MINUS_SIGN	Shared/StrPrintf.c	/^	MINUS_SIGN		= 0x01, \/**< Should we print a minus sign?              *\/$/;"	e	enum:__anon17	file:
+MINUS_SIGN	Shared/StrPrintf.c	/^	MINUS_SIGN		= 0x01, \/**< Should we print a minus sign?              *\/$/;"	e	enum:__anon15	file:
 MSP	Makefile	/^MSP = true$/;"	m
 MSP	msp.cpp	/^MSP::MSP() {$/;"	f	class:MSP	signature:()
 MSP	msp.h	/^    MSP();$/;"	p	class:MSP	access:public	signature:()
@@ -784,6 +773,10 @@ MSP::giro	msp.cpp	/^float MSP::giro() {$/;"	f	class:MSP	signature:()
 MSP::giro	msp.h	/^    virtual float giro();$/;"	p	class:MSP	access:public	signature:()
 MSP::move	msp.cpp	/^void MSP::move(float speed, float steering) {$/;"	f	class:MSP	signature:(float speed, float steering)
 MSP::move	msp.h	/^    virtual void move(float speed, float steering);$/;"	p	class:MSP	access:public	signature:(float speed, float steering)
+MSP::move_lrn	msp.cpp	/^void MSP::move_lrn(int _speed_percent, int _movement){          $/;"	f	class:MSP	signature:(int _speed_percent, int _movement)
+MSP::move_lrn	msp.h	/^    virtual void move_lrn(int _speed_percent, int _movement);$/;"	p	class:MSP	access:public	signature:(int _speed_percent, int _movement)
+MSP::move_test	msp.cpp	/^void MSP::move_test(float vd,float vi)$/;"	f	class:MSP	signature:(float vd,float vi)
+MSP::move_test	msp.h	/^    virtual void move_test(float vd,float vi);$/;"	p	class:MSP	access:public	signature:(float vd,float vi)
 MSP::move_v	msp.cpp	/^void MSP::move_v(float vd,float vi)$/;"	f	class:MSP	signature:(float vd,float vi)
 MSP::move_v	msp.h	/^    virtual void move_v(float vd, float vi);$/;"	p	class:MSP	access:public	signature:(float vd, float vi)
 MSP::sense	msp.cpp	/^float MSP::sense(int channel) {$/;"	f	class:MSP	signature:(int channel)
@@ -791,22 +784,22 @@ MSP::sense	msp.h	/^    virtual float sense(int channel);$/;"	p	class:MSP	access:
 MSP::uartDev	msp.h	/^    int uartDev;$/;"	m	class:MSP	access:private
 MSP::~MSP	msp.cpp	/^MSP::~MSP() {$/;"	f	class:MSP	signature:()
 MSP::~MSP	msp.h	/^    virtual ~MSP();$/;"	p	class:MSP	access:public	signature:()
-NO_OPTION	Shared/StrPrintf.c	/^    NO_OPTION       = 0x00, \/**< No options specified.						*\/$/;"	e	enum:__anon17	file:
-NoADC	i2c-io.cpp	/^    NoADC,$/;"	e	enum:__anon16	file:
-NoADC	uart-io.cpp	/^    NoADC,$/;"	e	enum:__anon10	file:
+NO_OPTION	Shared/StrPrintf.c	/^    NO_OPTION       = 0x00, \/**< No options specified.						*\/$/;"	e	enum:__anon15	file:
+NoADC	i2c-io.cpp	/^    NoADC,$/;"	e	enum:__anon14	file:
+NoADC	uart-io.cpp	/^    NoADC,$/;"	e	enum:__anon8	file:
 OBJS	Makefile	/^OBJS = \\$/;"	m
-OPT_BASE_DECIMAL	i2c-io.cpp	/^    OPT_BASE_DECIMAL    = 'd',$/;"	e	enum:__anon11	file:
-OPT_BASE_DECIMAL	uart-io.cpp	/^    OPT_BASE_DECIMAL = 'd',$/;"	e	enum:__anon6	file:
-OPT_BASE_HEX	i2c-io.cpp	/^    OPT_BASE_HEX        = 'x',$/;"	e	enum:__anon11	file:
-OPT_BASE_HEX	uart-io.cpp	/^    OPT_BASE_HEX = 'x',$/;"	e	enum:__anon6	file:
-OPT_FIRST_LONG_OPT	i2c-io.cpp	/^    OPT_FIRST_LONG_OPT   = 0x80,$/;"	e	enum:__anon11	file:
-OPT_FIRST_LONG_OPT	uart-io.cpp	/^    OPT_FIRST_LONG_OPT = 0x80,$/;"	e	enum:__anon6	file:
-OPT_HELP	i2c-io.cpp	/^    OPT_HELP,$/;"	e	enum:__anon11	file:
-OPT_HELP	uart-io.cpp	/^    OPT_HELP,$/;"	e	enum:__anon6	file:
-OPT_MEM_DEFAULT	i2c-io.cpp	/^    OPT_MEM_DEFAULT     = 0,$/;"	e	enum:__anon11	file:
-OPT_MEM_DEFAULT	uart-io.cpp	/^    OPT_MEM_DEFAULT = 0,$/;"	e	enum:__anon6	file:
-OPT_VERSION	i2c-io.cpp	/^    OPT_VERSION,$/;"	e	enum:__anon11	file:
-OPT_VERSION	uart-io.cpp	/^    OPT_VERSION,$/;"	e	enum:__anon6	file:
+OPT_BASE_DECIMAL	i2c-io.cpp	/^    OPT_BASE_DECIMAL    = 'd',$/;"	e	enum:__anon9	file:
+OPT_BASE_DECIMAL	uart-io.cpp	/^    OPT_BASE_DECIMAL = 'd',$/;"	e	enum:__anon4	file:
+OPT_BASE_HEX	i2c-io.cpp	/^    OPT_BASE_HEX        = 'x',$/;"	e	enum:__anon9	file:
+OPT_BASE_HEX	uart-io.cpp	/^    OPT_BASE_HEX = 'x',$/;"	e	enum:__anon4	file:
+OPT_FIRST_LONG_OPT	i2c-io.cpp	/^    OPT_FIRST_LONG_OPT   = 0x80,$/;"	e	enum:__anon9	file:
+OPT_FIRST_LONG_OPT	uart-io.cpp	/^    OPT_FIRST_LONG_OPT = 0x80,$/;"	e	enum:__anon4	file:
+OPT_HELP	i2c-io.cpp	/^    OPT_HELP,$/;"	e	enum:__anon9	file:
+OPT_HELP	uart-io.cpp	/^    OPT_HELP,$/;"	e	enum:__anon4	file:
+OPT_MEM_DEFAULT	i2c-io.cpp	/^    OPT_MEM_DEFAULT     = 0,$/;"	e	enum:__anon9	file:
+OPT_MEM_DEFAULT	uart-io.cpp	/^    OPT_MEM_DEFAULT = 0,$/;"	e	enum:__anon4	file:
+OPT_VERSION	i2c-io.cpp	/^    OPT_VERSION,$/;"	e	enum:__anon9	file:
+OPT_VERSION	uart-io.cpp	/^    OPT_VERSION,$/;"	e	enum:__anon4	file:
 OutputChar	Shared/StrPrintf.c	/^static void OutputChar( Parameters *p, int c )$/;"	f	file:	signature:( Parameters *p, int c )
 OutputChar	Shared/StrPrintf.c	/^static void OutputChar( Parameters *p, int c );$/;"	p	file:	signature:( Parameters *p, int c )
 OutputField	Shared/StrPrintf.c	/^static void OutputField( Parameters *p, char *s )$/;"	f	file:	signature:( Parameters *p, char *s )
@@ -817,28 +810,19 @@ PREPROCESS.c	Makefile	/^PREPROCESS.c = $(CXX) $(CPPFLAGS) $(TARGET_ARCH)  -E -Wp
 PSTR	Shared/Log.c	52;"	d	file:
 PSTR	Shared/lcd.h	35;"	d
 PWD	Makefile	/^PWD       := $(shell pwd)$/;"	m
-Parameters	Shared/StrPrintf.c	/^} Parameters;$/;"	t	typeref:struct:__anon18	file:
+Parameters	Shared/StrPrintf.c	/^} Parameters;$/;"	t	typeref:struct:__anon16	file:
 ParseByte	i2c-io.cpp	/^int ParseByte( const char *byteStr, uint8_t *byte )$/;"	f	signature:( const char *byteStr, uint8_t *byte )
 ParseByte	i2c-io.cpp	/^static  int  ParseByte( const char *byteStr, uint8_t *byte );$/;"	p	file:	signature:( const char *byteStr, uint8_t *byte )
 ParseError	Common/FILE_Parser.h	/^    void (*ParseError)( void *userData, FILE_LineNum_t lineNum, const char *fmt, va_list args );$/;"	m	struct:FILE_ParserCallback_s	access:public
-ParseIHexLine	Common/FILE_Parser.c	/^int ParseIHexLine( Parser_t *parser, const char *line )$/;"	f	signature:( Parser_t *parser, const char *line )
-ParseIHexLine	Common/FILE_Parser.c	/^static  int ParseIHexLine( Parser_t *parser, const char *line );$/;"	p	file:	signature:( Parser_t *parser, const char *line )
-ParseLine	Common/FILE_Parser.c	/^int ParseLine( Parser_t *parser, const char *line )$/;"	f	signature:( Parser_t *parser, const char *line )
-ParseLine	Common/FILE_Parser.c	/^static  int ParseLine( Parser_t *parser, const char *line );$/;"	p	file:	signature:( Parser_t *parser, const char *line )
 ParsePortPinStr	i2c-io.cpp	/^int ParsePortPinStr( const char *portPinStr, uint8_t *portNum, uint8_t *pin, AllowADC_t allowAdc )$/;"	f	signature:( const char *portPinStr, uint8_t *portNum, uint8_t *pin, AllowADC_t allowAdc )
 ParsePortPinStr	i2c-io.cpp	/^static  int  ParsePortPinStr( const char *portPinStr, uint8_t *portNum, uint8_t *pin, AllowADC_t allowAdc );$/;"	p	file:	signature:( const char *portPinStr, uint8_t *portNum, uint8_t *pin, AllowADC_t allowAdc )
 ParseReg	i2c-io.cpp	/^int ParseReg( int i2cDev, const char *regStr, RegMap_t *regFound )$/;"	f	signature:( int i2cDev, const char *regStr, RegMap_t *regFound )
 ParseReg	i2c-io.cpp	/^static  int  ParseReg( int i2cDev, const char *regStr, RegMap_t *regFound );$/;"	p	file:	signature:( int i2cDev, const char *regStr, RegMap_t *regFound )
-ParseSRecordLine	Common/FILE_Parser.c	/^int ParseSRecordLine( Parser_t *parser, const char *line )$/;"	f	signature:( Parser_t *parser, const char *line )
-ParseSRecordLine	Common/FILE_Parser.c	/^static  int ParseSRecordLine( Parser_t *parser, const char *line );$/;"	p	file:	signature:( Parser_t *parser, const char *line )
 ParseUInt16	i2c-io.cpp	/^int ParseUInt16( const char *str, uint16_t *val16 )$/;"	f	signature:( const char *str, uint16_t *val16 )
 ParseUInt16	i2c-io.cpp	/^static  int  ParseUInt16( const char *str, uint16_t *val16 );$/;"	p	file:	signature:( const char *str, uint16_t *val16 )
 ParsedData	Common/FILE_Data.c	/^int ParsedData( void *userData, FILE_ParsedData_t *parsedData )$/;"	f	signature:( void *userData, FILE_ParsedData_t *parsedData )
 ParsedData	Common/FILE_Data.c	/^static int ParsedData( void *userData, FILE_ParsedData_t *parsedData );$/;"	p	file:	signature:( void *userData, FILE_ParsedData_t *parsedData )
-ParsedData	Common/FILE_Parser.c	/^int ParsedData( Parser_t *parser )$/;"	f	signature:( Parser_t *parser )
-ParsedData	Common/FILE_Parser.c	/^static  int ParsedData( Parser_t *parser );$/;"	p	file:	signature:( Parser_t *parser )
 ParsedData	Common/FILE_Parser.h	/^    int (*ParsedData)( void *userData, FILE_ParsedData_t *parsedData );$/;"	m	struct:FILE_ParserCallback_s	access:public
-Parser_t	Common/FILE_Parser.c	/^} Parser_t;$/;"	t	typeref:struct:__anon1	file:
 ProcessGetCommand	i2c-io.cpp	/^uint16_t     ProcessGetCommand( int i2cDev, const char *portPinStr );$/;"	p	file:	signature:( int i2cDev, const char *portPinStr )
 ProcessGetCommand	i2c-io.cpp	/^uint16_t ProcessGetCommand( int i2cDev, const char *portPinStr )$/;"	f	signature:( int i2cDev, const char *portPinStr )
 ProcessGetDirCommand	i2c-io.cpp	/^static  void ProcessGetDirCommand( int i2cDev, const char *portPinStr );$/;"	p	file:	signature:( int i2cDev, const char *portPinStr )
@@ -863,13 +847,11 @@ REG_MEM8	i2c-io.cpp	106;"	d	file:
 REG_MEM8	uart-io.cpp	114;"	d	file:
 RIGHT	msp.h	2;"	d
 RIGHT	robostix.h	2;"	d
-RIGHT_JUSTIFY	Shared/StrPrintf.c	/^	RIGHT_JUSTIFY   = 0x02, \/**< Should field be right justified?           *\/$/;"	e	enum:__anon17	file:
-ReaderThread	Common/SerialLog.c	/^static  void *ReaderThread( void *param );$/;"	p	file:	signature:( void *param )
-ReaderThread	Common/SerialLog.c	/^void *ReaderThread( void *param )$/;"	f	signature:( void *param )
-RegMap_t	i2c-io.cpp	/^} RegMap_t;$/;"	t	typeref:struct:__anon14	file:
-RegMap_t	uart-io.cpp	/^} RegMap_t;$/;"	t	typeref:struct:__anon8	file:
-Regs_t	i2c-io.cpp	/^} Regs_t;$/;"	t	typeref:struct:__anon15	file:
-Regs_t	uart-io.cpp	/^} Regs_t;$/;"	t	typeref:struct:__anon9	file:
+RIGHT_JUSTIFY	Shared/StrPrintf.c	/^	RIGHT_JUSTIFY   = 0x02, \/**< Should field be right justified?           *\/$/;"	e	enum:__anon15	file:
+RegMap_t	i2c-io.cpp	/^} RegMap_t;$/;"	t	typeref:struct:__anon12	file:
+RegMap_t	uart-io.cpp	/^} RegMap_t;$/;"	t	typeref:struct:__anon6	file:
+Regs_t	i2c-io.cpp	/^} Regs_t;$/;"	t	typeref:struct:__anon13	file:
+Regs_t	uart-io.cpp	/^} Regs_t;$/;"	t	typeref:struct:__anon7	file:
 Robostix	robostix.cpp	/^Robostix::Robostix() {$/;"	f	class:Robostix	signature:()
 Robostix	robostix.h	/^        Robostix();$/;"	p	class:Robostix	access:public	signature:()
 Robostix	robostix.h	/^class Robostix : DriverSerial$/;"	c	inherits:DriverSerial
@@ -898,20 +880,14 @@ SERIAL_LOG_STUART	Common/SerialLog.h	40;"	d
 SHARED	Makefile	/^SHARED			= Shared$/;"	m
 STEP_SIZE	executive.h	/^const int STEP_SIZE = 250000;$/;"	v
 STR_H	Shared/Str.h	34;"	d
-SUPPORT_INTEL_HEX	Common/FILE_Parser.c	39;"	d	file:
-SUPPORT_MOTOROLA_SREC	Common/FILE_Parser.c	40;"	d	file:
 SVN_REVISION	svn-version.h	5;"	d
-SerialLog	Common/SerialLog.c	/^static  void SerialLog( int logLevel, const char *fmt, va_list args );$/;"	p	file:	signature:( int logLevel, const char *fmt, va_list args )
-SerialLog	Common/SerialLog.c	/^void SerialLog( int logLevel, const char *fmt, va_list args )$/;"	f	signature:( int logLevel, const char *fmt, va_list args )
 SetLogFunc	Shared/Log.c	/^void SetLogFunc( LogFunc_t logFunc )$/;"	f	signature:( LogFunc_t logFunc )
 SetLogFunc	Shared/Log.h	/^void SetLogFunc( LogFunc_t logFunc );$/;"	p	signature:( LogFunc_t logFunc )
 SetOption	Shared/StrPrintf.c	92;"	d	file:
 StartSegment	Common/FILE_Data.c	/^int StartSegment( void *userData, FILE_Addr_t addr )$/;"	f	signature:( void *userData, FILE_Addr_t addr )
 StartSegment	Common/FILE_Data.c	/^static int StartSegment( void *userData, FILE_Addr_t addr );$/;"	p	file:	signature:( void *userData, FILE_Addr_t addr )
 StartSegment	Common/FILE_Parser.h	/^    int (*StartSegment)( void *userData, FILE_Addr_t addr );$/;"	m	struct:FILE_ParserCallback_s	access:public
-StartSerialLog	Common/SerialLog.c	/^void StartSerialLog( speed_t speed, int port )$/;"	f	signature:( speed_t speed, int port )
 StartSerialLog	Common/SerialLog.h	/^void StartSerialLog( speed_t speed, int port );$/;"	p	signature:( speed_t speed, int port )
-StopSerialLog	Common/SerialLog.c	/^void StopSerialLog( void )$/;"	f	signature:( void )
 StopSerialLog	Common/SerialLog.h	/^void StopSerialLog( void );$/;"	p	signature:( void )
 StrMaxCat	Shared/Str.h	/^char *StrMaxCat( char *dst, const char *src, size_t maxLen );$/;"	p	signature:( char *dst, const char *src, size_t maxLen )
 StrMaxCpy	Shared/Str.h	/^char *StrMaxCpy( char *dst, const char *src, size_t maxLen );$/;"	p	signature:( char *dst, const char *src, size_t maxLen )
@@ -922,7 +898,7 @@ StrPrintf	Shared/StrPrintf.c	44;"	d	file:
 StrPrintf	Shared/StrPrintf.c	50;"	d	file:
 StrPrintfFunc	Shared/StrPrintf.c	/^static int  StrPrintfFunc( void *outParm, int ch );$/;"	p	file:	signature:( void *outParm, int ch )
 StrPrintfFunc	Shared/StrPrintf.c	/^static int StrPrintfFunc( void *outParm, int ch )$/;"	f	file:	signature:( void *outParm, int ch )
-StrPrintfParms	Shared/StrPrintf.c	/^} StrPrintfParms;$/;"	t	typeref:struct:__anon19	file:
+StrPrintfParms	Shared/StrPrintf.c	/^} StrPrintfParms;$/;"	t	typeref:struct:__anon17	file:
 StrPrintf_P	Shared/Str.h	/^int StrPrintf_P( char *outStr, int maxLen, const prog_char *fmt, ... );$/;"	p	signature:( char *outStr, int maxLen, const prog_char *fmt, ... )
 StrXPrintf	Shared/Str.h	/^int StrXPrintf( StrXPrintfFunc func, void *userParm, const char *fmt, ... );$/;"	p	signature:( StrXPrintfFunc func, void *userParm, const char *fmt, ... )
 StrXPrintf	Shared/Str.h	77;"	d
@@ -933,133 +909,119 @@ StrXPrintfFunc	Shared/Str.h	/^typedef int (*StrXPrintfFunc)( void *outParm, int 
 StrXPrintf_P	Shared/Str.h	/^int StrXPrintf_P( StrXPrintfFunc func, void *userParm, const prog_char *fmt, ... );$/;"	p	signature:( StrXPrintfFunc func, void *userParm, const prog_char *fmt, ... )
 TARGET_ARCH	Makefile	/^TARGET_ARCH=-Os -march=armv5te -mtune=xscale -Wa,-mcpu=xscale$/;"	m
 TRUE	Common/BootLoader-api.c	42;"	d	file:
-TRUE	Common/FILE_Parser.c	36;"	d	file:
 TRUE	Common/i2c-io-api.c	37;"	d	file:
 TRUE	i2c-io.cpp	339;"	d	file:
 TRUE	uart-io.cpp	159;"	d	file:
+UART_WAIT	msp.cpp	21;"	d	file:
 UART_WAIT	uart-io.cpp	46;"	d	file:
 Usage	i2c-io.cpp	/^static  void Usage( void );$/;"	p	file:	signature:( void )
 Usage	i2c-io.cpp	/^void Usage( void )$/;"	f	signature:( void )
-ZERO_PAD	Shared/StrPrintf.c	/^	ZERO_PAD        = 0x04, \/**< Should field be zero padded?               *\/$/;"	e	enum:__anon17	file:
+ZERO_PAD	Shared/StrPrintf.c	/^	ZERO_PAD        = 0x04, \/**< Should field be zero padded?               *\/$/;"	e	enum:__anon15	file:
 _DRIVER_SERIAL_H_	driverSerial.h	2;"	d
 _IRMA2_EXECUTIVE_H_	executive.h	31;"	d
-__anon13::cmd	i2c-io.cpp	/^    int         cmd;$/;"	m	struct:__anon13	file:	access:public
-__anon13::cmdStr	i2c-io.cpp	/^    const char *cmdStr;$/;"	m	struct:__anon13	file:	access:public
-__anon14::is16Bit	i2c-io.cpp	/^    uint8_t     is16Bit;$/;"	m	struct:__anon14	file:	access:public
-__anon14::reg	i2c-io.cpp	/^    uint8_t     reg;$/;"	m	struct:__anon14	file:	access:public
-__anon14::regStr	i2c-io.cpp	/^    const char *regStr;$/;"	m	struct:__anon14	file:	access:public
-__anon15::numRegs	i2c-io.cpp	/^    uint16_t    numRegs;$/;"	m	struct:__anon15	file:	access:public
-__anon15::regMap	i2c-io.cpp	/^    RegMap_t   *regMap;$/;"	m	struct:__anon15	file:	access:public
-__anon15::signature	i2c-io.cpp	/^    uint16_t    signature;$/;"	m	struct:__anon15	file:	access:public
-__anon18::editedStringLen	Shared/StrPrintf.c	/^   short          editedStringLen;$/;"	m	struct:__anon18	file:	access:public
-__anon18::leadingZeros	Shared/StrPrintf.c	/^   short          leadingZeros;$/;"	m	struct:__anon18	file:	access:public
-__anon18::minFieldWidth	Shared/StrPrintf.c	/^   short          minFieldWidth;    $/;"	m	struct:__anon18	file:	access:public
-__anon18::numOutputChars	Shared/StrPrintf.c	/^   int            numOutputChars;$/;"	m	struct:__anon18	file:	access:public
-__anon18::options	Shared/StrPrintf.c	/^   FmtOption      options;          $/;"	m	struct:__anon18	file:	access:public
-__anon18::outFunc	Shared/StrPrintf.c	/^   StrXPrintfFunc outFunc;$/;"	m	struct:__anon18	file:	access:public
-__anon18::outParm	Shared/StrPrintf.c	/^   void          *outParm;$/;"	m	struct:__anon18	file:	access:public
-__anon19::maxLen	Shared/StrPrintf.c	/^   int   maxLen;  \/**< Maximum number of characters which can be stored.   *\/$/;"	m	struct:__anon19	file:	access:public
-__anon19::str	Shared/StrPrintf.c	/^   char *str;     \/**< Buffer to store results into.                       *\/$/;"	m	struct:__anon19	file:	access:public
-__anon1::addrBase	Common/FILE_Parser.c	/^    FILE_Addr_t             addrBase;   \/\/\/< Added to an offset to get address$/;"	m	struct:__anon1	file:	access:public
-__anon1::callback	Common/FILE_Parser.c	/^    FILE_ParserCallback_t  *callback;   \/\/\/< User provided callback functions to use$/;"	m	struct:__anon1	file:	access:public
-__anon1::inSeg	Common/FILE_Parser.c	/^    int                     inSeg;      \/\/\/< We've started a segment which hasn't been finished yet$/;"	m	struct:__anon1	file:	access:public
-__anon1::isHexFile	Common/FILE_Parser.c	/^    int                     isHexFile;  \/\/\/< Is the file an Intel Hex File?$/;"	m	struct:__anon1	file:	access:public
-__anon1::isSRecord	Common/FILE_Parser.c	/^    int                     isSRecord;  \/\/\/< Is the file a Motorola S-Record file?$/;"	m	struct:__anon1	file:	access:public
-__anon1::lineNum	Common/FILE_Parser.c	/^    FILE_LineNum_t          lineNum;    \/\/\/< Tracks line number we're working on$/;"	m	struct:__anon1	file:	access:public
-__anon1::parsedData	Common/FILE_Parser.c	/^    FILE_ParsedData_t       parsedData; \/\/\/< Last hunk of data parsed$/;"	m	struct:__anon1	file:	access:public
-__anon1::segAddr	Common/FILE_Parser.c	/^    FILE_Addr_t             segAddr;    \/\/\/< Address of the segment in memory$/;"	m	struct:__anon1	file:	access:public
-__anon1::segLen	Common/FILE_Parser.c	/^    FILE_SegmentLen_t       segLen;     \/\/\/< Length of the segment in memory$/;"	m	struct:__anon1	file:	access:public
-__anon20::byte	Shared/BootLoader.h	/^    uint8_t     byte[ 4 ];$/;"	m	union:__anon20	access:public
-__anon20::val16	Shared/BootLoader.h	/^    uint16_t    val16;$/;"	m	union:__anon20	access:public
-__anon20::val32	Shared/BootLoader.h	/^    uint32_t    val32;$/;"	m	union:__anon20	access:public
-__anon21::devAddr	Shared/BootLoader.h	/^    I2C_Addr_t  devAddr;        \/\/\/< The i2c address of the device.$/;"	m	struct:__anon21	access:public
-__anon21::eepromSize	Shared/BootLoader.h	/^    uint16_t    eepromSize;     \/\/\/< Size of the EEPROM, in bytes.$/;"	m	struct:__anon21	access:public
-__anon21::flashSize	Shared/BootLoader.h	/^    uint32_t    flashSize;      \/\/\/< Size of the flash, in bytes.$/;"	m	struct:__anon21	access:public
-__anon21::minVersion	Shared/BootLoader.h	/^    uint8_t     minVersion;     \/\/\/< Minimum API version the device is compatible with.$/;"	m	struct:__anon21	access:public
-__anon21::pad	Shared/BootLoader.h	/^    uint8_t     pad[ 3 ];       \/\/\/< Reserved - set to zero.$/;"	m	struct:__anon21	access:public
-__anon21::partNumber	Shared/BootLoader.h	/^    uint16_t    partNumber;     \/\/\/< Part number (bytes 2 & 3 of signature)$/;"	m	struct:__anon21	access:public
-__anon21::ramSize	Shared/BootLoader.h	/^    uint16_t    ramSize;        \/\/\/< Size of the SRAM area, in bytes.$/;"	m	struct:__anon21	access:public
-__anon21::regSize	Shared/BootLoader.h	/^    uint16_t    regSize;        \/\/\/< Size of the register area, in bytes.$/;"	m	struct:__anon21	access:public
-__anon21::spmPageSize	Shared/BootLoader.h	/^    uint16_t    spmPageSize;    \/\/\/< Size of the SPM Page Size.$/;"	m	struct:__anon21	access:public
-__anon21::version	Shared/BootLoader.h	/^    uint8_t     version;        \/\/\/< API Version the device is using.$/;"	m	struct:__anon21	access:public
-__anon22::addr	Shared/BootLoader.h	/^    BL_Addr_t   addr;$/;"	m	struct:__anon22	access:public
-__anon22::len	Shared/BootLoader.h	/^    uint8_t     len;$/;"	m	struct:__anon22	access:public
-__anon22::pad	Shared/BootLoader.h	/^    uint8_t     pad[ 3 ];$/;"	m	struct:__anon22	access:public
-__anon23::addr	Shared/BootLoader.h	/^    BL_Addr_t   addr;$/;"	m	struct:__anon23	access:public
-__anon23::data	Shared/BootLoader.h	/^    uint8_t     data[ BL_MAX_DATA_BYTES ];$/;"	m	struct:__anon23	access:public
-__anon24::bootDelay	Shared/BootLoader.h	/^    uint8_t     bootDelay;      \/\/\/< # seconds to wait for boot command$/;"	m	struct:__anon24	access:public
-__anon24::i2cAddr	Shared/BootLoader.h	/^    uint8_t     i2cAddr;        \/\/\/< i2c address (in lower 7 bits format)$/;"	m	struct:__anon24	access:public
-__anon24::name	Shared/BootLoader.h	/^    char        name[ BL_NODE_NAME_LEN ];   \/\/\/< Name of this node (null terminated)$/;"	m	struct:__anon24	access:public
-__anon24::pad	Shared/BootLoader.h	/^    uint8_t     pad;            \/\/\/< Reserved - set to zero$/;"	m	struct:__anon24	access:public
-__anon24::structSize	Shared/BootLoader.h	/^    uint8_t     structSize;     \/\/\/< Size of this structure, in bytes.$/;"	m	struct:__anon24	access:public
-__anon25::m_pageAddress	Shared/BootLoader.h	/^    uint32_t    m_pageAddress;      \/\/\/< Address of data currently in page buffer$/;"	m	struct:__anon25	access:public
-__anon25::m_pageBuf	Shared/BootLoader.h	/^    uint8_t     m_pageBuf[ SPM_PAGESIZE ];$/;"	m	struct:__anon25	access:public
-__anon25::m_pageDirty	Shared/BootLoader.h	/^    uint8_t     m_pageDirty;        \/\/\/< Does the page buffer contain unwritten data?$/;"	m	struct:__anon25	access:public
-__anon26::fmt	Shared/Log.h	/^    const prog_char    *fmt;$/;"	m	struct:__anon26	access:public
-__anon26::param1	Shared/Log.h	/^    uint8_t             param1;$/;"	m	struct:__anon26	access:public
-__anon26::param2	Shared/Log.h	/^    uint8_t             param2;$/;"	m	struct:__anon26	access:public
-__anon26::param3	Shared/Log.h	/^    uint8_t             param3;$/;"	m	struct:__anon26	access:public
-__anon26::param4	Shared/Log.h	/^    uint8_t             param4;$/;"	m	struct:__anon26	access:public
-__anon27::fmt	Shared/Log.h	/^    const char         *fmt;$/;"	m	struct:__anon27	access:public
-__anon27::param1	Shared/Log.h	/^    uint8_t             param1;$/;"	m	struct:__anon27	access:public
-__anon27::param2	Shared/Log.h	/^    uint8_t             param2;$/;"	m	struct:__anon27	access:public
-__anon28::m_entry	Shared/Log.h	/^    LOG_Entry_t     m_entry[ CFG_LOG_NUM_BUFFER_ENTRIES ];$/;"	m	struct:__anon28	access:public
-__anon28::m_getIdx	Shared/Log.h	/^    LOG_BufferIdx_t m_getIdx;$/;"	m	struct:__anon28	access:public
-__anon28::m_putIdx	Shared/Log.h	/^    LOG_BufferIdx_t m_putIdx;$/;"	m	struct:__anon28	access:public
-__anon29::m_bootSize	Shared/AvrInfo.h	/^    uint16_t    m_bootSize;     \/\/\/< Max size of bootloader area.$/;"	m	struct:__anon29	access:public
-__anon29::m_flashSize	Shared/AvrInfo.h	/^    uint32_t    m_flashSize;    \/\/\/< Size of the flash (in bytes)$/;"	m	struct:__anon29	access:public
-__anon29::m_pageShift	Shared/AvrInfo.h	/^    uint8_t     m_pageShift;    \/\/\/< Page Size = 1 << m_pageShift$/;"	m	struct:__anon29	access:public
-__anon29::m_pageSize	Shared/AvrInfo.h	/^    uint16_t    m_pageSize;     \/\/\/< Page size in bytes (for flash programming)$/;"	m	struct:__anon29	access:public
-__anon29::m_signature	Shared/AvrInfo.h	/^    uint16_t    m_signature;    \/\/\/< Signature minus the vendor ID$/;"	m	struct:__anon29	access:public
-__anon29::m_string	Shared/AvrInfo.h	/^    const char *m_string;       \/\/\/< Human readable prt identification$/;"	m	struct:__anon29	access:public
-__anon2::addr	Common/FILE_Parser.h	/^    FILE_Addr_t         addr;       \/\/\/< Address that was parsed.$/;"	m	struct:__anon2	access:public
-__anon2::data	Common/FILE_Parser.h	/^    uint8_t            *data;       \/\/\/< Data that was parsed.$/;"	m	struct:__anon2	access:public
-__anon2::dataAlloc	Common/FILE_Parser.h	/^    FILE_ParsedLen_t    dataAlloc;  \/\/\/< Number of bytes allocated.$/;"	m	struct:__anon2	access:public
-__anon2::dataLen	Common/FILE_Parser.h	/^    FILE_ParsedLen_t    dataLen;    \/\/\/< Number of bytes of data.$/;"	m	struct:__anon2	access:public
-__anon2::lineNum	Common/FILE_Parser.h	/^    FILE_LineNum_t      lineNum;    \/\/\/< Line number of data record in ASCII file.$/;"	m	struct:__anon2	access:public
-__anon30::minVersion	Shared/i2c-io.h	/^    uint8_t     minVersion;$/;"	m	struct:__anon30	access:public
-__anon30::svnRevision	Shared/i2c-io.h	/^    uint16_t    svnRevision;$/;"	m	struct:__anon30	access:public
-__anon30::version	Shared/i2c-io.h	/^    uint8_t     version;$/;"	m	struct:__anon30	access:public
-__anon31::portNum	Shared/i2c-io.h	/^    uint8_t     portNum;$/;"	m	struct:__anon31	access:public
-__anon32::pinMask	Shared/i2c-io.h	/^    uint8_t     pinMask;$/;"	m	struct:__anon32	access:public
-__anon32::pinVal	Shared/i2c-io.h	/^    uint8_t     pinVal;$/;"	m	struct:__anon32	access:public
-__anon32::portNum	Shared/i2c-io.h	/^    uint8_t     portNum;$/;"	m	struct:__anon32	access:public
-__anon33::mux	Shared/i2c-io.h	/^    uint8_t mux;$/;"	m	struct:__anon33	access:public
+__anon11::cmd	i2c-io.cpp	/^    int         cmd;$/;"	m	struct:__anon11	file:	access:public
+__anon11::cmdStr	i2c-io.cpp	/^    const char *cmdStr;$/;"	m	struct:__anon11	file:	access:public
+__anon12::is16Bit	i2c-io.cpp	/^    uint8_t     is16Bit;$/;"	m	struct:__anon12	file:	access:public
+__anon12::reg	i2c-io.cpp	/^    uint8_t     reg;$/;"	m	struct:__anon12	file:	access:public
+__anon12::regStr	i2c-io.cpp	/^    const char *regStr;$/;"	m	struct:__anon12	file:	access:public
+__anon13::numRegs	i2c-io.cpp	/^    uint16_t    numRegs;$/;"	m	struct:__anon13	file:	access:public
+__anon13::regMap	i2c-io.cpp	/^    RegMap_t   *regMap;$/;"	m	struct:__anon13	file:	access:public
+__anon13::signature	i2c-io.cpp	/^    uint16_t    signature;$/;"	m	struct:__anon13	file:	access:public
+__anon16::editedStringLen	Shared/StrPrintf.c	/^   short          editedStringLen;$/;"	m	struct:__anon16	file:	access:public
+__anon16::leadingZeros	Shared/StrPrintf.c	/^   short          leadingZeros;$/;"	m	struct:__anon16	file:	access:public
+__anon16::minFieldWidth	Shared/StrPrintf.c	/^   short          minFieldWidth;    $/;"	m	struct:__anon16	file:	access:public
+__anon16::numOutputChars	Shared/StrPrintf.c	/^   int            numOutputChars;$/;"	m	struct:__anon16	file:	access:public
+__anon16::options	Shared/StrPrintf.c	/^   FmtOption      options;          $/;"	m	struct:__anon16	file:	access:public
+__anon16::outFunc	Shared/StrPrintf.c	/^   StrXPrintfFunc outFunc;$/;"	m	struct:__anon16	file:	access:public
+__anon16::outParm	Shared/StrPrintf.c	/^   void          *outParm;$/;"	m	struct:__anon16	file:	access:public
+__anon17::maxLen	Shared/StrPrintf.c	/^   int   maxLen;  \/**< Maximum number of characters which can be stored.   *\/$/;"	m	struct:__anon17	file:	access:public
+__anon17::str	Shared/StrPrintf.c	/^   char *str;     \/**< Buffer to store results into.                       *\/$/;"	m	struct:__anon17	file:	access:public
+__anon18::byte	Shared/BootLoader.h	/^    uint8_t     byte[ 4 ];$/;"	m	union:__anon18	access:public
+__anon18::val16	Shared/BootLoader.h	/^    uint16_t    val16;$/;"	m	union:__anon18	access:public
+__anon18::val32	Shared/BootLoader.h	/^    uint32_t    val32;$/;"	m	union:__anon18	access:public
+__anon19::devAddr	Shared/BootLoader.h	/^    I2C_Addr_t  devAddr;        \/\/\/< The i2c address of the device.$/;"	m	struct:__anon19	access:public
+__anon19::eepromSize	Shared/BootLoader.h	/^    uint16_t    eepromSize;     \/\/\/< Size of the EEPROM, in bytes.$/;"	m	struct:__anon19	access:public
+__anon19::flashSize	Shared/BootLoader.h	/^    uint32_t    flashSize;      \/\/\/< Size of the flash, in bytes.$/;"	m	struct:__anon19	access:public
+__anon19::minVersion	Shared/BootLoader.h	/^    uint8_t     minVersion;     \/\/\/< Minimum API version the device is compatible with.$/;"	m	struct:__anon19	access:public
+__anon19::pad	Shared/BootLoader.h	/^    uint8_t     pad[ 3 ];       \/\/\/< Reserved - set to zero.$/;"	m	struct:__anon19	access:public
+__anon19::partNumber	Shared/BootLoader.h	/^    uint16_t    partNumber;     \/\/\/< Part number (bytes 2 & 3 of signature)$/;"	m	struct:__anon19	access:public
+__anon19::ramSize	Shared/BootLoader.h	/^    uint16_t    ramSize;        \/\/\/< Size of the SRAM area, in bytes.$/;"	m	struct:__anon19	access:public
+__anon19::regSize	Shared/BootLoader.h	/^    uint16_t    regSize;        \/\/\/< Size of the register area, in bytes.$/;"	m	struct:__anon19	access:public
+__anon19::spmPageSize	Shared/BootLoader.h	/^    uint16_t    spmPageSize;    \/\/\/< Size of the SPM Page Size.$/;"	m	struct:__anon19	access:public
+__anon19::version	Shared/BootLoader.h	/^    uint8_t     version;        \/\/\/< API Version the device is using.$/;"	m	struct:__anon19	access:public
+__anon1::addr	Common/FILE_Parser.h	/^    FILE_Addr_t         addr;       \/\/\/< Address that was parsed.$/;"	m	struct:__anon1	access:public
+__anon1::data	Common/FILE_Parser.h	/^    uint8_t            *data;       \/\/\/< Data that was parsed.$/;"	m	struct:__anon1	access:public
+__anon1::dataAlloc	Common/FILE_Parser.h	/^    FILE_ParsedLen_t    dataAlloc;  \/\/\/< Number of bytes allocated.$/;"	m	struct:__anon1	access:public
+__anon1::dataLen	Common/FILE_Parser.h	/^    FILE_ParsedLen_t    dataLen;    \/\/\/< Number of bytes of data.$/;"	m	struct:__anon1	access:public
+__anon1::lineNum	Common/FILE_Parser.h	/^    FILE_LineNum_t      lineNum;    \/\/\/< Line number of data record in ASCII file.$/;"	m	struct:__anon1	access:public
+__anon20::addr	Shared/BootLoader.h	/^    BL_Addr_t   addr;$/;"	m	struct:__anon20	access:public
+__anon20::len	Shared/BootLoader.h	/^    uint8_t     len;$/;"	m	struct:__anon20	access:public
+__anon20::pad	Shared/BootLoader.h	/^    uint8_t     pad[ 3 ];$/;"	m	struct:__anon20	access:public
+__anon21::addr	Shared/BootLoader.h	/^    BL_Addr_t   addr;$/;"	m	struct:__anon21	access:public
+__anon21::data	Shared/BootLoader.h	/^    uint8_t     data[ BL_MAX_DATA_BYTES ];$/;"	m	struct:__anon21	access:public
+__anon22::bootDelay	Shared/BootLoader.h	/^    uint8_t     bootDelay;      \/\/\/< # seconds to wait for boot command$/;"	m	struct:__anon22	access:public
+__anon22::i2cAddr	Shared/BootLoader.h	/^    uint8_t     i2cAddr;        \/\/\/< i2c address (in lower 7 bits format)$/;"	m	struct:__anon22	access:public
+__anon22::name	Shared/BootLoader.h	/^    char        name[ BL_NODE_NAME_LEN ];   \/\/\/< Name of this node (null terminated)$/;"	m	struct:__anon22	access:public
+__anon22::pad	Shared/BootLoader.h	/^    uint8_t     pad;            \/\/\/< Reserved - set to zero$/;"	m	struct:__anon22	access:public
+__anon22::structSize	Shared/BootLoader.h	/^    uint8_t     structSize;     \/\/\/< Size of this structure, in bytes.$/;"	m	struct:__anon22	access:public
+__anon23::m_pageAddress	Shared/BootLoader.h	/^    uint32_t    m_pageAddress;      \/\/\/< Address of data currently in page buffer$/;"	m	struct:__anon23	access:public
+__anon23::m_pageBuf	Shared/BootLoader.h	/^    uint8_t     m_pageBuf[ SPM_PAGESIZE ];$/;"	m	struct:__anon23	access:public
+__anon23::m_pageDirty	Shared/BootLoader.h	/^    uint8_t     m_pageDirty;        \/\/\/< Does the page buffer contain unwritten data?$/;"	m	struct:__anon23	access:public
+__anon24::fmt	Shared/Log.h	/^    const prog_char    *fmt;$/;"	m	struct:__anon24	access:public
+__anon24::param1	Shared/Log.h	/^    uint8_t             param1;$/;"	m	struct:__anon24	access:public
+__anon24::param2	Shared/Log.h	/^    uint8_t             param2;$/;"	m	struct:__anon24	access:public
+__anon24::param3	Shared/Log.h	/^    uint8_t             param3;$/;"	m	struct:__anon24	access:public
+__anon24::param4	Shared/Log.h	/^    uint8_t             param4;$/;"	m	struct:__anon24	access:public
+__anon25::fmt	Shared/Log.h	/^    const char         *fmt;$/;"	m	struct:__anon25	access:public
+__anon25::param1	Shared/Log.h	/^    uint8_t             param1;$/;"	m	struct:__anon25	access:public
+__anon25::param2	Shared/Log.h	/^    uint8_t             param2;$/;"	m	struct:__anon25	access:public
+__anon26::m_entry	Shared/Log.h	/^    LOG_Entry_t     m_entry[ CFG_LOG_NUM_BUFFER_ENTRIES ];$/;"	m	struct:__anon26	access:public
+__anon26::m_getIdx	Shared/Log.h	/^    LOG_BufferIdx_t m_getIdx;$/;"	m	struct:__anon26	access:public
+__anon26::m_putIdx	Shared/Log.h	/^    LOG_BufferIdx_t m_putIdx;$/;"	m	struct:__anon26	access:public
+__anon27::m_bootSize	Shared/AvrInfo.h	/^    uint16_t    m_bootSize;     \/\/\/< Max size of bootloader area.$/;"	m	struct:__anon27	access:public
+__anon27::m_flashSize	Shared/AvrInfo.h	/^    uint32_t    m_flashSize;    \/\/\/< Size of the flash (in bytes)$/;"	m	struct:__anon27	access:public
+__anon27::m_pageShift	Shared/AvrInfo.h	/^    uint8_t     m_pageShift;    \/\/\/< Page Size = 1 << m_pageShift$/;"	m	struct:__anon27	access:public
+__anon27::m_pageSize	Shared/AvrInfo.h	/^    uint16_t    m_pageSize;     \/\/\/< Page size in bytes (for flash programming)$/;"	m	struct:__anon27	access:public
+__anon27::m_signature	Shared/AvrInfo.h	/^    uint16_t    m_signature;    \/\/\/< Signature minus the vendor ID$/;"	m	struct:__anon27	access:public
+__anon27::m_string	Shared/AvrInfo.h	/^    const char *m_string;       \/\/\/< Human readable prt identification$/;"	m	struct:__anon27	access:public
+__anon28::minVersion	Shared/i2c-io.h	/^    uint8_t     minVersion;$/;"	m	struct:__anon28	access:public
+__anon28::svnRevision	Shared/i2c-io.h	/^    uint16_t    svnRevision;$/;"	m	struct:__anon28	access:public
+__anon28::version	Shared/i2c-io.h	/^    uint8_t     version;$/;"	m	struct:__anon28	access:public
+__anon29::portNum	Shared/i2c-io.h	/^    uint8_t     portNum;$/;"	m	struct:__anon29	access:public
+__anon2::m_bootSize	Common/AvrInfo.h	/^    uint16_t    m_bootSize;     \/\/\/< Max size of bootloader area.$/;"	m	struct:__anon2	access:public
+__anon2::m_eepromSize	Common/AvrInfo.h	/^    uint16_t    m_eepromSize;   \/\/\/< Size of the EEPROM area (in bytes)$/;"	m	struct:__anon2	access:public
+__anon2::m_flashSize	Common/AvrInfo.h	/^    uint32_t    m_flashSize;    \/\/\/< Size of the flash (in bytes)$/;"	m	struct:__anon2	access:public
+__anon2::m_pageShift	Common/AvrInfo.h	/^    uint8_t     m_pageShift;    \/\/\/< Page Size = 1 << m_pageShift$/;"	m	struct:__anon2	access:public
+__anon2::m_pageSize	Common/AvrInfo.h	/^    uint16_t    m_pageSize;     \/\/\/< Page size in bytes (for flash programming)$/;"	m	struct:__anon2	access:public
+__anon2::m_signature	Common/AvrInfo.h	/^    uint16_t    m_signature;    \/\/\/< Signature minus the vendor ID$/;"	m	struct:__anon2	access:public
+__anon2::m_string	Common/AvrInfo.h	/^    const char *m_string;       \/\/\/< Human readable prt identification$/;"	m	struct:__anon2	access:public
+__anon30::pinMask	Shared/i2c-io.h	/^    uint8_t     pinMask;$/;"	m	struct:__anon30	access:public
+__anon30::pinVal	Shared/i2c-io.h	/^    uint8_t     pinVal;$/;"	m	struct:__anon30	access:public
+__anon30::portNum	Shared/i2c-io.h	/^    uint8_t     portNum;$/;"	m	struct:__anon30	access:public
+__anon31::mux	Shared/i2c-io.h	/^    uint8_t mux;$/;"	m	struct:__anon31	access:public
+__anon32::reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon32	access:public
+__anon33::reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon33	access:public
 __anon34::reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon34	access:public
-__anon35::reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon35	access:public
-__anon36::reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon36	access:public
-__anon36::val	Shared/i2c-io.h	/^    uint8_t val;    \/\/\/< Value to write into the register$/;"	m	struct:__anon36	access:public
-__anon37::pad	Shared/i2c-io.h	/^    uint8_t     pad;    \/\/\/< Pad for alignment on the host.$/;"	m	struct:__anon37	access:public
-__anon37::reg	Shared/i2c-io.h	/^    uint8_t     reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon37	access:public
-__anon37::val	Shared/i2c-io.h	/^    uint16_t    val;    \/\/\/< Value to write$/;"	m	struct:__anon37	access:public
-__anon38::m_crc	Shared/i2c.h	/^    uint8_t     m_crc;$/;"	m	struct:__anon38	access:public
-__anon38::m_data	Shared/i2c.h	/^    uint8_t     m_data[ I2C_MAX_DATA_LEN  + 2]; \/\/ +1 for the command, +1 for length$/;"	m	struct:__anon38	access:public
-__anon38::m_len	Shared/i2c.h	/^    uint8_t     m_len;$/;"	m	struct:__anon38	access:public
-__anon3::m_bootSize	Common/AvrInfo.h	/^    uint16_t    m_bootSize;     \/\/\/< Max size of bootloader area.$/;"	m	struct:__anon3	access:public
-__anon3::m_eepromSize	Common/AvrInfo.h	/^    uint16_t    m_eepromSize;   \/\/\/< Size of the EEPROM area (in bytes)$/;"	m	struct:__anon3	access:public
-__anon3::m_flashSize	Common/AvrInfo.h	/^    uint32_t    m_flashSize;    \/\/\/< Size of the flash (in bytes)$/;"	m	struct:__anon3	access:public
-__anon3::m_pageShift	Common/AvrInfo.h	/^    uint8_t     m_pageShift;    \/\/\/< Page Size = 1 << m_pageShift$/;"	m	struct:__anon3	access:public
-__anon3::m_pageSize	Common/AvrInfo.h	/^    uint16_t    m_pageSize;     \/\/\/< Page size in bytes (for flash programming)$/;"	m	struct:__anon3	access:public
-__anon3::m_signature	Common/AvrInfo.h	/^    uint16_t    m_signature;    \/\/\/< Signature minus the vendor ID$/;"	m	struct:__anon3	access:public
-__anon3::m_string	Common/AvrInfo.h	/^    const char *m_string;       \/\/\/< Human readable prt identification$/;"	m	struct:__anon3	access:public
-__anon4::rxdCfg	Common/SerialLog.c	/^    const char *rxdCfg;$/;"	m	struct:__anon4	file:	access:public
-__anon4::rxdPin	Common/SerialLog.c	/^    int         rxdPin;$/;"	m	struct:__anon4	file:	access:public
-__anon4::txdCfg	Common/SerialLog.c	/^    const char *txdCfg;$/;"	m	struct:__anon4	file:	access:public
-__anon4::txdPin	Common/SerialLog.c	/^    int         txdPin;$/;"	m	struct:__anon4	file:	access:public
-__anon5::fileName	Common/FILE_Data.h	/^    char           *fileName;       \/\/\/< Name of the file the data came from$/;"	m	struct:__anon5	access:public
-__anon5::head	Common/FILE_Data.h	/^    FILE_Block_t   *head;           \/\/\/< Pointer to the first block of data$/;"	m	struct:__anon5	access:public
-__anon5::tail	Common/FILE_Data.h	/^    FILE_Block_t   *tail;           \/\/\/< Pointer to the last block of data$/;"	m	struct:__anon5	access:public
-__anon8::is16Bit	uart-io.cpp	/^    uint8_t is16Bit;$/;"	m	struct:__anon8	file:	access:public
-__anon8::reg	uart-io.cpp	/^    uint8_t reg;$/;"	m	struct:__anon8	file:	access:public
-__anon8::regStr	uart-io.cpp	/^    const char *regStr;$/;"	m	struct:__anon8	file:	access:public
-__anon9::numRegs	uart-io.cpp	/^    uint16_t numRegs;$/;"	m	struct:__anon9	file:	access:public
-__anon9::regMap	uart-io.cpp	/^    RegMap_t *regMap;$/;"	m	struct:__anon9	file:	access:public
-__anon9::signature	uart-io.cpp	/^    uint16_t signature;$/;"	m	struct:__anon9	file:	access:public
-addr	Common/FILE_Parser.h	/^    FILE_Addr_t         addr;       \/\/\/< Address that was parsed.$/;"	m	struct:__anon2	access:public
+__anon34::val	Shared/i2c-io.h	/^    uint8_t val;    \/\/\/< Value to write into the register$/;"	m	struct:__anon34	access:public
+__anon35::pad	Shared/i2c-io.h	/^    uint8_t     pad;    \/\/\/< Pad for alignment on the host.$/;"	m	struct:__anon35	access:public
+__anon35::reg	Shared/i2c-io.h	/^    uint8_t     reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon35	access:public
+__anon35::val	Shared/i2c-io.h	/^    uint16_t    val;    \/\/\/< Value to write$/;"	m	struct:__anon35	access:public
+__anon36::m_crc	Shared/i2c.h	/^    uint8_t     m_crc;$/;"	m	struct:__anon36	access:public
+__anon36::m_data	Shared/i2c.h	/^    uint8_t     m_data[ I2C_MAX_DATA_LEN  + 2]; \/\/ +1 for the command, +1 for length$/;"	m	struct:__anon36	access:public
+__anon36::m_len	Shared/i2c.h	/^    uint8_t     m_len;$/;"	m	struct:__anon36	access:public
+__anon3::fileName	Common/FILE_Data.h	/^    char           *fileName;       \/\/\/< Name of the file the data came from$/;"	m	struct:__anon3	access:public
+__anon3::head	Common/FILE_Data.h	/^    FILE_Block_t   *head;           \/\/\/< Pointer to the first block of data$/;"	m	struct:__anon3	access:public
+__anon3::tail	Common/FILE_Data.h	/^    FILE_Block_t   *tail;           \/\/\/< Pointer to the last block of data$/;"	m	struct:__anon3	access:public
+__anon6::is16Bit	uart-io.cpp	/^    uint8_t is16Bit;$/;"	m	struct:__anon6	file:	access:public
+__anon6::reg	uart-io.cpp	/^    uint8_t reg;$/;"	m	struct:__anon6	file:	access:public
+__anon6::regStr	uart-io.cpp	/^    const char *regStr;$/;"	m	struct:__anon6	file:	access:public
+__anon7::numRegs	uart-io.cpp	/^    uint16_t numRegs;$/;"	m	struct:__anon7	file:	access:public
+__anon7::regMap	uart-io.cpp	/^    RegMap_t *regMap;$/;"	m	struct:__anon7	file:	access:public
+__anon7::signature	uart-io.cpp	/^    uint16_t signature;$/;"	m	struct:__anon7	file:	access:public
+addr	Common/FILE_Parser.h	/^    FILE_Addr_t         addr;       \/\/\/< Address that was parsed.$/;"	m	struct:__anon1	access:public
 addr	Common/i2c-dev.h	/^	__u16 addr;	\/* slave address			*\/$/;"	m	struct:i2c_msg	access:public
-addr	Shared/BootLoader.h	/^    BL_Addr_t   addr;$/;"	m	struct:__anon22	access:public
-addr	Shared/BootLoader.h	/^    BL_Addr_t   addr;$/;"	m	struct:__anon23	access:public
-addrBase	Common/FILE_Parser.c	/^    FILE_Addr_t             addrBase;   \/\/\/< Added to an offset to get address$/;"	m	struct:__anon1	file:	access:public
+addr	Shared/BootLoader.h	/^    BL_Addr_t   addr;$/;"	m	struct:__anon20	access:public
+addr	Shared/BootLoader.h	/^    BL_Addr_t   addr;$/;"	m	struct:__anon21	access:public
 address	Common/FILE_Data.h	/^    FILE_Addr_t     address;        \/\/\/< Address of the first byte of this block$/;"	m	struct:FILE_Block_s	access:public
 adjust_constant	executive.cpp	/^void ExecutiveProcessor::adjust_constant(int *tempX, int *tempY) {$/;"	f	class:ExecutiveProcessor	signature:(int *tempX, int *tempY)
 adjust_constant	executive.h	/^    void adjust_constant(int *, int *);$/;"	p	class:ExecutiveProcessor	access:public	signature:(int *, int *)
@@ -1067,13 +1029,12 @@ adjust_interpolated	executive.cpp	/^void ExecutiveProcessor::adjust_interpolated
 adjust_interpolated	executive.h	/^    void adjust_interpolated(int*, int*, int);$/;"	p	class:ExecutiveProcessor	access:public	signature:(int*, int*, int)
 block	Common/i2c-dev.h	/^	__u8 block[I2C_SMBUS_BLOCK_MAX + 3]; \/* block[0] is used for length *\/$/;"	m	union:i2c_smbus_data	access:public
 blockLen	Common/FILE_Data.h	/^    FILE_BlockLen_t blockLen;       \/\/\/< Number of bytes of data in this block$/;"	m	struct:FILE_Block_s	access:public
-bootDelay	Shared/BootLoader.h	/^    uint8_t     bootDelay;      \/\/\/< # seconds to wait for boot command$/;"	m	struct:__anon24	access:public
+bootDelay	Shared/BootLoader.h	/^    uint8_t     bootDelay;      \/\/\/< # seconds to wait for boot command$/;"	m	struct:__anon22	access:public
 buf	Common/i2c-dev.h	/^	char *buf;		\/* pointer to msg data			*\/$/;"	m	struct:i2c_msg	access:public
 byte	Common/i2c-dev.h	/^	__u8 byte;$/;"	m	union:i2c_smbus_data	access:public
-byte	Shared/BootLoader.h	/^    uint8_t     byte[ 4 ];$/;"	m	union:__anon20	access:public
+byte	Shared/BootLoader.h	/^    uint8_t     byte[ 4 ];$/;"	m	union:__anon18	access:public
 callMapper	executive.cpp	/^void ExecutiveProcessor::callMapper() {$/;"	f	class:ExecutiveProcessor	signature:()
 callMapper	executive.h	/^    void callMapper();$/;"	p	class:ExecutiveProcessor	access:private	signature:()
-callback	Common/FILE_Parser.c	/^    FILE_ParserCallback_t  *callback;   \/\/\/< User provided callback functions to use$/;"	m	struct:__anon1	file:	access:public
 char	Shared/Log.c	48;"	d	file:
 cleanup	executive.cpp	/^int ExecutiveProcessor::cleanup() {$/;"	f	class:ExecutiveProcessor	signature:()
 cleanup	executive.h	/^    int cleanup();$/;"	p	class:ExecutiveProcessor	access:public	signature:()
@@ -1099,9 +1060,9 @@ clientdummy::sense	clientdummy.h	/^    virtual float sense(int channel);$/;"	p	c
 clientdummy::sockfd	clientdummy.h	/^    int sockfd;$/;"	m	class:clientdummy	access:private
 clientdummy::~clientdummy	clientdummy.cpp	/^clientdummy::~clientdummy() {$/;"	f	class:clientdummy	signature:()
 clientdummy::~clientdummy	clientdummy.h	/^    virtual ~clientdummy();$/;"	p	class:clientdummy	access:public	signature:()
-cmd	i2c-io.cpp	/^    int         cmd;$/;"	m	struct:__anon13	file:	access:public
+cmd	i2c-io.cpp	/^    int         cmd;$/;"	m	struct:__anon11	file:	access:public
 cmd	uart-io.cpp	/^    int cmd;$/;"	m	struct:cmdmap	file:	access:public
-cmdStr	i2c-io.cpp	/^    const char *cmdStr;$/;"	m	struct:__anon13	file:	access:public
+cmdStr	i2c-io.cpp	/^    const char *cmdStr;$/;"	m	struct:__anon11	file:	access:public
 cmdStr	uart-io.cpp	/^    const char *cmdStr;$/;"	m	struct:cmdmap	file:	access:public
 cmdmap	uart-io.cpp	/^struct cmdmap {$/;"	s	file:
 cmdmap::cmd	uart-io.cpp	/^    int cmd;$/;"	m	struct:cmdmap	file:	access:public
@@ -1113,17 +1074,17 @@ current_X	executive.h	/^    int current_X;$/;"	m	class:ExecutiveProcessor	access
 current_Y	executive.h	/^    int current_Y;$/;"	m	class:ExecutiveProcessor	access:private
 current_orientation	executive.h	/^    int current_orientation;$/;"	m	class:ExecutiveProcessor	access:private
 data	Common/FILE_Data.h	/^    uint8_t        *data;           \/\/\/< Data in the block.$/;"	m	struct:FILE_Block_s	access:public
-data	Common/FILE_Parser.h	/^    uint8_t            *data;       \/\/\/< Data that was parsed.$/;"	m	struct:__anon2	access:public
+data	Common/FILE_Parser.h	/^    uint8_t            *data;       \/\/\/< Data that was parsed.$/;"	m	struct:__anon1	access:public
 data	Common/i2c-dev.h	/^	union i2c_smbus_data *data;$/;"	m	struct:i2c_smbus_ioctl_data	typeref:union:i2c_smbus_ioctl_data::i2c_smbus_data	access:public
-data	Shared/BootLoader.h	/^    uint8_t     data[ BL_MAX_DATA_BYTES ];$/;"	m	struct:__anon23	access:public
-dataAlloc	Common/FILE_Parser.h	/^    FILE_ParsedLen_t    dataAlloc;  \/\/\/< Number of bytes allocated.$/;"	m	struct:__anon2	access:public
-dataLen	Common/FILE_Parser.h	/^    FILE_ParsedLen_t    dataLen;    \/\/\/< Number of bytes of data.$/;"	m	struct:__anon2	access:public
+data	Shared/BootLoader.h	/^    uint8_t     data[ BL_MAX_DATA_BYTES ];$/;"	m	struct:__anon21	access:public
+dataAlloc	Common/FILE_Parser.h	/^    FILE_ParsedLen_t    dataAlloc;  \/\/\/< Number of bytes allocated.$/;"	m	struct:__anon1	access:public
+dataLen	Common/FILE_Parser.h	/^    FILE_ParsedLen_t    dataLen;    \/\/\/< Number of bytes of data.$/;"	m	struct:__anon1	access:public
 deltaXtotal	executive.h	/^    int deltaXtotal, deltaYtotal;$/;"	m	class:ExecutiveProcessor	access:private
 deltaYtotal	executive.h	/^    int deltaXtotal, deltaYtotal;$/;"	m	class:ExecutiveProcessor	access:private
-devAddr	Shared/BootLoader.h	/^    I2C_Addr_t  devAddr;        \/\/\/< The i2c address of the device.$/;"	m	struct:__anon21	access:public
+devAddr	Shared/BootLoader.h	/^    I2C_Addr_t  devAddr;        \/\/\/< The i2c address of the device.$/;"	m	struct:__anon19	access:public
 dt	executive.cpp	/^float dt = 0.001;$/;"	v
-editedStringLen	Shared/StrPrintf.c	/^   short          editedStringLen;$/;"	m	struct:__anon18	file:	access:public
-eepromSize	Shared/BootLoader.h	/^    uint16_t    eepromSize;     \/\/\/< Size of the EEPROM, in bytes.$/;"	m	struct:__anon21	access:public
+editedStringLen	Shared/StrPrintf.c	/^   short          editedStringLen;$/;"	m	struct:__anon16	file:	access:public
+eepromSize	Shared/BootLoader.h	/^    uint16_t    eepromSize;     \/\/\/< Size of the EEPROM, in bytes.$/;"	m	struct:__anon19	access:public
 encoder	arduino.cpp	/^int Arduino::encoder(int channel) {$/;"	f	class:Arduino	signature:(int channel)
 encoder	arduino.h	/^    virtual int encoder(int channel);$/;"	p	class:Arduino	access:public	signature:(int channel)
 encoder	clientdummy.cpp	/^int clientdummy::encoder(int channel)$/;"	f	class:clientdummy	signature:(int channel)
@@ -1134,11 +1095,11 @@ encoder	msp.cpp	/^int MSP::encoder(int channel) {$/;"	f	class:MSP	signature:(int
 encoder	msp.h	/^    virtual int encoder(int channel);$/;"	p	class:MSP	access:public	signature:(int channel)
 encoder	robostix.cpp	/^int Robostix::encoder(int channel) {$/;"	f	class:Robostix	signature:(int channel)
 encoder	robostix.h	/^        virtual int encoder(int channel);$/;"	p	class:Robostix	access:public	signature:(int channel)
-fileName	Common/FILE_Data.h	/^    char           *fileName;       \/\/\/< Name of the file the data came from$/;"	m	struct:__anon5	access:public
+fileName	Common/FILE_Data.h	/^    char           *fileName;       \/\/\/< Name of the file the data came from$/;"	m	struct:__anon3	access:public
 flags	Common/i2c-dev.h	/^	unsigned short flags;		$/;"	m	struct:i2c_msg	access:public
-flashSize	Shared/BootLoader.h	/^    uint32_t    flashSize;      \/\/\/< Size of the flash, in bytes.$/;"	m	struct:__anon21	access:public
-fmt	Shared/Log.h	/^    const char         *fmt;$/;"	m	struct:__anon27	access:public
-fmt	Shared/Log.h	/^    const prog_char    *fmt;$/;"	m	struct:__anon26	access:public
+flashSize	Shared/BootLoader.h	/^    uint32_t    flashSize;      \/\/\/< Size of the flash, in bytes.$/;"	m	struct:__anon19	access:public
+fmt	Shared/Log.h	/^    const char         *fmt;$/;"	m	struct:__anon25	access:public
+fmt	Shared/Log.h	/^    const prog_char    *fmt;$/;"	m	struct:__anon24	access:public
 fout	executive.h	/^    std::ofstream fout; \/\/ARCHIVO DE SALIDA PARA ANALISIS$/;"	m	class:ExecutiveProcessor	access:private
 free_steps	executive.h	/^    bool free_steps;$/;"	m	class:ExecutiveProcessor	access:private
 gAvrInfo	Common/AvrInfo.c	/^static const AvrInfo_t gAvrInfo[] =$/;"	v	file:
@@ -1146,7 +1107,7 @@ gAvrInfo	Shared/AvrInfo.c	/^static const AvrInfo_t gAvrInfo[] =$/;"	v	file:
 gBase	i2c-io.cpp	/^int         gBase       = OPT_BASE_HEX;$/;"	v
 gCmd	i2c-io.cpp	/^int         gCmd        = CMD_DEFAULT;$/;"	v
 gCmd	uart-io.cpp	/^int gCmd = CMD_DEFAULT;$/;"	v
-gCmdMap	i2c-io.cpp	/^} gCmdMap[] =$/;"	v	typeref:struct:__anon13
+gCmdMap	i2c-io.cpp	/^} gCmdMap[] =$/;"	v	typeref:struct:__anon11
 gCmdMap	uart-io.cpp	/^} gCmdMap[] = {$/;"	v	typeref:struct:cmdmap
 gCmdRExp	uart-io.cpp	/^regex_t gCmdRExp;$/;"	v
 gCmdStr	i2c-io.cpp	/^const char *gCmdStr;$/;"	v
@@ -1157,7 +1118,6 @@ gI2cAddr	i2c-io.cpp	/^int gI2cAddr    = -1;$/;"	v
 gI2cAddr	uart-io.cpp	/^int gI2cAddr = -1;$/;"	v
 gLogFs	Shared/Log.c	/^FILE   *gLogFs = NULL;$/;"	v
 gLogFunc	Shared/Log.c	/^static LogFunc_t    gLogFunc = DefaultLogFunc;$/;"	v	file:
-gLogMutex	Common/SerialLog.c	/^static  sem_t           gLogMutex;$/;"	v	file:
 gNumAvrInfoEntries	Common/AvrInfo.c	/^static const unsigned gNumAvrInfoEntries = sizeof( gAvrInfo ) \/ sizeof( gAvrInfo[ 0 ]);$/;"	v	file:
 gNumAvrInfoEntries	Shared/AvrInfo.c	/^static const unsigned gNumAvrInfoEntries = sizeof( gAvrInfo ) \/ sizeof( gAvrInfo[ 0 ]);$/;"	v	file:
 gNumCmds	i2c-io.cpp	/^int gNumCmds = sizeof( gCmdMap ) \/ sizeof( gCmdMap[ 0 ]);$/;"	v
@@ -1166,9 +1126,6 @@ gNumCols	Shared/lcd-api.c	/^static  uint8_t gNumCols;$/;"	v	file:
 gNumLines	Shared/lcd-api.c	/^static  uint8_t gNumLines;$/;"	v	file:
 gOption	i2c-io.cpp	/^struct option gOption[] =$/;"	v	typeref:struct:option
 gOption	uart-io.cpp	/^struct option gOption[] = {$/;"	v	typeref:struct:option
-gOrgAttr	Common/SerialLog.c	/^static  struct termios  gOrgAttr;$/;"	v	typeref:struct:termios	file:
-gPortFd	Common/SerialLog.c	/^int gPortFd = -1;$/;"	v
-gPortInfo	Common/SerialLog.c	/^} gPortInfo[] = $/;"	v	typeref:struct:__anon4
 gPortPinStr	i2c-io.cpp	/^const char *gPortPinStr = NULL;$/;"	v
 gPortPinStr	uart-io.cpp	/^const char *gPortPinStr = NULL;$/;"	v
 gQuiet	Shared/Log.c	/^int gQuiet = 0;$/;"	v
@@ -1177,7 +1134,6 @@ gRegMapATMega8	i2c-io.cpp	/^RegMap_t gRegMapATMega8[] =$/;"	v
 gRegStr	i2c-io.cpp	/^const char *gRegStr     = NULL;$/;"	v
 gRegStr	uart-io.cpp	/^const char *gRegStr = NULL;$/;"	v
 gRegs	i2c-io.cpp	/^Regs_t  gRegs[] =$/;"	v
-gSerialLogColorize	Common/SerialLog.c	/^int gSerialLogColorize = 1;$/;"	v
 gUseCrc	Common/i2c-api.c	/^static  int         gUseCrc;$/;"	v	file:
 gValStr	i2c-io.cpp	/^const char *gValStr     = NULL;$/;"	v
 gValStr	uart-io.cpp	/^const char *gValStr = NULL;$/;"	v
@@ -1208,8 +1164,8 @@ giro	msp.cpp	/^float MSP::giro() {$/;"	f	class:MSP	signature:()
 giro	msp.h	/^    virtual float giro();$/;"	p	class:MSP	access:public	signature:()
 giro	robostix.cpp	/^float Robostix::giro() {$/;"	f	class:Robostix	signature:()
 giro	robostix.h	/^        virtual float giro();$/;"	p	class:Robostix	access:public	signature:()
-head	Common/FILE_Data.h	/^    FILE_Block_t   *head;           \/\/\/< Pointer to the first block of data$/;"	m	struct:__anon5	access:public
-i2cAddr	Shared/BootLoader.h	/^    uint8_t     i2cAddr;        \/\/\/< i2c address (in lower 7 bits format)$/;"	m	struct:__anon24	access:public
+head	Common/FILE_Data.h	/^    FILE_Block_t   *head;           \/\/\/< Pointer to the first block of data$/;"	m	struct:__anon3	access:public
+i2cAddr	Shared/BootLoader.h	/^    uint8_t     i2cAddr;        \/\/\/< i2c address (in lower 7 bits format)$/;"	m	struct:__anon22	access:public
 i2cDev	robostix.h	/^        int i2cDev;$/;"	m	class:Robostix	access:private
 i2c_linus	i2c-io.cpp	/^uint16_t i2c_linus( char gCmdStr[], char gPortPinStr[], int gVal, char gRegStr[], int i2cDev )$/;"	f	signature:( char gCmdStr[], char gPortPinStr[], int gVal, char gRegStr[], int i2cDev )
 i2c_linus	i2c-io.cpp	/^uint16_t i2c_linus( char gCmdStr[], char gPortPinStr[], int gVal, char gRegStr[], int i2cDev );$/;"	p	file:	signature:( char gCmdStr[], char gPortPinStr[], int gVal, char gRegStr[], int i2cDev )
@@ -1244,24 +1200,20 @@ i2c_smbus_write_byte_data	Common/i2c-dev.h	/^static inline __s32 i2c_smbus_write
 i2c_smbus_write_i2c_block_data	Common/i2c-dev.h	/^static inline __s32 i2c_smbus_write_i2c_block_data(int file, __u8 command,$/;"	f	signature:(int file, __u8 command, __u8 length, __u8 *values)
 i2c_smbus_write_quick	Common/i2c-dev.h	/^static inline __s32 i2c_smbus_write_quick(int file, __u8 value)$/;"	f	signature:(int file, __u8 value)
 i2c_smbus_write_word_data	Common/i2c-dev.h	/^static inline __s32 i2c_smbus_write_word_data(int file, __u8 command, $/;"	f	signature:(int file, __u8 command, __u16 value)
-inSeg	Common/FILE_Parser.c	/^    int                     inSeg;      \/\/\/< We've started a segment which hasn't been finished yet$/;"	m	struct:__anon1	file:	access:public
 init	clientdummy.cpp	/^void clientdummy::init() {$/;"	f	class:clientdummy	signature:()
 init	clientdummy.h	/^    void init();$/;"	p	class:clientdummy	access:public	signature:()
 init	executive.cpp	/^int ExecutiveProcessor::init() {$/;"	f	class:ExecutiveProcessor	signature:()
 init	executive.h	/^    int init();$/;"	p	class:ExecutiveProcessor	access:public	signature:()
-is16Bit	i2c-io.cpp	/^    uint8_t     is16Bit;$/;"	m	struct:__anon14	file:	access:public
-is16Bit	uart-io.cpp	/^    uint8_t is16Bit;$/;"	m	struct:__anon8	file:	access:public
-isHexFile	Common/FILE_Parser.c	/^    int                     isHexFile;  \/\/\/< Is the file an Intel Hex File?$/;"	m	struct:__anon1	file:	access:public
-isSRecord	Common/FILE_Parser.c	/^    int                     isSRecord;  \/\/\/< Is the file a Motorola S-Record file?$/;"	m	struct:__anon1	file:	access:public
+is16Bit	i2c-io.cpp	/^    uint8_t     is16Bit;$/;"	m	struct:__anon12	file:	access:public
+is16Bit	uart-io.cpp	/^    uint8_t is16Bit;$/;"	m	struct:__anon6	file:	access:public
 lcdPrintfFunc	Shared/lcd-printf.c	/^static int lcdPrintfFunc( void *outParm, int ch )$/;"	f	file:	signature:( void *outParm, int ch )
-leadingZeros	Shared/StrPrintf.c	/^   short          leadingZeros;$/;"	m	struct:__anon18	file:	access:public
+leadingZeros	Shared/StrPrintf.c	/^   short          leadingZeros;$/;"	m	struct:__anon16	file:	access:public
 leftEncoder	executive.h	/^    int leftEncoder;$/;"	m	class:ExecutiveProcessor	access:private
 leftEncoderPS	executive.h	/^    int leftEncoderPS;$/;"	m	class:ExecutiveProcessor	access:private
 leftWheelCounter	executive.h	/^    int leftWheelCounter;$/;"	m	class:ExecutiveProcessor	access:private
 len	Common/i2c-dev.h	/^	short len;		\/* msg length				*\/$/;"	m	struct:i2c_msg	access:public
-len	Shared/BootLoader.h	/^    uint8_t     len;$/;"	m	struct:__anon22	access:public
-lineNum	Common/FILE_Parser.c	/^    FILE_LineNum_t          lineNum;    \/\/\/< Tracks line number we're working on$/;"	m	struct:__anon1	file:	access:public
-lineNum	Common/FILE_Parser.h	/^    FILE_LineNum_t      lineNum;    \/\/\/< Line number of data record in ASCII file.$/;"	m	struct:__anon2	access:public
+len	Shared/BootLoader.h	/^    uint8_t     len;$/;"	m	struct:__anon20	access:public
+lineNum	Common/FILE_Parser.h	/^    FILE_LineNum_t      lineNum;    \/\/\/< Line number of data record in ASCII file.$/;"	m	struct:__anon1	access:public
 loadLSQmodels	executive.cpp	/^void ExecutiveProcessor::loadLSQmodels() {$/;"	f	class:ExecutiveProcessor	signature:()
 loadLSQmodels	executive.h	/^    void loadLSQmodels();$/;"	p	class:ExecutiveProcessor	access:public	signature:()
 loadSplineModel	executive.cpp	/^void ExecutiveProcessor::loadSplineModel() {$/;"	f	class:ExecutiveProcessor	signature:()
@@ -1272,34 +1224,35 @@ localizationLSQ	executive.cpp	/^void ExecutiveProcessor::localizationLSQ(float s
 localizationLSQ	executive.h	/^    void localizationLSQ(float, float, int);$/;"	p	class:ExecutiveProcessor	access:public	signature:(float, float, int)
 localizationSpline	executive.cpp	/^void ExecutiveProcessor::localizationSpline(float sp, float st) {$/;"	f	class:ExecutiveProcessor	signature:(float sp, float st)
 localizationSpline	executive.h	/^    void localizationSpline(float, float);$/;"	p	class:ExecutiveProcessor	access:public	signature:(float, float)
-m_bootSize	Common/AvrInfo.h	/^    uint16_t    m_bootSize;     \/\/\/< Max size of bootloader area.$/;"	m	struct:__anon3	access:public
-m_bootSize	Shared/AvrInfo.h	/^    uint16_t    m_bootSize;     \/\/\/< Max size of bootloader area.$/;"	m	struct:__anon29	access:public
-m_crc	Shared/i2c.h	/^    uint8_t     m_crc;$/;"	m	struct:__anon38	access:public
-m_data	Shared/i2c.h	/^    uint8_t     m_data[ I2C_MAX_DATA_LEN  + 2]; \/\/ +1 for the command, +1 for length$/;"	m	struct:__anon38	access:public
-m_eepromSize	Common/AvrInfo.h	/^    uint16_t    m_eepromSize;   \/\/\/< Size of the EEPROM area (in bytes)$/;"	m	struct:__anon3	access:public
-m_entry	Shared/Log.h	/^    LOG_Entry_t     m_entry[ CFG_LOG_NUM_BUFFER_ENTRIES ];$/;"	m	struct:__anon28	access:public
-m_flashSize	Common/AvrInfo.h	/^    uint32_t    m_flashSize;    \/\/\/< Size of the flash (in bytes)$/;"	m	struct:__anon3	access:public
-m_flashSize	Shared/AvrInfo.h	/^    uint32_t    m_flashSize;    \/\/\/< Size of the flash (in bytes)$/;"	m	struct:__anon29	access:public
-m_getIdx	Shared/Log.h	/^    LOG_BufferIdx_t m_getIdx;$/;"	m	struct:__anon28	access:public
-m_len	Shared/i2c.h	/^    uint8_t     m_len;$/;"	m	struct:__anon38	access:public
-m_pageAddress	Shared/BootLoader.h	/^    uint32_t    m_pageAddress;      \/\/\/< Address of data currently in page buffer$/;"	m	struct:__anon25	access:public
-m_pageBuf	Shared/BootLoader.h	/^    uint8_t     m_pageBuf[ SPM_PAGESIZE ];$/;"	m	struct:__anon25	access:public
-m_pageDirty	Shared/BootLoader.h	/^    uint8_t     m_pageDirty;        \/\/\/< Does the page buffer contain unwritten data?$/;"	m	struct:__anon25	access:public
-m_pageShift	Common/AvrInfo.h	/^    uint8_t     m_pageShift;    \/\/\/< Page Size = 1 << m_pageShift$/;"	m	struct:__anon3	access:public
-m_pageShift	Shared/AvrInfo.h	/^    uint8_t     m_pageShift;    \/\/\/< Page Size = 1 << m_pageShift$/;"	m	struct:__anon29	access:public
-m_pageSize	Common/AvrInfo.h	/^    uint16_t    m_pageSize;     \/\/\/< Page size in bytes (for flash programming)$/;"	m	struct:__anon3	access:public
-m_pageSize	Shared/AvrInfo.h	/^    uint16_t    m_pageSize;     \/\/\/< Page size in bytes (for flash programming)$/;"	m	struct:__anon29	access:public
-m_putIdx	Shared/Log.h	/^    LOG_BufferIdx_t m_putIdx;$/;"	m	struct:__anon28	access:public
-m_signature	Common/AvrInfo.h	/^    uint16_t    m_signature;    \/\/\/< Signature minus the vendor ID$/;"	m	struct:__anon3	access:public
-m_signature	Shared/AvrInfo.h	/^    uint16_t    m_signature;    \/\/\/< Signature minus the vendor ID$/;"	m	struct:__anon29	access:public
-m_string	Common/AvrInfo.h	/^    const char *m_string;       \/\/\/< Human readable prt identification$/;"	m	struct:__anon3	access:public
-m_string	Shared/AvrInfo.h	/^    const char *m_string;       \/\/\/< Human readable prt identification$/;"	m	struct:__anon29	access:public
+m_bootSize	Common/AvrInfo.h	/^    uint16_t    m_bootSize;     \/\/\/< Max size of bootloader area.$/;"	m	struct:__anon2	access:public
+m_bootSize	Shared/AvrInfo.h	/^    uint16_t    m_bootSize;     \/\/\/< Max size of bootloader area.$/;"	m	struct:__anon27	access:public
+m_crc	Shared/i2c.h	/^    uint8_t     m_crc;$/;"	m	struct:__anon36	access:public
+m_data	Shared/i2c.h	/^    uint8_t     m_data[ I2C_MAX_DATA_LEN  + 2]; \/\/ +1 for the command, +1 for length$/;"	m	struct:__anon36	access:public
+m_eepromSize	Common/AvrInfo.h	/^    uint16_t    m_eepromSize;   \/\/\/< Size of the EEPROM area (in bytes)$/;"	m	struct:__anon2	access:public
+m_entry	Shared/Log.h	/^    LOG_Entry_t     m_entry[ CFG_LOG_NUM_BUFFER_ENTRIES ];$/;"	m	struct:__anon26	access:public
+m_flashSize	Common/AvrInfo.h	/^    uint32_t    m_flashSize;    \/\/\/< Size of the flash (in bytes)$/;"	m	struct:__anon2	access:public
+m_flashSize	Shared/AvrInfo.h	/^    uint32_t    m_flashSize;    \/\/\/< Size of the flash (in bytes)$/;"	m	struct:__anon27	access:public
+m_getIdx	Shared/Log.h	/^    LOG_BufferIdx_t m_getIdx;$/;"	m	struct:__anon26	access:public
+m_len	Shared/i2c.h	/^    uint8_t     m_len;$/;"	m	struct:__anon36	access:public
+m_pageAddress	Shared/BootLoader.h	/^    uint32_t    m_pageAddress;      \/\/\/< Address of data currently in page buffer$/;"	m	struct:__anon23	access:public
+m_pageBuf	Shared/BootLoader.h	/^    uint8_t     m_pageBuf[ SPM_PAGESIZE ];$/;"	m	struct:__anon23	access:public
+m_pageDirty	Shared/BootLoader.h	/^    uint8_t     m_pageDirty;        \/\/\/< Does the page buffer contain unwritten data?$/;"	m	struct:__anon23	access:public
+m_pageShift	Common/AvrInfo.h	/^    uint8_t     m_pageShift;    \/\/\/< Page Size = 1 << m_pageShift$/;"	m	struct:__anon2	access:public
+m_pageShift	Shared/AvrInfo.h	/^    uint8_t     m_pageShift;    \/\/\/< Page Size = 1 << m_pageShift$/;"	m	struct:__anon27	access:public
+m_pageSize	Common/AvrInfo.h	/^    uint16_t    m_pageSize;     \/\/\/< Page size in bytes (for flash programming)$/;"	m	struct:__anon2	access:public
+m_pageSize	Shared/AvrInfo.h	/^    uint16_t    m_pageSize;     \/\/\/< Page size in bytes (for flash programming)$/;"	m	struct:__anon27	access:public
+m_putIdx	Shared/Log.h	/^    LOG_BufferIdx_t m_putIdx;$/;"	m	struct:__anon26	access:public
+m_signature	Common/AvrInfo.h	/^    uint16_t    m_signature;    \/\/\/< Signature minus the vendor ID$/;"	m	struct:__anon2	access:public
+m_signature	Shared/AvrInfo.h	/^    uint16_t    m_signature;    \/\/\/< Signature minus the vendor ID$/;"	m	struct:__anon27	access:public
+m_string	Common/AvrInfo.h	/^    const char *m_string;       \/\/\/< Human readable prt identification$/;"	m	struct:__anon2	access:public
+m_string	Shared/AvrInfo.h	/^    const char *m_string;       \/\/\/< Human readable prt identification$/;"	m	struct:__anon27	access:public
 main	executive.cpp	/^int main(int argc, char* argv[]) {$/;"	f	signature:(int argc, char* argv[])
 main	i2c-adc.cpp	/^int main( int argc, char **argv )$/;"	f	signature:( int argc, char **argv )
-maxLen	Shared/StrPrintf.c	/^   int   maxLen;  \/**< Maximum number of characters which can be stored.   *\/$/;"	m	struct:__anon19	file:	access:public
-minFieldWidth	Shared/StrPrintf.c	/^   short          minFieldWidth;    $/;"	m	struct:__anon18	file:	access:public
-minVersion	Shared/BootLoader.h	/^    uint8_t     minVersion;     \/\/\/< Minimum API version the device is compatible with.$/;"	m	struct:__anon21	access:public
-minVersion	Shared/i2c-io.h	/^    uint8_t     minVersion;$/;"	m	struct:__anon30	access:public
+manual_move	executive.h	/^    void manual_move();$/;"	p	class:ExecutiveProcessor	access:public	signature:()
+maxLen	Shared/StrPrintf.c	/^   int   maxLen;  \/**< Maximum number of characters which can be stored.   *\/$/;"	m	struct:__anon17	file:	access:public
+minFieldWidth	Shared/StrPrintf.c	/^   short          minFieldWidth;    $/;"	m	struct:__anon16	file:	access:public
+minVersion	Shared/BootLoader.h	/^    uint8_t     minVersion;     \/\/\/< Minimum API version the device is compatible with.$/;"	m	struct:__anon19	access:public
+minVersion	Shared/i2c-io.h	/^    uint8_t     minVersion;$/;"	m	struct:__anon28	access:public
 modelo1	executive.h	/^    float modelo4[3][15], modelo3[3][10], modelo2[3][6], modelo1[3][3];$/;"	m	class:ExecutiveProcessor	access:private
 modelo2	executive.h	/^    float modelo4[3][15], modelo3[3][10], modelo2[3][6], modelo1[3][3];$/;"	m	class:ExecutiveProcessor	access:private
 modelo3	executive.h	/^    float modelo4[3][15], modelo3[3][10], modelo2[3][6], modelo1[3][3];$/;"	m	class:ExecutiveProcessor	access:private
@@ -1317,73 +1270,77 @@ move	msp.cpp	/^void MSP::move(float speed, float steering) {$/;"	f	class:MSP	sig
 move	msp.h	/^    virtual void move(float speed, float steering);$/;"	p	class:MSP	access:public	signature:(float speed, float steering)
 move	robostix.cpp	/^void Robostix::move(float speed, float steering) {$/;"	f	class:Robostix	signature:(float speed, float steering)
 move	robostix.h	/^        virtual void move(float speed, float steering);$/;"	p	class:Robostix	access:public	signature:(float speed, float steering)
+move_lrn	driverSerial.cpp	/^void DriverSerial::move_lrn(int seed_percent, int movement) {}$/;"	f	class:DriverSerial	signature:(int seed_percent, int movement)
+move_lrn	driverSerial.h	/^        virtual void move_lrn(int seed_percent, int movement);$/;"	p	class:DriverSerial	access:public	signature:(int seed_percent, int movement)
+move_lrn	msp.cpp	/^void MSP::move_lrn(int _speed_percent, int _movement){          $/;"	f	class:MSP	signature:(int _speed_percent, int _movement)
+move_lrn	msp.h	/^    virtual void move_lrn(int _speed_percent, int _movement);$/;"	p	class:MSP	access:public	signature:(int _speed_percent, int _movement)
 move_ready_flag	executive.h	/^    bool move_ready_flag;$/;"	m	class:ExecutiveProcessor	access:private
+move_test	driverSerial.cpp	/^void DriverSerial::move_test(int _speed_percent,int _movement){}$/;"	f	class:DriverSerial	signature:(int _speed_percent,int _movement)
+move_test	driverSerial.h	/^        virtual void move_test(int _speed_percent, int _movement);$/;"	p	class:DriverSerial	access:public	signature:(int _speed_percent, int _movement)
+move_test	msp.cpp	/^void MSP::move_test(float vd,float vi)$/;"	f	class:MSP	signature:(float vd,float vi)
+move_test	msp.h	/^    virtual void move_test(float vd,float vi);$/;"	p	class:MSP	access:public	signature:(float vd,float vi)
 move_v	driverSerial.cpp	/^void DriverSerial::move_v(float vd,float vi){}$/;"	f	class:DriverSerial	signature:(float vd,float vi)
 move_v	driverSerial.h	/^        virtual void move_v(float vd, float vi);$/;"	p	class:DriverSerial	access:public	signature:(float vd, float vi)
 move_v	msp.cpp	/^void MSP::move_v(float vd,float vi)$/;"	f	class:MSP	signature:(float vd,float vi)
 move_v	msp.h	/^    virtual void move_v(float vd, float vi);$/;"	p	class:MSP	access:public	signature:(float vd, float vi)
 move_v	robostix.cpp	/^void Robostix::move_v(float vd, float vi)$/;"	f	class:Robostix	signature:(float vd, float vi)
 move_v	robostix.h	/^        virtual void move_v(float vd, float vi);$/;"	p	class:Robostix	access:public	signature:(float vd, float vi)
+movement_times	executive.h	/^      int movement_times;$/;"	m	class:ExecutiveProcessor	access:public
 ms_spin	Shared/Delay.h	/^void ms_spin( unsigned short ms );$/;"	p	signature:( unsigned short ms )
 msgs	Common/i2c-dev.h	/^	struct i2c_msg *msgs;	\/* pointers to i2c_msgs *\/$/;"	m	struct:i2c_rdwr_ioctl_data	typeref:struct:i2c_rdwr_ioctl_data::i2c_msg	access:public
-mux	Shared/i2c-io.h	/^    uint8_t mux;$/;"	m	struct:__anon33	access:public
-name	Shared/BootLoader.h	/^    char        name[ BL_NODE_NAME_LEN ];   \/\/\/< Name of this node (null terminated)$/;"	m	struct:__anon24	access:public
+mux	Shared/i2c-io.h	/^    uint8_t mux;$/;"	m	struct:__anon31	access:public
+name	Shared/BootLoader.h	/^    char        name[ BL_NODE_NAME_LEN ];   \/\/\/< Name of this node (null terminated)$/;"	m	struct:__anon22	access:public
 next	Common/FILE_Data.h	/^    FILE_Block_t   *next;           \/\/\/< Next block in the chain$/;"	m	struct:FILE_Block_s	access:public
 nmsgs	Common/i2c-dev.h	/^	int nmsgs;		\/* number of i2c_msgs *\/$/;"	m	struct:i2c_rdwr_ioctl_data	access:public
-numOutputChars	Shared/StrPrintf.c	/^   int            numOutputChars;$/;"	m	struct:__anon18	file:	access:public
-numRegs	i2c-io.cpp	/^    uint16_t    numRegs;$/;"	m	struct:__anon15	file:	access:public
-numRegs	uart-io.cpp	/^    uint16_t numRegs;$/;"	m	struct:__anon9	file:	access:public
+numOutputChars	Shared/StrPrintf.c	/^   int            numOutputChars;$/;"	m	struct:__anon16	file:	access:public
+numRegs	i2c-io.cpp	/^    uint16_t    numRegs;$/;"	m	struct:__anon13	file:	access:public
+numRegs	uart-io.cpp	/^    uint16_t numRegs;$/;"	m	struct:__anon7	file:	access:public
 num_executed_steps	executive.h	/^    int num_executed_steps;$/;"	m	class:ExecutiveProcessor	access:private
-options	Shared/StrPrintf.c	/^   FmtOption      options;          $/;"	m	struct:__anon18	file:	access:public
+options	Shared/StrPrintf.c	/^   FmtOption      options;          $/;"	m	struct:__anon16	file:	access:public
 orient_steps	executive.h	/^    int orient_steps;$/;"	m	class:ExecutiveProcessor	access:private
-outFunc	Shared/StrPrintf.c	/^   StrXPrintfFunc outFunc;$/;"	m	struct:__anon18	file:	access:public
-outParm	Shared/StrPrintf.c	/^   void          *outParm;$/;"	m	struct:__anon18	file:	access:public
+outFunc	Shared/StrPrintf.c	/^   StrXPrintfFunc outFunc;$/;"	m	struct:__anon16	file:	access:public
+outParm	Shared/StrPrintf.c	/^   void          *outParm;$/;"	m	struct:__anon16	file:	access:public
 pExecutive	executive.h	/^    ExecutiveData *pExecutive;$/;"	m	class:ExecutiveProcessor	access:private
 pLaser	executive.h	/^    LaserData *pLaser;$/;"	m	class:ExecutiveProcessor	access:private
 pMapper	executive.h	/^    MapperData *pMapper;$/;"	m	class:ExecutiveProcessor	access:private
+pMonitor	executive.h	/^    MonitorData *pMonitor;$/;"	m	class:ExecutiveProcessor	access:private
 pNetwork	executive.h	/^    NetworkData *pNetwork;$/;"	m	class:ExecutiveProcessor	access:private
-pad	Shared/BootLoader.h	/^    uint8_t     pad;            \/\/\/< Reserved - set to zero$/;"	m	struct:__anon24	access:public
-pad	Shared/BootLoader.h	/^    uint8_t     pad[ 3 ];       \/\/\/< Reserved - set to zero.$/;"	m	struct:__anon21	access:public
-pad	Shared/BootLoader.h	/^    uint8_t     pad[ 3 ];$/;"	m	struct:__anon22	access:public
-pad	Shared/i2c-io.h	/^    uint8_t     pad;    \/\/\/< Pad for alignment on the host.$/;"	m	struct:__anon37	access:public
-param1	Shared/Log.h	/^    uint8_t             param1;$/;"	m	struct:__anon26	access:public
-param1	Shared/Log.h	/^    uint8_t             param1;$/;"	m	struct:__anon27	access:public
-param2	Shared/Log.h	/^    uint8_t             param2;$/;"	m	struct:__anon26	access:public
-param2	Shared/Log.h	/^    uint8_t             param2;$/;"	m	struct:__anon27	access:public
-param3	Shared/Log.h	/^    uint8_t             param3;$/;"	m	struct:__anon26	access:public
-param4	Shared/Log.h	/^    uint8_t             param4;$/;"	m	struct:__anon26	access:public
-parsedData	Common/FILE_Parser.c	/^    FILE_ParsedData_t       parsedData; \/\/\/< Last hunk of data parsed$/;"	m	struct:__anon1	file:	access:public
-partNumber	Shared/BootLoader.h	/^    uint16_t    partNumber;     \/\/\/< Part number (bytes 2 & 3 of signature)$/;"	m	struct:__anon21	access:public
+pad	Shared/BootLoader.h	/^    uint8_t     pad;            \/\/\/< Reserved - set to zero$/;"	m	struct:__anon22	access:public
+pad	Shared/BootLoader.h	/^    uint8_t     pad[ 3 ];       \/\/\/< Reserved - set to zero.$/;"	m	struct:__anon19	access:public
+pad	Shared/BootLoader.h	/^    uint8_t     pad[ 3 ];$/;"	m	struct:__anon20	access:public
+pad	Shared/i2c-io.h	/^    uint8_t     pad;    \/\/\/< Pad for alignment on the host.$/;"	m	struct:__anon35	access:public
+param1	Shared/Log.h	/^    uint8_t             param1;$/;"	m	struct:__anon24	access:public
+param1	Shared/Log.h	/^    uint8_t             param1;$/;"	m	struct:__anon25	access:public
+param2	Shared/Log.h	/^    uint8_t             param2;$/;"	m	struct:__anon24	access:public
+param2	Shared/Log.h	/^    uint8_t             param2;$/;"	m	struct:__anon25	access:public
+param3	Shared/Log.h	/^    uint8_t             param3;$/;"	m	struct:__anon24	access:public
+param4	Shared/Log.h	/^    uint8_t             param4;$/;"	m	struct:__anon24	access:public
+partNumber	Shared/BootLoader.h	/^    uint16_t    partNumber;     \/\/\/< Part number (bytes 2 & 3 of signature)$/;"	m	struct:__anon19	access:public
 pgm_read_byte	Shared/StrPrintf.c	59;"	d	file:
-pinMask	Shared/i2c-io.h	/^    uint8_t     pinMask;$/;"	m	struct:__anon32	access:public
-pinVal	Shared/i2c-io.h	/^    uint8_t     pinVal;$/;"	m	struct:__anon32	access:public
-portNum	Shared/i2c-io.h	/^    uint8_t     portNum;$/;"	m	struct:__anon31	access:public
-portNum	Shared/i2c-io.h	/^    uint8_t     portNum;$/;"	m	struct:__anon32	access:public
+pinMask	Shared/i2c-io.h	/^    uint8_t     pinMask;$/;"	m	struct:__anon30	access:public
+pinVal	Shared/i2c-io.h	/^    uint8_t     pinVal;$/;"	m	struct:__anon30	access:public
+portNum	Shared/i2c-io.h	/^    uint8_t     portNum;$/;"	m	struct:__anon29	access:public
+portNum	Shared/i2c-io.h	/^    uint8_t     portNum;$/;"	m	struct:__anon30	access:public
 prog_char	Shared/StrPrintf.c	58;"	d	file:
-ramSize	Shared/BootLoader.h	/^    uint16_t    ramSize;        \/\/\/< Size of the SRAM area, in bytes.$/;"	m	struct:__anon21	access:public
+ramSize	Shared/BootLoader.h	/^    uint16_t    ramSize;        \/\/\/< Size of the SRAM area, in bytes.$/;"	m	struct:__anon19	access:public
 re	uart-io.cpp	/^    regex_t re;$/;"	m	struct:cmdmap	file:	access:public
 read_write	Common/i2c-dev.h	/^	char read_write;$/;"	m	struct:i2c_smbus_ioctl_data	access:public
-reg	Shared/i2c-io.h	/^    uint8_t     reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon37	access:public
+reg	Shared/i2c-io.h	/^    uint8_t     reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon35	access:public
+reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon32	access:public
+reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon33	access:public
 reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon34	access:public
-reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon35	access:public
-reg	Shared/i2c-io.h	/^    uint8_t reg;    \/\/\/< Index of the register to be read.$/;"	m	struct:__anon36	access:public
-reg	i2c-io.cpp	/^    uint8_t     reg;$/;"	m	struct:__anon14	file:	access:public
-reg	uart-io.cpp	/^    uint8_t reg;$/;"	m	struct:__anon8	file:	access:public
-regMap	i2c-io.cpp	/^    RegMap_t   *regMap;$/;"	m	struct:__anon15	file:	access:public
-regMap	uart-io.cpp	/^    RegMap_t *regMap;$/;"	m	struct:__anon9	file:	access:public
-regSize	Shared/BootLoader.h	/^    uint16_t    regSize;        \/\/\/< Size of the register area, in bytes.$/;"	m	struct:__anon21	access:public
-regStr	i2c-io.cpp	/^    const char *regStr;$/;"	m	struct:__anon14	file:	access:public
-regStr	uart-io.cpp	/^    const char *regStr;$/;"	m	struct:__anon8	file:	access:public
-repeticion	executive.cpp	/^int repeticion = 0;$/;"	v
+reg	i2c-io.cpp	/^    uint8_t     reg;$/;"	m	struct:__anon12	file:	access:public
+reg	uart-io.cpp	/^    uint8_t reg;$/;"	m	struct:__anon6	file:	access:public
+regMap	i2c-io.cpp	/^    RegMap_t   *regMap;$/;"	m	struct:__anon13	file:	access:public
+regMap	uart-io.cpp	/^    RegMap_t *regMap;$/;"	m	struct:__anon7	file:	access:public
+regSize	Shared/BootLoader.h	/^    uint16_t    regSize;        \/\/\/< Size of the register area, in bytes.$/;"	m	struct:__anon19	access:public
+regStr	i2c-io.cpp	/^    const char *regStr;$/;"	m	struct:__anon12	file:	access:public
+regStr	uart-io.cpp	/^    const char *regStr;$/;"	m	struct:__anon6	file:	access:public
 rightEncoder	executive.h	/^    int rightEncoder;$/;"	m	class:ExecutiveProcessor	access:private
 rightEncoderPS	executive.h	/^    int rightEncoderPS;$/;"	m	class:ExecutiveProcessor	access:private
 rightWheelCounter	executive.h	/^    int rightWheelCounter;$/;"	m	class:ExecutiveProcessor	access:private
-rxdCfg	Common/SerialLog.c	/^    const char *rxdCfg;$/;"	m	struct:__anon4	file:	access:public
-rxdPin	Common/SerialLog.c	/^    int         rxdPin;$/;"	m	struct:__anon4	file:	access:public
 saveLog	executive.cpp	/^void ExecutiveProcessor::saveLog(string str) {$/;"	f	class:ExecutiveProcessor	signature:(string str)
 saveLog	executive.h	/^    void saveLog(string string);$/;"	p	class:ExecutiveProcessor	access:private	signature:(string string)
-segAddr	Common/FILE_Parser.c	/^    FILE_Addr_t             segAddr;    \/\/\/< Address of the segment in memory$/;"	m	struct:__anon1	file:	access:public
-segLen	Common/FILE_Parser.c	/^    FILE_SegmentLen_t       segLen;     \/\/\/< Length of the segment in memory$/;"	m	struct:__anon1	file:	access:public
 sense	arduino.cpp	/^float Arduino::sense(int channel) {$/;"	f	class:Arduino	signature:(int channel)
 sense	arduino.h	/^    virtual float sense(int channel);$/;"	p	class:Arduino	access:public	signature:(int channel)
 sense	clientdummy.cpp	/^float clientdummy::sense(int channel) {$/;"	f	class:clientdummy	signature:(int channel)
@@ -1426,12 +1383,24 @@ set_M_right	uart-io.cpp	/^void set_M_right(float gVal, int uartDev); \/\/ gVal d
 set_M_right	uart-io.h	/^void set_M_right (float gVal, int uartDev); \/\/ gVal de 0 a 1$/;"	p	signature:(float gVal, int uartDev)
 set_M_right_v	uart-io.cpp	/^void set_M_right_v(float gVal, int uartDev) {$/;"	f	signature:(float gVal, int uartDev)
 set_M_right_v	uart-io.h	/^void set_M_right_v (float gVal, int uartDev); \/\/ gVal de -100 a 100$/;"	p	signature:(float gVal, int uartDev)
-signature	i2c-io.cpp	/^    uint16_t    signature;$/;"	m	struct:__anon15	file:	access:public
-signature	uart-io.cpp	/^    uint16_t signature;$/;"	m	struct:__anon9	file:	access:public
+set_b	uart-io.cpp	/^void set_b(float gVal, int uartDev) {$/;"	f	signature:(float gVal, int uartDev)
+set_b	uart-io.h	/^void set_b(float gVal, int uartDev);$/;"	p	signature:(float gVal, int uartDev)
+set_f	uart-io.cpp	/^void set_f(float gVal, int uartDev) {$/;"	f	signature:(float gVal, int uartDev)
+set_f	uart-io.h	/^void set_f(float gVal, int uartDev);$/;"	p	signature:(float gVal, int uartDev)
+set_l	uart-io.cpp	/^void set_l(float gVal, int uartDev) {$/;"	f	signature:(float gVal, int uartDev)
+set_l	uart-io.h	/^void set_l(float gVal, int uartDev);$/;"	p	signature:(float gVal, int uartDev)
+set_ml	uart-io.cpp	/^void set_ml(float gVal, int uartDev) {$/;"	f	signature:(float gVal, int uartDev)
+set_ml	uart-io.h	/^void set_ml(float gVal, int uartDev);$/;"	p	signature:(float gVal, int uartDev)
+set_mr	uart-io.cpp	/^void set_mr(float gVal, int uartDev) {$/;"	f	signature:(float gVal, int uartDev)
+set_mr	uart-io.h	/^void set_mr(float gVal, int uartDev);$/;"	p	signature:(float gVal, int uartDev)
+set_r	uart-io.cpp	/^void set_r(float gVal, int uartDev) {$/;"	f	signature:(float gVal, int uartDev)
+set_r	uart-io.h	/^void set_r(float gVal, int uartDev);$/;"	p	signature:(float gVal, int uartDev)
+signature	i2c-io.cpp	/^    uint16_t    signature;$/;"	m	struct:__anon13	file:	access:public
+signature	uart-io.cpp	/^    uint16_t signature;$/;"	m	struct:__anon7	file:	access:public
 size	Common/i2c-dev.h	/^	int size;$/;"	m	struct:i2c_smbus_ioctl_data	access:public
 socketdata	clientdummy.cpp	/^uint16_t socketdata(const char* gCmdStr, const char* gVal)$/;"	f	signature:(const char* gCmdStr, const char* gVal)
 sockfd	clientdummy.h	/^    int sockfd;$/;"	m	class:clientdummy	access:private
-spmPageSize	Shared/BootLoader.h	/^    uint16_t    spmPageSize;    \/\/\/< Size of the SPM Page Size.$/;"	m	struct:__anon21	access:public
+spmPageSize	Shared/BootLoader.h	/^    uint16_t    spmPageSize;    \/\/\/< Size of the SPM Page Size.$/;"	m	struct:__anon19	access:public
 st	executive.cpp	/^struct stat st = {0};$/;"	v	typeref:struct:stat
 start_msp	uart-io.cpp	/^int start_msp(const char *uartDevName) {$/;"	f	signature:(const char *uartDevName)
 start_msp	uart-io.cpp	/^int start_msp(const char *uartDevName);$/;"	p	file:	signature:(const char *uartDevName)
@@ -1450,17 +1419,16 @@ stop_msp	uart-io.h	/^void stop_msp(int uartDev);$/;"	p	signature:(int uartDev)
 stop_robostix	i2c-io.cpp	/^void stop_robostix(int i2cDev)$/;"	f	signature:(int i2cDev)
 stop_robostix	i2c-io.cpp	/^void stop_robostix(int i2cDev);$/;"	p	file:	signature:(int i2cDev)
 stop_robostix	i2c-io_linus.h	/^void stop_robostix(int i2cDev);$/;"	p	signature:(int i2cDev)
-str	Shared/StrPrintf.c	/^   char *str;     \/**< Buffer to store results into.                       *\/$/;"	m	struct:__anon19	file:	access:public
-structSize	Shared/BootLoader.h	/^    uint8_t     structSize;     \/\/\/< Size of this structure, in bytes.$/;"	m	struct:__anon24	access:public
+str	Shared/StrPrintf.c	/^   char *str;     \/**< Buffer to store results into.                       *\/$/;"	m	struct:__anon17	file:	access:public
+structSize	Shared/BootLoader.h	/^    uint8_t     structSize;     \/\/\/< Size of this structure, in bytes.$/;"	m	struct:__anon22	access:public
 svn-revision	svn-version.mk	/^svn-revision := $(subst Revision:,,$(shell svn info | grep Revision:))$/;"	m
 svn-revision	svn-version.mk	/^svn-revision := 0$/;"	m
-svnRevision	Shared/i2c-io.h	/^    uint16_t    svnRevision;$/;"	m	struct:__anon30	access:public
-tail	Common/FILE_Data.h	/^    FILE_Block_t   *tail;           \/\/\/< Pointer to the last block of data$/;"	m	struct:__anon5	access:public
-tempspeed	executive.cpp	/^float tempspeed = 0;$/;"	v
-tempsteer	executive.cpp	/^float tempsteer = 0;$/;"	v
+svnRevision	Shared/i2c-io.h	/^    uint16_t    svnRevision;$/;"	m	struct:__anon28	access:public
+tail	Common/FILE_Data.h	/^    FILE_Block_t   *tail;           \/\/\/< Pointer to the last block of data$/;"	m	struct:__anon3	access:public
+temp_movement	executive.h	/^      int temp_movement ;$/;"	m	class:ExecutiveProcessor	access:public
+temp_speed_percent	executive.h	/^      int temp_speed_percent;$/;"	m	class:ExecutiveProcessor	access:public
 test	executive.h	/^    int test;$/;"	m	class:ExecutiveProcessor	access:private
-txdCfg	Common/SerialLog.c	/^    const char *txdCfg;$/;"	m	struct:__anon4	file:	access:public
-txdPin	Common/SerialLog.c	/^    int         txdPin;$/;"	m	struct:__anon4	file:	access:public
+times	executive.h	/^      int times;$/;"	m	class:ExecutiveProcessor	access:public
 uart	uart-io.cpp	/^uint16_t uart(const char* gCmdStr, const char* gVal, int uartDev) {$/;"	f	signature:(const char* gCmdStr, const char* gVal, int uartDev)
 uart	uart-io.cpp	/^uint16_t uart(const char* gCmdStr, const char* gVal, int uartDev);$/;"	p	file:	signature:(const char* gCmdStr, const char* gVal, int uartDev)
 uartDev	arduino.h	/^    int uartDev;$/;"	m	class:Arduino	access:private
@@ -1490,13 +1458,12 @@ vStrXPrintf	Shared/StrPrintf.c	/^int vStrXPrintf$/;"	f	signature:( StrXPrintfFun
 vStrXPrintf	Shared/StrPrintf.c	48;"	d	file:
 vStrXPrintf	Shared/StrPrintf.c	54;"	d	file:
 vStrXPrintf_P	Shared/Str.h	/^int vStrXPrintf_P( StrXPrintfFunc func, void *userParm, const prog_char *fmt, va_list args );$/;"	p	signature:( StrXPrintfFunc func, void *userParm, const prog_char *fmt, va_list args )
-val	Shared/i2c-io.h	/^    uint16_t    val;    \/\/\/< Value to write$/;"	m	struct:__anon37	access:public
-val	Shared/i2c-io.h	/^    uint8_t val;    \/\/\/< Value to write into the register$/;"	m	struct:__anon36	access:public
-val16	Shared/BootLoader.h	/^    uint16_t    val16;$/;"	m	union:__anon20	access:public
-val32	Shared/BootLoader.h	/^    uint32_t    val32;$/;"	m	union:__anon20	access:public
-veces	executive.cpp	/^int veces = 0;$/;"	v
-version	Shared/BootLoader.h	/^    uint8_t     version;        \/\/\/< API Version the device is using.$/;"	m	struct:__anon21	access:public
-version	Shared/i2c-io.h	/^    uint8_t     version;$/;"	m	struct:__anon30	access:public
+val	Shared/i2c-io.h	/^    uint16_t    val;    \/\/\/< Value to write$/;"	m	struct:__anon35	access:public
+val	Shared/i2c-io.h	/^    uint8_t val;    \/\/\/< Value to write into the register$/;"	m	struct:__anon34	access:public
+val16	Shared/BootLoader.h	/^    uint16_t    val16;$/;"	m	union:__anon18	access:public
+val32	Shared/BootLoader.h	/^    uint32_t    val32;$/;"	m	union:__anon18	access:public
+version	Shared/BootLoader.h	/^    uint8_t     version;        \/\/\/< API Version the device is using.$/;"	m	struct:__anon19	access:public
+version	Shared/i2c-io.h	/^    uint8_t     version;$/;"	m	struct:__anon28	access:public
 word	Common/i2c-dev.h	/^	__u16 word;$/;"	m	union:i2c_smbus_data	access:public
 ~Arduino	arduino.cpp	/^Arduino::~Arduino() {$/;"	f	class:Arduino	signature:()
 ~Arduino	arduino.h	/^    virtual ~Arduino();$/;"	p	class:Arduino	access:public	signature:()

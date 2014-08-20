@@ -366,6 +366,8 @@ class VirtualExecutive
       int get_min_missions_distance(void) const;
       int get_min_missions_steps(void) const;
       void get_mission_closer_position(int _coordinates[]) const;
+
+      int getMapMeshSize(void) const;
 }; // end Class VirtualExecutive
 typedef VirtualExecutive c_vExecutive;
 //*******************************************************************
@@ -410,8 +412,10 @@ class FitnessFunction
 
       /* SLAM IRMA3 MAP */
       void Set_Map_Dimensions(const int _width, const int _height);
-      void Set_SLAM_MAP(const int _x, const int _y, const unsigned char _map[][4096]);   
+      int Set_SLAM_MAP(const int _x, const int _y, const unsigned char _map[][600]);   
       void Set_Object_Obstacle(const int xs, const int ys, const int xe, const int ye);
+
+      int getMapMeshSize(void) const;
 
       void Update_Motivations(const double _motivations[]);
 }; // end Class FitnessFunction
@@ -560,6 +564,8 @@ class Population
       void setMutationsRate(double _value);
       void setTournamentParam(double _value);
       void setCrossoverProbability(double _value);
+        
+      int getMapMeshSize(void) const;
 }; // end Class Population
 typedef Population c_pop;
 //*******************************************************************

@@ -75,13 +75,8 @@ int LaserProcessor::init() {
     pCtrl = &(pCDALaser->ctrl); // Todos los procesadores tienen que definir pCtrl
     sem_area = LASER_AREA; // Todos los procesadores tienen que definir sem_area
     pCDALaser->sensar = true;
-<<<<<<< HEAD
-    pCDALaser->img_ancho = IMG_ANCHO;
-    pCDALaser->img_alto = IMG_ALTO;
-=======
     pCDALaser->img_alto = IMG_ALTO;
     pCDALaser->img_ancho = IMG_ANCHO;
->>>>>>> GridMap
     pCtrl->loop = run_cmd;
     printf("Sensar %s\n", (pCDALaser->sensar) ? "SI" : "NO");
     //cda.lockArea(EXECUTIVE_AREA);
@@ -336,7 +331,7 @@ int LaserProcessor::step() {
         tempry += yy;
         tempth += tth;
         n_pose++;
-		
+        fprintf(stdout, "XX:%f\nYY:%f\nDD:%f\n", xx, yy,tth);		
         poses_psm_laser[n_pose].x = temprx;
         poses_psm_laser[n_pose].y = tempry;
         poses_psm_laser[n_pose].th = tempth;
@@ -413,7 +408,6 @@ int LaserProcessor::step() {
        // img_temp_psm.draw_text(50,5,"PSM",
        //         white,NULL,1);
 
-
     disp_psm.display(img_temp_psm);
         
 #ifdef PLOT_ALL    
@@ -433,26 +427,17 @@ int LaserProcessor::step() {
         pCDALaser -> y = tempry;
         pCDALaser -> dir = tempth;
         pCDALaser -> sensar = false;
-        pCDALaser -> dx = xx;
-        pCDALaser -> dy = yy;
-        pCDALaser -> ddir = tth;
-<<<<<<< HEAD
-     
-		//Copia información de la grilla de ocupación en la memoria compartida
-        cimg_forXY(img_EKF_blanco,xx,yy){
-            pCDALaser -> map[xx][yy] = img_EKF_blanco(xx,yy,0);
-        }                
-=======
-        cimg_forXY(img,xx,yy){
-            pCDALaser -> map[xx][yy] = img(xx,yy,0);
+        if (vl != 0 || vr != 0){
+            pCDALaser -> dx = xx;
+            pCDALaser -> dy = yy;
+            pCDALaser -> ddir = tth;
         }
-                
->>>>>>> GridMap
+		//Copia información de la grilla de ocupación en la memoria compartida
+        cimg_forXY(img_temp_psm,xx,yy){
+            pCDALaser -> map[xx][yy] = img_temp_psm(xx,yy,0);
+        }                
         cda.unlockArea(LASER_AREA);
-
     }
-
-
     return (0);
 }
 

@@ -103,11 +103,7 @@ int LRNProcessor::init()
      * Print map
      */
 
-<<<<<<< HEAD
-    //Update_Slam_Map();
-=======
 //    Update_Slam_Map();
->>>>>>> Mapper
 
     /* Setting number of missions
      * Set mission's coord o_final
@@ -774,26 +770,52 @@ void LRNProcessor::Update_elite_phenotype(void)
 
 int LRNProcessor::Update_Slam_Map(void){
 
-    int _width = 4096;
-    int _heigh = 4096;
-    int _xc,_yc;
+    int _width;
+    int _heigh;
     int _aux = 0;
-
+    int _ocount = 0;     // obstacle percentage
+    int _opercent = 0.1; // obstacle percent
+    int _onr;            // number of obstacles
+    int auxY ;           // Y size of the new map cell
+    int auxX ;           // X size of the new map cell
+    int _point;          // cell value: obstacle, free or unknow
+    int _xc,_yc;         // new x,y coord 
     char MAP_FILE[50];
-    o_routes.o_ffitness.Set_Map_Dimensions(_width,_heigh);
-    int _mapMeshSize = o_routes.o_ffitness.o_virtualMotion.o_MAP.getMapMeshSize();
+
+    int _mapMeshSize = o_routes.o_ffitness.getMapMeshSize();
+    _onr= _mapMeshSize*_mapMeshSize*0.1; // taking 20% of the cell area as obstacle 
 
     cda.lockArea(LASER_AREA);
      _width = pCDALaser->img_ancho;
      _heigh = pCDALaser->img_alto;
-    for (int _y=0 ; _y < _heigh; _y += _mapMeshSize){
-        for(int _x=0 ; _x < _width; _x += _mapMeshSize){
-            o_routes.o_ffitness.Set_SLAM_MAP(_x,_y,pCDALaser->map);
-            snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_map%d", _aux++);
-            o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
+    cda.unlockArea(LASER_AREA);
+
+    o_routes.o_ffitness.Set_Map_Dimensions(_width,_heigh);
+
+    for (int _y = 0 ; _y <= _heigh-_mapMeshSize ; _y += _mapMeshSize){
+        for(int _x = 0 ; _x <= _width-_mapMeshSize; _x += _mapMeshSize){
+            auxY = _mapMeshSize+_y;  
+            auxX = _mapMeshSize+_x; 
+            //Searching obstacles in the _mapMeshSize cell
+            for (int _yc =_y ; _yc < auxY ;_yc++){
+                for(int _xc =_x ; _xc < auxX ; _xc++){
+                    cda.lockArea(LASER_AREA);
+                    _point = pCDALaser->map[_xc][_yc];
+                    cda.unlockArea(LASER_AREA);
+                    // Check for obstacle
+                    if(_point == 0)
+                        _ocount++;
+                    // checking obstacle area 
+                    if (_ocount >= _onr){
+                        _ocount = 0;
+                        o_routes.o_ffitness.o_virtualMotion.o_MAP.setcCellObstacle(_xc/_mapMeshSize,_yc/_mapMeshSize);
+                        _yc = auxY;
+                        _xc = auxX;
+                    }
+                }
+            }
         }
     }
-    cda.unlockArea(LASER_AREA);
 
     snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map%d", route_nr);
     o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
@@ -1002,29 +1024,18 @@ void LRNProcessor::Update_Missions_list(void){
  */
 void LRNProcessor::Update_Step_Lenght(void){
 
-    int _delta[1][2];
-    int _executed_step;
-    int _step_lenght=0;
-    int _angle_lenght=0;
+    int _step;
+    float _dx,_dy,_dangle,temp; // delta values
 
-    cda.lockArea(EXECUTIVE_AREA);
-    _executed_step = pCDAExecutive->steps_number;
-    for (int i = 0; i <= 1; i++){
-        _delta[i][1] = pCDAExecutive->path[_executed_step-1+i][1];
-        _delta[i][2] = pCDAExecutive->path[_executed_step-1+i][2];
-        _delta[i][0] = pCDAExecutive->path[_executed_step-1+i][0];
-    }
-    cda.unlockArea(EXECUTIVE_AREA);
-
-    if(_executed_step > 0 ){
-
-        _step_lenght = o_routes.o_ffitness.o_virtualMotion.Calculate_Distance(_delta[0], _delta[1]);
-        _angle_lenght = _delta[0][0] - _delta[1][0];
-        if (_angle_lenght > 0)
-            o_routes.o_ffitness.o_virtualMotion.set_angle_lenght(_angle_lenght);
-        if(_step_lenght > 0)
-            o_routes.o_ffitness.o_virtualMotion.set_step_lenght(_step_lenght);
-    }
+    cda.lockArea(LASER_AREA);
+    _dx = pCDALaser->dx;
+    _dy = pCDALaser->dy;
+    _dangle = pCDALaser->ddir;
+    cda.unlockArea(LASER_AREA);
+    temp = pow(_dx, 2.0) + pow(_dy, 2.0);
+    _step = lround(sqrt(temp));
+    o_routes.o_ffitness.o_virtualMotion.set_angle_lenght(_dangle);
+    o_routes.o_ffitness.o_virtualMotion.set_step_lenght(_step);
 }
 //-------------------------------------------------------------------
 void LRNProcessor::Set_Start_position(void){	

@@ -22,8 +22,8 @@
 #define LASER_FRONT 384
 #define LASER_SLIT_DIVISION 1024
 // Pointers NOT ALLOWED in this structure!
-#define MAP_WIDTH 4096
-#define MAP_HEIGTH 4096
+#define MAP_WIDTH 600
+#define MAP_HEIGTH 600
 
 
 
@@ -52,10 +52,6 @@ struct LaserData
     double dir;
     int vr;
     int vl;
-<<<<<<< HEAD
-=======
-
->>>>>>> GridMap
     int img_alto;
     int img_ancho;
 };

@@ -1564,6 +1564,9 @@ void Pop_Stats::PrintStats(const char a_fileName[]) const {
                 fulfillment_products[0], fulfillment_products[1], fulfillment_products[2], fulfillment_products[3]);
     }
 }
+int Population::getMapMeshSize(void) const {
+    return (o_ffitness.getMapMeshSize());
+}
 //*******************************************************************
 // POPULATION STATS Class Implementation: END
 //*******************************************************************
@@ -1801,17 +1804,17 @@ void FitnessFunction::Set_Map_Dimensions(const int _width, const int _height) {
  *   Giving a value of the mapper, xcoord and ycoord; the function puts the _point value
  *   either it is obstacle or unknow, in the InternalMap
  */
-void FitnessFunction::Set_SLAM_MAP(const int _xs, const int _ys , const unsigned char _map[][4096]) {
+int FitnessFunction::Set_SLAM_MAP(const int _xs, const int _ys , const unsigned char _map[][600]) {
 
     int _point;          // cell value: obstacle, free or unknow
     int _xc,_yc;         // new x,y coord 
     int _ocount = 0;     // obstacle percentage
-    int _opercent = 0.5; // obstacle percent
+    int _opercent = 0.2; // obstacle percent
     int _onr;            // number of obstacles
-    int _mapMeshSize; 
-    _mapMeshSize= this->o_virtualMotion.o_MAP.getMapMeshSize();
+    int _mapMeshSize = this->o_virtualMotion.o_MAP.getMapMeshSize();
 
-    _onr= _mapMeshSize*_mapMeshSize/2; // taking 50% of the cell area as obstacle 
+    
+    _onr= _mapMeshSize*_mapMeshSize*0.2; // taking 20% of the cell area as obstacle 
     int auxY = _mapMeshSize+_ys;       // Y size of the new map cell
     int auxX = _mapMeshSize+_xs;       // X size of the new map cell
 
@@ -1820,7 +1823,7 @@ void FitnessFunction::Set_SLAM_MAP(const int _xs, const int _ys , const unsigned
         for(int _x=_xs; _x < auxX; _x++){
             _point = _map[_x][_y];
             // Check for obstacle
-            if(_point == 0) 
+            if(_point == 0)
                 _ocount++;
             // checking obstacle area 
             if (_ocount >= _onr){
@@ -1828,14 +1831,12 @@ void FitnessFunction::Set_SLAM_MAP(const int _xs, const int _ys , const unsigned
                 _xc =_x/_mapMeshSize;
                 _yc =_y/_mapMeshSize;
                 this->o_virtualMotion.o_MAP.setcCellObstacle(_xc,_yc);
-                _x = auxX;
-                _y = auxY;
-
-
+                return 0;
             }
         }
         // o_routes.o_ffitness.Set_SLAM_MAP(pCDALaser->map[_x][_y],_x,_y);
     }
+    return 1;
 }
 
 void FitnessFunction::Set_Object_Obstacle(const int xleft, const int ydown, const int xrigth, const int yup) {
@@ -1899,6 +1900,10 @@ void FitnessFunction::Update_Motivations(const double _motivations[]) {
     a_motivations[2] = _motivations[2];
     a_motivations[3] = _motivations[3];
     NormalizeTo_1(a_motivations, 4, a_motivations, 4);
+}
+
+int FitnessFunction::getMapMeshSize(void) const{
+    return (this->o_virtualMotion.get_MapMeshSize());
 }
 //*******************************************************************
 // FitnessFunction Class Implementation: END

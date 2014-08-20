@@ -135,7 +135,7 @@ void InternalMap::RebuildMap(void)
    // Remember: that C create first the rows and then columns
    MAP = new char*[mapYDim];
    for(int _y = 0; _y < mapYDim; _y++)
-      MAP[_y] = new char[mapXDim];
+     MAP[_y] = new char[mapXDim];
 
    // To make a secure memory release
    oldXDim = mapXDim;   oldYDim = mapYDim;

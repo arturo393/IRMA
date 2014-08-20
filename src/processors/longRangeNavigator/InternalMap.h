@@ -48,12 +48,12 @@
 
 //*******************************************************************
 // Define MACROS
-const int MAP_CELLS_HEIGHT = 1000;  // 2.5 Meters
-const int MAP_CELLS_WIDTH  = 1000;  // 2.5 Meters
+const int MAP_CELLS_HEIGHT = 500;  
+const int MAP_CELLS_WIDTH  = 500;  
 
-const int MAP_WIDHT   = 4000;
-const int MAP_HEIGHT  = 4000;
-const int MAP_MESH_SIZE = 25;
+const int MAP_WIDHT   = 500;
+const int MAP_HEIGHT  = 500;
+const int MAP_MESH_SIZE = 5;
 
 const char OBSTACLE  = 0x01;
 const char MISSION   = 0x10;
