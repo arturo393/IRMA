@@ -359,8 +359,8 @@ int ExecutiveProcessor::step() {
             pExecutive->path[num_executed_steps][1] = pLaser->x;
             pExecutive->path[num_executed_steps][2] = pLaser->y;
             pExecutive->path[num_executed_steps][0] = pLaser->dir;
-            pExecutive->current_X = pLaser->x + InitPosX;
-            pExecutive->current_Y = pLaser->y + InitPosY;
+            pExecutive->current_X = pLaser->x;
+            pExecutive->current_Y = pLaser->y;
             pExecutive->current_orientation = pLaser->dir;
             pExecutive->steps_number = num_executed_steps;
 

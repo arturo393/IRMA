@@ -3068,10 +3068,10 @@ void Elite_Invidivual::Print_PHENOTYPE(const char a_fileName[]) {
 
         // PARA LOS ESCENARIOS DE PRUEBA LA CODIFICACION DE FART ES (X0, Y0; 1-X1, 1-Y1)
         // AQUI VA FART DEL MAPA INTERNO - GUARDAR COPIA INTERNA DEL MAPA USADO
-        fprintf(fp, "0.000,0.000,0.000,0.000\n");
-        for (int _cat = 0; _cat < fart_categories; _cat++) {
-            fprintf(fp, "%f,%f,%f,%f\n", a_FART_map[_cat][0], a_FART_map[_cat][1], a_FART_map[_cat][2], a_FART_map[_cat][3]);
-        }
+//        fprintf(fp, "0.000,0.000,0.000,0.000\n");
+//        for (int _cat = 0; _cat < fart_categories; _cat++) {
+//            fprintf(fp, "%f,%f,%f,%f\n", a_FART_map[_cat][0], a_FART_map[_cat][1], a_FART_map[_cat][2], a_FART_map[_cat][3]);
+//        }
         fclose(fp);
     } else {
         printf("Error opening FILE in function: Elite_Invidivual::Print_PHENOTYPE\n");

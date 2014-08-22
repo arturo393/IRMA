@@ -780,7 +780,7 @@ int LRNProcessor::Update_Slam_Map(void){
     int auxX ;           // X size of the new map cell
     int _point;          // cell value: obstacle, free or unknow
     int _xc,_yc;         // new x,y coord 
-    char MAP_FILE[50];
+    char MAP_FILE[50];   // ascii map
 
     int _mapMeshSize = o_routes.o_ffitness.getMapMeshSize();
     _onr= _mapMeshSize*_mapMeshSize*0.1; // taking 20% of the cell area as obstacle 
@@ -984,15 +984,15 @@ void LRNProcessor::Update_Missions_list(void){
     if( mission_op_mode == TEST )
     {
         missions_nr = 3;
-        mission_coord[0][0] = 0;
-        mission_coord[0][1] = 3000;
-        mission_coord[0][2] = 3000;
+        mission_coord[0][0] = 90;
+        mission_coord[0][1] = 375;
+        mission_coord[0][2] = 400;
         mission_coord[1][0] = 270;
-        mission_coord[1][1] = 1000;
-        mission_coord[1][2] = 2000;
-        mission_coord[2][0] = 90;
-        mission_coord[2][1] = 500;
-        mission_coord[2][2] = 2500;
+        mission_coord[1][1] = 400;
+        mission_coord[1][2] = 125;
+ //       mission_coord[2][0] = 90;
+ //       mission_coord[2][1] = 500;
+//        mission_coord[2][2] = 2500;
     }
 
     o_final_route.init_missions(missions_nr);
@@ -1047,11 +1047,11 @@ void LRNProcessor::Set_Start_position(void){
 //-------------------------------------------------------------------
 void LRNProcessor::Update_Start_position(void){	
 
-    cda.lockArea(EXECUTIVE_AREA);
-    start_coord[0] = pCDAExecutive->current_orientation;   // Current Orientation
-    start_coord[1] = (pCDAExecutive->current_X)*10;   // Current X Coord*10cm
-    start_coord[2] = (pCDAExecutive->current_Y)*10;   // Current Y Coord*10cm
-    cda.unlockArea(EXECUTIVE_AREA);
+    cda.lockArea(LASER_AREA);
+    start_coord[0] = pCDALaser->dir;   // Current Orientation
+    start_coord[1] = (pCDALaser->x);   // Current X Coord*10cm
+    start_coord[2] = (pCDALaser->y);   // Current Y Coord*10cm
+    cda.unlockArea(LASER_AREA);
 
     o_routes.o_ffitness.o_virtualMotion.Set_StartCoordinates(start_coord);
     o_final_route.Set_StartCoordinates(start_coord);

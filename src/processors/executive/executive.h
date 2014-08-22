@@ -52,7 +52,7 @@
 #include <iostream>
 using namespace std;
 
-#define MANUAL_MOVE  // Para movimiento manual
+//#define MANUAL_MOVE  // Para movimiento manual
 #define LOG          // Para habilitar log
 #ifdef LOG
 #include <iostream>
