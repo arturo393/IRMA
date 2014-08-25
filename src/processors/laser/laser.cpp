@@ -433,8 +433,8 @@ int LaserProcessor::step() {
             pCDALaser -> ddir = tth;
         }
 		//Copia información de la grilla de ocupación en la memoria compartida
-        cimg_forXY(img_scan,xx,yy){
-            pCDALaser -> map[xx][yy] = img_scan(xx,yy,0);
+        cimg_forXY(img,xx,yy){
+            pCDALaser -> map[xx][yy] = img(xx,yy,0);
         }                
         cda.unlockArea(LASER_AREA);
     }
