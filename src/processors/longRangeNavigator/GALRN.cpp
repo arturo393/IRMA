@@ -2294,28 +2294,30 @@ void VirtualExecutive::ComputeNextPosition(int _currentPosition[], const _gen _a
 #endif   // end T_C_NEXT_POSITION
     //···································································
     if (_action == FORWARD) {
-        double _angle = (_currentPosition[0] / 180.0) * M_PI;
+       //double _angle = (_currentPosition[0] / 180.0) * M_PI;
+        double _angle = _currentPosition[0];
         _currentPosition[1] += lround(cos(_angle) * step_lenght);
         _currentPosition[2] += lround(sin(_angle) * step_lenght);
     }
     else if (_action == REVERSE) {
-        double _angle = (_currentPosition[0] / 180.0) * M_PI;
+       // double _angle = (_currentPosition[0] / 180.0) * M_PI;
+        double _angle = _currentPosition[0];
         _currentPosition[1] -= lround(cos(_angle) * step_lenght);
         _currentPosition[2] -= lround(sin(_angle) * step_lenght);
     } 
     else if (_action == TURN_RIGHT) {
         _currentPosition[0] -= angle_length;
-        if (_currentPosition[0] < 0)
-            _currentPosition[0] = 360 + _currentPosition[0];
-        if (_currentPosition[0] > 360)
-            _currentPosition[0] = _currentPosition[0] - 360;
+     //   if (_currentPosition[0] < 0)
+     //       _currentPosition[0] = 360 + _currentPosition[0];
+     //   if (_currentPosition[0] > 360)
+     //       _currentPosition[0] = _currentPosition[0] - 360;
     } 
     else if (_action == TURN_LEFT) {
         _currentPosition[0] += angle_length;
-        if (_currentPosition[0] < 0)
-            _currentPosition[0] = 360 + _currentPosition[0];
-        if (_currentPosition[0] > 360)
-            _currentPosition[0] = _currentPosition[0] - 360;
+      //  if (_currentPosition[0] < 0)
+      //      _currentPosition[0] = 360 + _currentPosition[0];
+      //  if (_currentPosition[0] > 360)
+      //      _currentPosition[0] = _currentPosition[0] - 360;
     }        //   else if( _action == TURN_RIGHT_1 )
     //   {
     //      _currentPosition[0] -= angle_length;

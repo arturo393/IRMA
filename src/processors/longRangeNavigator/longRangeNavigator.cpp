@@ -1032,9 +1032,7 @@ void LRNProcessor::Update_Step_Lenght(void){
     _dy = pCDALaser->dy;
     _dangle = pCDALaser->ddir;
     cda.unlockArea(LASER_AREA);
-    temp = pow(_dx, 2.0) + pow(_dy, 2.0);
-    _step = lround(sqrt(temp));
-    _dangle = _dangle*180/3.1416;
+
     o_routes.o_ffitness.o_virtualMotion.set_angle_lenght(_dangle);
     o_routes.o_ffitness.o_virtualMotion.set_step_lenght(_step);
 }

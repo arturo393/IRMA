@@ -286,7 +286,7 @@ class VirtualExecutive
       int robotDiameter;
       int robotRadiusPlusSensors;
       int step_lenght;
-      int angle_length;
+      float angle_length;
 
       
       // Energy Related Variables
@@ -592,7 +592,7 @@ class Elite_Invidivual
    public:
       double a_fitness[4];    // Fitness fulfillment product for each motivations
       int home_coord[3];      // Angle, X Coord, Y Coord (Degrees and Millimeters)
-      int start_coord[3];     // Angle, X Coord, Y Coord (Degrees and Millimeters)
+      float start_coord[3];     // Angle, X Coord, Y Coord (Degrees and Millimeters)
       int final_coord[3];     // Angle, X Coord, Y Coord (Degrees and Millimeters)
 
       Elite_Invidivual();     // Default Constructor
