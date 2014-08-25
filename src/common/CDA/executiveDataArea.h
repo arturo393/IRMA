@@ -44,7 +44,7 @@ struct ExecutiveData {
     int current_X;
     int current_Y;
     // orientation is measured in degrees. 0 degrees means east, 90 means north, etc.
-    int current_orientation;
+    float current_orientation;
 
     // Buffers for gps acquired positions
     int posX_previa;
