@@ -1034,6 +1034,7 @@ void LRNProcessor::Update_Step_Lenght(void){
     cda.unlockArea(LASER_AREA);
     temp = pow(_dx, 2.0) + pow(_dy, 2.0);
     _step = lround(sqrt(temp));
+    _dangle = _dangle*180/3.1416;
     o_routes.o_ffitness.o_virtualMotion.set_angle_lenght(_dangle);
     o_routes.o_ffitness.o_virtualMotion.set_step_lenght(_step);
 }
@@ -1048,11 +1049,11 @@ void LRNProcessor::Set_Start_position(void){
 void LRNProcessor::Update_Start_position(void){	
 
     cda.lockArea(LASER_AREA);
-    start_coord[0] = pCDALaser->dir;   // Current Orientation
-    start_coord[1] = (pCDALaser->x);   // Current X Coord*10cm
-    start_coord[2] = (pCDALaser->y);   // Current Y Coord*10cm
+   start_coord[0] = init_coord[0]+ pCDALaser->dir;   // Current Orientation
+   start_coord[1] = init_coord[1]+ pCDALaser->x;   // Current X Coord*10cm
+   start_coord[2] = init_coord[2]+ pCDALaser->y;   // Current Y Coord*10cm
     cda.unlockArea(LASER_AREA);
-
+   
     o_routes.o_ffitness.o_virtualMotion.Set_StartCoordinates(start_coord);
     o_final_route.Set_StartCoordinates(start_coord);
 }
@@ -1083,9 +1084,9 @@ int LRNProcessor::Read_Configuration_File(void)
     else  {  selection_method = TOURNAMENT_ELITE_RANDOM;  }
 
 
-    config.readInto<int>(start_coord[0], "START_ANGLE", 90);
-    config.readInto<int>(start_coord[1], "START_X_COORD", 200);
-    config.readInto<int>(start_coord[2], "START_Y_COORD", 200);
+    config.readInto<int>(init_coord[0], "START_ANGLE", 90);
+    config.readInto<int>(init_coord[1], "START_X_COORD", 200);
+    config.readInto<int>(init_coord[2], "START_Y_COORD", 200);
 
     config.readInto<int>(home_coord[1], "HOME_X_COORD", 200);
     config.readInto<int>(home_coord[2], "HOME_Y_COORD", 200);
@@ -1139,7 +1140,7 @@ void LRNProcessor::Show_Variables(void)
         else if( selection_method == TOURNAMENT_ELITE)  {  fprintf(stdout, "SELECTION_METHOD: TOURNAMENT_ELITE\n"); }
         else if( selection_method == TOURNAMENT_ELITE_RANDOM) {  fprintf(stdout, "SELECTION_METHOD: TOURNAMENT_ELITE_RANDOM\n");   }
 
-        fprintf(stdout, "START_POSITION: Angle:%3d\tX Coord:%4d\tY Coord:%4d\n", start_coord[0], start_coord[1], start_coord[2]);
+        fprintf(stdout, "START_POSITION: Angle:%3d\tX Coord:%4d\tY Coord:%4d\n", init_coord[0], init_coord[1], init_coord[2]);
         fprintf(stdout, "HOME_POSITION: X Coord:%4d\tY Coord:%4d\n", home_coord[1], home_coord[2]);
         fprintf(stdout, "MAX_DISTANCE_ERROR - between ideal and real position: %d\n", MAX_DISTANCE_ERROR);
 

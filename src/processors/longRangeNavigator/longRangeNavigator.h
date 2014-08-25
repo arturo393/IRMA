@@ -136,6 +136,7 @@ private:
     bool verbose_mode;
     int start_coord[3];
     int home_coord[3];
+    int init_coord[3];
     int freeze_times;
 
     int MAX_DISTANCE_ERROR;

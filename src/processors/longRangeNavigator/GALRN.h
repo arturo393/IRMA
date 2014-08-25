@@ -114,8 +114,8 @@ const double GOAL_SIGNAL_RANGE = 3.0;  // Range is GOAL_SIGNAL_RANGE times GOAL 
 const double MISSION_AREA = 1.0;  // Related to the robot diameter
 const double MISSION_MAX_RANGE = (8.0);  // Range is GOAL_SIGNAL_RANGE times GOAL SIZE
 // Robot Characteristics
-const int ROBOT_DIAMETER = 385;  // Variables in Millimeters
-const int SENSOR_RANGE   = 100;  // Variables in Millimeters
+const int ROBOT_DIAMETER = 38.5;  // Variables in Millimeters
+const int SENSOR_RANGE   = 10;  // Variables in Millimeters
 
 // original values:
 // Calc_Fitness_Energy divides current by initial battery and current
@@ -367,7 +367,6 @@ class VirtualExecutive
       int get_min_missions_steps(void) const;
       void get_mission_closer_position(int _coordinates[]) const;
 
-      int getMapMeshSize(void) const;
 }; // end Class VirtualExecutive
 typedef VirtualExecutive c_vExecutive;
 //*******************************************************************

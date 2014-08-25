@@ -367,7 +367,7 @@ int LaserProcessor::step() {
         dibujar_poses(poses_ekf_laser, poses_ekf, n_pose, img_temp_ekf);
 		///////////////////////////////////////////////////////////        
 
-        disp.display(img_temp_ekf);
+        disp.display(img_ekf);
         tercero = segundo;
         segundo = primero;
         primero = tercero;
