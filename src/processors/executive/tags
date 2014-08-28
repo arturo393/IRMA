@@ -758,6 +758,7 @@ LogToUartFunc	Shared/Log.c	/^static int LogToUartFunc( void *outParm, int ch )$/
 LogVerbose	Shared/Log.h	199;"	d
 Log_P	Shared/Log.h	/^void Log_P( const prog_char *fmt, ... );$/;"	p	signature:( const prog_char *fmt, ... )
 Log_P	Shared/Log.h	194;"	d
+MANUAL_MOVE	executive.h	55;"	d
 MAX_DEV	executive.h	/^const int MAX_DEV = 360;$/;"	v
 MAX_STEPS	executive.h	/^    int MAX_STEPS;$/;"	m	class:ExecutiveProcessor	access:private
 MINUS_SIGN	Shared/StrPrintf.c	/^	MINUS_SIGN		= 0x01, \/**< Should we print a minus sign?              *\/$/;"	e	enum:__anon15	file:

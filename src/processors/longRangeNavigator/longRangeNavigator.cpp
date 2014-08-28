@@ -100,7 +100,7 @@ int LRNProcessor::init()
     /* Get mapper width and height 
      * Get obstacle map from mapper
      * Set obstacle map to InternalMap
-     * Print map
+     * Print ap
      */
 
 //    Update_Slam_Map();
@@ -167,7 +167,7 @@ int LRNProcessor::step(){
          * Check posibility of implementation
          * if (experimentation_room = SLAM_ROOM) Update_Internal_Map();
          */	 
-        Update_Step_Lenght();	
+        //Update_Step_Lenght();	
 
         Update_Slam_Map();
         // Update the Start coordinates with the current one
@@ -457,7 +457,7 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
     if( _action == FORWARD )              {  _speed_percent = 100;  _movement = 9;  }  // FORWARD
     else if( _action == TURN_RIGHT )      {  _speed_percent = 100;  _movement = 1;  }  // TURN_RIGHT_1
     else if( _action == TURN_LEFT )      {  _speed_percent = 100;  _movement = 2;  }  // TURN_LEFT_1
-    else if( _action == REVERSE )        {  _speed_percent = 100;  _movement = 3;  }  // REVERSE
+   // else if( _action == REVERSE )        {  _speed_percent = 100;  _movement = 3;  }  // REVERSE
     else if( _action == FREEZE )         {  _speed_percent = 0;   _movement = 9;  }  // FREEZE
 
 
@@ -543,13 +543,13 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
             //				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_2, TOTAL_SUB_TURN_LEFT_2, CURRENT_BATTERY);
             //				fprintf(fp_moves, "R%2d | 6 : TURN_LEFT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
             //			}
-            else if( _action == REVERSE )
+         /*   else if( _action == REVERSE )
             {	SUB_FORWARD++;
                 N_REVERSE++;
                 CURRENT_BATTERY-=POWER_REVERSE;
                 fprintf(stdout, "IRMA-II: LRN - REVERSE - %d/%d\t\tBATTERY : %f\r", SUB_FORWARD, TOTAL_SUB_FORWARD, CURRENT_BATTERY);
                 fprintf(fp_moves, "R%2d | 7 : REVERSE\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            }
+            }*/
             else if( _action == FREEZE )
             {
                 SUB_FORWARD = TOTAL_SUB_FORWARD;
@@ -985,10 +985,10 @@ void LRNProcessor::Update_Missions_list(void){
     {
         missions_nr = 3;
         mission_coord[0][0] = 90;
-        mission_coord[0][1] = 375;
-        mission_coord[0][2] = 400;
+        mission_coord[0][1] = 300;
+        mission_coord[0][2] = 350;
         mission_coord[1][0] = 270;
-        mission_coord[1][1] = 400;
+        mission_coord[1][1] = 200;
         mission_coord[1][2] = 125;
  //       mission_coord[2][0] = 90;
  //       mission_coord[2][1] = 500;
@@ -1032,8 +1032,10 @@ void LRNProcessor::Update_Step_Lenght(void){
     _dy = pCDALaser->dy;
     _dangle = pCDALaser->ddir;
     cda.unlockArea(LASER_AREA);
+    
+    temp = lround((_dangle*180.0)/M_PI);
 
-    o_routes.o_ffitness.o_virtualMotion.set_angle_lenght(_dangle);
+    o_routes.o_ffitness.o_virtualMotion.set_angle_lenght(temp);
     o_routes.o_ffitness.o_virtualMotion.set_step_lenght(_step);
 }
 //-------------------------------------------------------------------
@@ -1047,7 +1049,7 @@ void LRNProcessor::Set_Start_position(void){
 void LRNProcessor::Update_Start_position(void){	
 
     cda.lockArea(LASER_AREA);
-   start_coord[0] = init_coord[0]+ pCDALaser->dir;   // Current Orientation
+   start_coord[0] = init_coord[0]+ lround((pCDALaser->dir*180.0)/M_PI);   // Current Orientation
    start_coord[1] = init_coord[1]+ pCDALaser->x;   // Current X Coord*10cm
    start_coord[2] = init_coord[2]+ pCDALaser->y;   // Current Y Coord*10cm
     cda.unlockArea(LASER_AREA);

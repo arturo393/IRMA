@@ -489,11 +489,10 @@ void set_r(float gVal, int uartDev) {
 }
 void set_f(float gVal, int uartDev) {
     char TxStr[30];
-
-            sprintf(TxStr, "mov f %d\n", (int) gVal);
-            fprintf(stdout, "%s", TxStr);
-            write(uartDev, TxStr, strlen(TxStr));
-            usleep(UART_WAIT);
+    sprintf(TxStr, "mov f %d\n", (int) gVal);
+    fprintf(stdout, "%s", TxStr);
+    write(uartDev, TxStr, strlen(TxStr));
+    usleep(UART_WAIT);
 }
 void set_b(float gVal, int uartDev) {
     char TxStr[30];

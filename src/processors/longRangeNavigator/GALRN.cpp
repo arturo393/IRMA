@@ -2294,30 +2294,28 @@ void VirtualExecutive::ComputeNextPosition(int _currentPosition[], const _gen _a
 #endif   // end T_C_NEXT_POSITION
     //···································································
     if (_action == FORWARD) {
-       //double _angle = (_currentPosition[0] / 180.0) * M_PI;
-        double _angle = _currentPosition[0];
+       double _angle = (_currentPosition[0] / 180.0) * M_PI;
         _currentPosition[1] += lround(cos(_angle) * step_lenght);
         _currentPosition[2] += lround(sin(_angle) * step_lenght);
     }
-    else if (_action == REVERSE) {
-       // double _angle = (_currentPosition[0] / 180.0) * M_PI;
-        double _angle = _currentPosition[0];
+/*      else if (_action == REVERSE) {
+        double _angle = (_currentPosition[0] / 180.0) * M_PI;
         _currentPosition[1] -= lround(cos(_angle) * step_lenght);
         _currentPosition[2] -= lround(sin(_angle) * step_lenght);
-    } 
-    else if (_action == TURN_RIGHT) {
+    }*/ 
+      else if (_action == TURN_RIGHT) {
         _currentPosition[0] -= angle_length;
-     //   if (_currentPosition[0] < 0)
-     //       _currentPosition[0] = 360 + _currentPosition[0];
-     //   if (_currentPosition[0] > 360)
-     //       _currentPosition[0] = _currentPosition[0] - 360;
+        if (_currentPosition[0] < 0)
+            _currentPosition[0] = 360 + _currentPosition[0];
+        if (_currentPosition[0] > 360)
+            _currentPosition[0] = _currentPosition[0] - 360;
     } 
     else if (_action == TURN_LEFT) {
         _currentPosition[0] += angle_length;
-      //  if (_currentPosition[0] < 0)
-      //      _currentPosition[0] = 360 + _currentPosition[0];
-      //  if (_currentPosition[0] > 360)
-      //      _currentPosition[0] = _currentPosition[0] - 360;
+        if (_currentPosition[0] < 0)
+            _currentPosition[0] = 360 + _currentPosition[0];
+        if (_currentPosition[0] > 360)
+            _currentPosition[0] = _currentPosition[0] - 360;
     }        //   else if( _action == TURN_RIGHT_1 )
     //   {
     //      _currentPosition[0] -= angle_length;
@@ -2547,11 +2545,12 @@ bool VirtualExecutive::RobotSweptArea(const int _prevCoord[], const _gen _action
             _crrntXCell += lround(cos(_angle)*robotCellDiameter);
             _crrntYCell += lround(sin(_angle)*robotCellDiameter);
         }
-        if( _action == REVERSE )
+    /*    if( _action == REVERSE )
         {
             _crrntXCell -= lround(cos(_angle)*robotCellDiameter);
             _crrntYCell -= lround(sin(_angle)*robotCellDiameter);
         }
+        */
         // Calculate the displacement, this is part of the stop condition      
 
         _delta_x = (_startXCell - _stopXCell)*1.0;
@@ -2665,10 +2664,10 @@ bool VirtualExecutive::RobotCrash_MapBorderCells(const int _prevCoord[], const _
             _currentXCell += lround(cos(_angle) * robotCellDiameter);
             _currentYCell += lround(sin(_angle) * robotCellDiameter);
         }
-        if (_action == REVERSE) {
-            _currentXCell -= lround(cos(_angle) * robotCellDiameter);
-            _currentYCell -= lround(sin(_angle) * robotCellDiameter);
-        }
+      //  if (_action == REVERSE) {
+      //      _currentXCell -= lround(cos(_angle) * robotCellDiameter);
+      //      _currentYCell -= lround(sin(_angle) * robotCellDiameter);
+      //  }
 
         _delta_x = (_currentXCell - _stopXCell)*1.0;
         _delta_y = (_currentYCell - _stopYCell)*1.0;
@@ -2736,10 +2735,10 @@ bool VirtualExecutive::SensorCrash_MapBorderCells(const int _prevCoord[], const 
             currentXCell += lround(cos(_angle) * robotCellDiameter);
             currentYCell += lround(sin(_angle) * robotCellDiameter);
         }
-        if (_action == REVERSE) {
-            currentXCell -= lround(cos(_angle) * robotCellDiameter);
-            currentYCell -= lround(sin(_angle) * robotCellDiameter);
-        }
+      //  if (_action == REVERSE) {
+      //      currentXCell -= lround(cos(_angle) * robotCellDiameter);
+      //      currentYCell -= lround(sin(_angle) * robotCellDiameter);
+      //  }
 
         // How can I be sure that I reach the current position?
         // if next cell is equal or close to the end of the displacement
@@ -2768,8 +2767,8 @@ bool VirtualExecutive::SensorCrash_MapBorderCells(const int _prevCoord[], const 
 void VirtualExecutive::UpdateBatteryLevel(const _gen _action) {
     if (_action == FORWARD) {
         this->currentBattery -= POWER_FORWARD;
-    } else if (_action == REVERSE) {
-        this->currentBattery -= POWER_REVERSE;
+   // } else if (_action == REVERSE) {
+     //   this->currentBattery -= POWER_REVERSE;
     } else if (_action == TURN_RIGHT) {
         this->currentBattery -= POWER_RIGHT_1;
     } else if (_action == TURN_LEFT) {
@@ -2943,7 +2942,7 @@ Elite_Invidivual::Elite_Invidivual() {
     a_missions_coord[0][0] = 90; // Angle Degrees
     a_missions_coord[0][1] = 2000; // X Coord Millimeters
     a_missions_coord[0][2] = 800; // Y Coord Millimeters
-    a_missions_coord[0][3] = calculate_Distance(start_coord, a_missions_coord[0]); // Y Coord Millimeters
+ //   a_missions_coord[0][3] = calculate_Distance(start_coord, a_missions_coord[0]); // Y Coord Millimeters
     a_missions_coord[0][4] = 0; // Y Coord Millimeters
     a_missions_coord[0][5] = start_coord[0]; // Y Coord Millimeters
     a_missions_coord[0][6] = start_coord[1]; // Y Coord Millimeters

@@ -55,7 +55,7 @@
 
 //*******************************************************************
 // Global Variables Definition
-const int ACTIONS_NUMBER = 5;
+const int ACTIONS_NUMBER = 4;
 
 const int GENES_NUMBER = 400;     // 400
 const int POPULATION = 100;      // 100
@@ -78,9 +78,9 @@ const double MOTIVATION_MISSIONS  = 1.00;  // RANGE [0, 1]
 const double REVISITED_PENALTY = 0.30;  // Used when a map cell is revisited (Patricio: was 0.20)
 const char SELECTED_ROOM = H_ROOM;     // Ideal Room
 
-const int START_ANGLE      = 90;  // Starting Angle - DEGREES
-const int START_X_COORD    = 1000;  // Starting X Coordinate - Millimeters
-const int START_Y_COORD    = 1000;  // Starting Y Coordinate - Millimeters
+const int START_ANGLE      = 0;  // Starting Angle - DEGREES
+const int START_X_COORD    = 250;  // Starting X Coordinate - cm
+const int START_Y_COORD    = 250;  // Starting Y Coordinate - cm
 const double STARTING_BATTERY = 1.0;   // Starting Battery Level - RANGE [0, 1] Same value for each GA iteration
 static double CURRENT_BATTERY = 25.0;   // Updated when the robot actually moves. (Patricio: POWER_FORWARD*MAX_STEPS_NUMBER = 0.005*1000)
 // CURRENT_BATTERY: Each 30 steps can consume up to 1.0 of Battery. For 1000 steps can consume up to 33.3 of Battery. <-- Calculated manually (should be in configFile)
@@ -94,7 +94,7 @@ const int HOME_Y_COORD  = START_Y_COORD;   // Home Y Coordinate - Millimeters
 //===================================================================
 // Actions
 const char FORWARD      = 0;  // 0
-const char REVERSE      = 1;  // 7
+//const char REVERSE      = 1;  // 7
 const char FREEZE       = 2;  // 8
 const char TURN_RIGHT   = 3;
 const char TURN_LEFT    = 4;
@@ -106,8 +106,8 @@ const char TURN_LEFT    = 4;
 //const char TURN_LEFT_2  = 6;  // 6
 
 
-const int STEP_SIZE   = 50;    // Distance to cover in Forward movements - Millimeters
-const int ANGLE_SIZE  = 30;   // Angle to shift in Turns movements - DEGREES
+const int STEP_SIZE   = 5;    // Distance to cover in Forward movements - Millimeters
+const int ANGLE_SIZE  = 23;   // Angle to shift in Turns movements - DEGREES
 
 const double GOAL_SIZE = 1.0;  // Related to the robot diameter
 const double GOAL_SIGNAL_RANGE = 3.0;  // Range is GOAL_SIGNAL_RANGE times GOAL SIZE
@@ -592,7 +592,7 @@ class Elite_Invidivual
    public:
       double a_fitness[4];    // Fitness fulfillment product for each motivations
       int home_coord[3];      // Angle, X Coord, Y Coord (Degrees and Millimeters)
-      float start_coord[3];     // Angle, X Coord, Y Coord (Degrees and Millimeters)
+      int start_coord[3];     // Angle, X Coord, Y Coord (Degrees and Millimeters)
       int final_coord[3];     // Angle, X Coord, Y Coord (Degrees and Millimeters)
 
       Elite_Invidivual();     // Default Constructor

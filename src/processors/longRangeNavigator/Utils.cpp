@@ -165,12 +165,12 @@ double Max(const double _A, const double _B)
 // OTHERS Functions Implementation: BEGIN
 //*******************************************************************
 //-------------------------------------------------------------------
-int calculate_Distance(const int _1st_position[], const int _2nd_position[])
+int calculafe_Distance(const float _1st_position[], const int _2nd_position[])
 {
    int _distance = 0;
    double temp = 0.0;
-   double _delta_x = (_2nd_position[1] - _1st_position[1])*1.0;
-   double _delta_y = (_2nd_position[2] - _1st_position[2])*1.0;
+   double _delta_x = (_2nd_position[1] - (int)_1st_position[1])*1.0;
+   double _delta_y = (_2nd_position[2] - (int)_1st_position[2])*1.0;
 
    temp = pow(_delta_x, 2.0) + pow(_delta_y, 2.0);
    _distance = lround(sqrt(temp));
