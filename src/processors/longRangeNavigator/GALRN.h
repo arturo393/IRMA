@@ -93,17 +93,17 @@ const int HOME_X_COORD  = START_X_COORD;   // Home X Coordinate - Millimeters
 const int HOME_Y_COORD  = START_Y_COORD;   // Home Y Coordinate - Millimeters
 //===================================================================
 // Actions
-const char FORWARD      = 0;  // 0
-//const char REVERSE      = 1;  // 7
-const char FREEZE       = 2;  // 8
+const char FORWARD      = 0;  
+const char REVERSE      = 1;  
+const char FREEZE       = 2;  
 const char TURN_RIGHT   = 3;
 const char TURN_LEFT    = 4;
-//const char TURN_RIGHT_1 = 1;  // 1
-//const char TURN_LEFT_1  = 2;  // 2
-//const char TURN_RIGHT_3 = 3;  // 3
-//const char TURN_LEFT_3  = 4;  // 4
-//const char TURN_RIGHT_2 = 5;  // 5
-//const char TURN_LEFT_2  = 6;  // 6
+const char TURN_RIGHT_1 = 5;  
+const char TURN_LEFT_1  = 6;  
+const char TURN_RIGHT_3 = 7;  
+const char TURN_LEFT_3  = 8;  
+const char TURN_RIGHT_2 = 9;  
+const char TURN_LEFT_2  = 10;  
 
 
 const int STEP_SIZE   = 5;    // Distance to cover in Forward movements - Millimeters
@@ -636,6 +636,7 @@ typedef Elite_Invidivual c_Best_route;
 //*******************************************************************
 // Elite_Invidivual Class Declaration: END
 //*******************************************************************
+
 
 
 #endif   // GALRN_H

@@ -71,7 +71,7 @@ static int SUB_TURN_RIGHT = 0; // Number of motor commands doings to complete a 
 static int SUB_TURN_LEFT = 0; // Number of motor commands doings to complete a TURN LEFT 1 action
 const int MAX_MISSIONS_NUMBER = 10;
 
-const int TOLERANCE_GOAL_DISTANCE = 100;
+const int TOLERANCE_GOAL_DISTANCE = 10;
 
 const bool ON = true;
 const bool OFF = false;
@@ -167,6 +167,8 @@ private:
     void Compute_new_path(void);
     // Convert action to motor command
     void Convert_Action_To_Motor_Cmd(char _action);
+    // Convert action to motor and check for mission complete
+    void Action_To_Motor(char _action);
     // Update Motor Commands into LONG RANGE NAV Data Area
     void Deliver_Motor_Commands(const double _speed, const double _steer);
     void Deliver_Motor_Commands(const int _speed_percent, const int _movement);

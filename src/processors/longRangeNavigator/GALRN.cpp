@@ -302,7 +302,7 @@ void Population::Evolve(const char _verbose) {
     this->CleanGenes();
     // Evaluate de fitness of the first generation
     this->Evaluate();
-    this->DisplayPool(_verbose);
+  // this->DisplayPool(_verbose);
     //   std::cout << "Displaying pool AFTER evaluate:"<<std::endl;
 
 
@@ -317,14 +317,13 @@ void Population::Evolve(const char _verbose) {
         this->Mutate();
         //        this->CleanGenes();
         this->Evaluate();
-        this->DisplayPool(_verbose);
+    //    this->DisplayPool(_verbose);
 
         this->RankingUpdate(); // Sort the population and Update sumFitness and avgFitness
         if (ao_pool[a_popList[0]].getFitness() <= 0.0)
             this->Sort_by_useful_steps(0, populationSize - 1); // Sort the population and Update sumFitness and avgFitness
 
         this->SetGenerationStats(_ign); // Set Statistics
-
 
         if (_verbose >= VERBOSE_LOW) {
             std::cout << "AVERAGE FITNESS OF THIS GENERATION: " << avgFitness << std::endl;
@@ -1613,7 +1612,6 @@ FitnessFunction::~FitnessFunction() {
 
 double FitnessFunction::CalcFitness(const c_organism& agent) {
 
-
     this->o_virtualMotion.Executor(agent, a_fitness);
     //···································································
 #ifdef T_MOTIVATION_FITNESS
@@ -2298,11 +2296,11 @@ void VirtualExecutive::ComputeNextPosition(int _currentPosition[], const _gen _a
         _currentPosition[1] += lround(cos(_angle) * step_lenght);
         _currentPosition[2] += lround(sin(_angle) * step_lenght);
     }
-/*      else if (_action == REVERSE) {
+      else if (_action == REVERSE) {
         double _angle = (_currentPosition[0] / 180.0) * M_PI;
         _currentPosition[1] -= lround(cos(_angle) * step_lenght);
         _currentPosition[2] -= lround(sin(_angle) * step_lenght);
-    }*/ 
+    } 
       else if (_action == TURN_RIGHT) {
         _currentPosition[0] -= angle_length;
         if (_currentPosition[0] < 0)
@@ -2316,54 +2314,54 @@ void VirtualExecutive::ComputeNextPosition(int _currentPosition[], const _gen _a
             _currentPosition[0] = 360 + _currentPosition[0];
         if (_currentPosition[0] > 360)
             _currentPosition[0] = _currentPosition[0] - 360;
-    }        //   else if( _action == TURN_RIGHT_1 )
-    //   {
-    //      _currentPosition[0] -= angle_length;
-    //      if( _currentPosition[0] < 0 )
-    //         _currentPosition[0] = 360 + _currentPosition[0];
-    //      if( _currentPosition[0] > 360 )
-    //         _currentPosition[0] = _currentPosition[0] - 360;
-    //   }
-    //   else if( _action == TURN_LEFT_1 )
-    //   {
-    //      _currentPosition[0] += angle_length;
-    //      if( _currentPosition[0] < 0 )
-    //         _currentPosition[0] = 360 + _currentPosition[0];
-    //      if( _currentPosition[0] > 360 )
-    //         _currentPosition[0] = _currentPosition[0] - 360;
-    //   }
-    //   else if( _action == TURN_RIGHT_2 )
-    //   {
-    //      _currentPosition[0] -= angle_length*2;
-    //      if( _currentPosition[0] < 0 )
-    //         _currentPosition[0] = 360 + _currentPosition[0];
-    //      if( _currentPosition[0] > 360 )
-    //         _currentPosition[0] = _currentPosition[0] - 360;
-    //   }
-    //   else if( _action == TURN_LEFT_2 )
-    //   {
-    //      _currentPosition[0] += angle_length*2;
-    //      if( _currentPosition[0] < 0 )
-    //         _currentPosition[0] = 360 + _currentPosition[0];
-    //      if( _currentPosition[0] > 360 )
-    //         _currentPosition[0] = _currentPosition[0] - 360;
-    //   }
-    //   else if( _action == TURN_RIGHT_3 )
-    //   {
-    //      _currentPosition[0] -= angle_length*3;
-    //      if( _currentPosition[0] < 0 )
-    //         _currentPosition[0] = 360 + _currentPosition[0];
-    //      if( _currentPosition[0] > 360 )
-    //         _currentPosition[0] = _currentPosition[0] - 360;
-    //   }
-    //   else if( _action == TURN_LEFT_3 )
-    //   {
-    //      _currentPosition[0] += angle_length*3;
-    //      if( _currentPosition[0] < 0 )
-    //         _currentPosition[0] = 360 + _currentPosition[0];
-    //      if( _currentPosition[0] > 360 )
-    //         _currentPosition[0] = _currentPosition[0] - 360;
-    //   }
+    } else if( _action == TURN_RIGHT_1 )
+       {
+          _currentPosition[0] -= angle_length;
+          if( _currentPosition[0] < 0 )
+             _currentPosition[0] = 360 + _currentPosition[0];
+          if( _currentPosition[0] > 360 )
+             _currentPosition[0] = _currentPosition[0] - 360;
+       }
+       else if( _action == TURN_LEFT_1 )
+       {
+          _currentPosition[0] += angle_length;
+          if( _currentPosition[0] < 0 )
+             _currentPosition[0] = 360 + _currentPosition[0];
+          if( _currentPosition[0] > 360 )
+             _currentPosition[0] = _currentPosition[0] - 360;
+       }
+       else if( _action == TURN_RIGHT_2 )
+       {
+          _currentPosition[0] -= angle_length*2;
+          if( _currentPosition[0] < 0 )
+             _currentPosition[0] = 360 + _currentPosition[0];
+          if( _currentPosition[0] > 360 )
+             _currentPosition[0] = _currentPosition[0] - 360;
+       }
+       else if( _action == TURN_LEFT_2 )
+       {
+          _currentPosition[0] += angle_length*2;
+          if( _currentPosition[0] < 0 )
+             _currentPosition[0] = 360 + _currentPosition[0];
+          if( _currentPosition[0] > 360 )
+             _currentPosition[0] = _currentPosition[0] - 360;
+       }
+       else if( _action == TURN_RIGHT_3 )
+       {
+          _currentPosition[0] -= angle_length*3;
+          if( _currentPosition[0] < 0 )
+             _currentPosition[0] = 360 + _currentPosition[0];
+          if( _currentPosition[0] > 360 )
+             _currentPosition[0] = _currentPosition[0] - 360;
+      }
+       else if( _action == TURN_LEFT_3 )
+       {
+          _currentPosition[0] += angle_length*3;
+          if( _currentPosition[0] < 0 )
+             _currentPosition[0] = 360 + _currentPosition[0];
+          if( _currentPosition[0] > 360 )
+             _currentPosition[0] = _currentPosition[0] - 360;
+       }
     else if (_action == FREEZE) {
         ;
     }
@@ -2767,8 +2765,8 @@ bool VirtualExecutive::SensorCrash_MapBorderCells(const int _prevCoord[], const 
 void VirtualExecutive::UpdateBatteryLevel(const _gen _action) {
     if (_action == FORWARD) {
         this->currentBattery -= POWER_FORWARD;
-   // } else if (_action == REVERSE) {
-     //   this->currentBattery -= POWER_REVERSE;
+    } else if (_action == REVERSE) {
+        this->currentBattery -= POWER_REVERSE;
     } else if (_action == TURN_RIGHT) {
         this->currentBattery -= POWER_RIGHT_1;
     } else if (_action == TURN_LEFT) {

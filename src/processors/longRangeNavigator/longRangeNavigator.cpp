@@ -190,7 +190,7 @@ int LRNProcessor::step(){
     {
         /* registrar el paso del robot y hacer un promedio y 
          * ajustar el valor del step*/
-        Convert_Action_To_Motor_Cmd(o_final_route.get_gen(current_route_action));
+        Action_To_Motor(o_final_route.get_gen(current_route_action));
         current_route_action++;
     }
 
@@ -293,8 +293,7 @@ void LRNProcessor::Compute_new_path(void)
     fprintf(stdout, "LRN home = (%d,%d,%d°)", home_coord[1], home_coord[2],home_coord[0]);
     //···································································
     // COMPUTE ROUTES WITH MISSIONS
-    if( (m_missions > 0) && (missions_nr > 0) )
-    {
+    if( (m_missions > 0) && (missions_nr > 0) ){
 
         fprintf(stdout, " -- LRN actual mission = (%d,%d,%d°)\n", \
                 mission_coord[visited_feature_nr][1], mission_coord[visited_feature_nr][2],mission_coord[visited_feature_nr][0]);
@@ -430,6 +429,136 @@ void LRNProcessor::Compute_new_path(void)
     }
 }
 
+void LRNProcessor::Action_To_Motor(char _action)
+{
+    //Renato
+    bool go = true;
+    //END Renato
+    int _speed_percent = 0, _movement = 0;
+
+    // No routes, no move
+    if (o_final_route.get_elite_genes_nr() == 0)
+        _action = FREEZE;
+
+    if( _action == FORWARD ){
+        _speed_percent = 100;
+        _movement = 9;
+    } else if( _action == TURN_RIGHT ){
+        _speed_percent = 100;
+        _movement = 1;  
+    } else if( _action == TURN_LEFT ){
+        _speed_percent = 100;
+        _movement = 2;  
+    } else if( _action == REVERSE ){
+        _speed_percent = 100;
+        _movement = 3;  
+    } else if( _action == FREEZE ){ 
+        _speed_percent = 0;
+        _movement = 9;  
+    }  
+
+    fprintf(stdout, "R%2d - %d/%d\t", route_nr, current_route_action+1, o_final_route.get_elite_genes_nr());
+    if( _action == FORWARD ){
+        CURRENT_BATTERY-=POWER_FORWARD;
+        fprintf(stdout, "IRMA-III: LRN - FORWARD - \t\tBATTERY : %f\r", CURRENT_BATTERY);
+        fprintf(fp_moves, "R%2d | 0 : FORWARD\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+    }else if( _action == TURN_RIGHT ) {
+        CURRENT_BATTERY-=POWER_RIGHT;
+        fprintf(stdout, "IRMA-III: LRN - TURN_RIGHT - \t\tBATTERY : %f\r", CURRENT_BATTERY);
+        fprintf(fp_moves, "R%2d | 1 : TURN_RIGHT\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+    } else if( _action == TURN_LEFT ){
+        CURRENT_BATTERY-=POWER_LEFT;
+        fprintf(stdout, "IRMA-III: LRN - TURN_LEFT - \t\tBATTERY : %f\r", CURRENT_BATTERY);
+        fprintf(fp_moves, "R%2d | 2 : TURN_LEFT\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+    }else if( _action == REVERSE ){
+        CURRENT_BATTERY-=POWER_REVERSE;
+        fprintf(stdout, "IRMA-III: LRN - REVERSE - \t\tBATTERY : %f\r", CURRENT_BATTERY);
+        fprintf(fp_moves, "R%2d | 7 : REVERSE\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+    } else if( _action == FREEZE ){
+        CURRENT_BATTERY-=POWER_FREEZE;
+        fprintf(stdout, "IRMA-III: LRN - FREEZE\t\tBATTERY : %f\r", CURRENT_BATTERY);
+        fprintf(fp_moves, "R%2d | 8 : FREEZE\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+    }
+
+    // Deliver the magnitudes for the next step
+    Deliver_Motor_Commands(_speed_percent, _movement);
+
+    // TOO MUCH ERROR - THE THEORETICAL AND THE REAL COORDINATES ARE VERY DIFFERENT
+    //···································································
+
+    Update_Start_position();
+    int _ideal_coord[3];
+    o_final_route.get_current_ideal_coord(current_route_action , _ideal_coord);
+    int _distance = o_routes.o_ffitness.o_virtualMotion.Calculate_Distance(start_coord, _ideal_coord);
+    
+
+    if( _distance > MAX_DISTANCE_ERROR ){
+        Update_missions_extra_data(visited_feature_nr);
+        if( mission_coord[visited_feature_nr][3] < TOLERANCE_GOAL_DISTANCE ) {
+            fprintf(stdout, "Long Range Navigator: Feature: %2d found\n", visited_feature_nr);
+            visited_feature_nr++;
+            if( visited_feature_nr < missions_nr )
+                Update_missions_extra_data(visited_feature_nr);
+        }
+        else{
+            fprintf(stdout, "\n**********************************************************************\n");
+            fprintf(stdout, "LONG RANGE NAVIGATOR: THE ERROR BETWEEN THE THEORETICAL AND REAL\n");
+            fprintf(stdout, "LONG RANGE NAVIGATOR: POSITION IS TOO BIG - A NEW ROUTE WILL BE COMPUTED\n");
+            fprintf(stdout, "**********************************************************************\n\n");
+            is_route_obsolete = true;
+            is_move_ready = false;
+            cda.lockArea(LONG_NAV_AREA);
+            pCDALongNav->lrn_route_obsolete_flag = is_route_obsolete;
+            pCDALongNav->lrn_move_ready_flag = is_move_ready;
+            cda.unlockArea(LONG_NAV_AREA);
+            current_route_action = 0;
+        }
+
+    }
+    // ROUTE WAS SUCCESSFULLY FINISHED
+    //···································································
+    else  if( current_route_action+1 >= o_final_route.get_elite_genes_nr() )
+    {
+        fprintf(stdout, "\nLong Range Navigator: Route was successfully finished\n");
+        fprintf(stdout, "*****************************************************\n\n");
+        is_route_obsolete = true;
+        is_move_ready = false;
+        cda.lockArea(LONG_NAV_AREA);
+        pCDALongNav->lrn_route_obsolete_flag = is_route_obsolete;
+        pCDALongNav->lrn_move_ready_flag = is_move_ready;
+        cda.unlockArea(LONG_NAV_AREA);
+        current_route_action = 0;
+
+        Update_missions_extra_data(visited_feature_nr);
+        if( mission_coord[visited_feature_nr][3] < TOLERANCE_GOAL_DISTANCE )
+        {
+            fprintf(stdout, "Long Range Navigator: Feature: %2d found\n", visited_feature_nr);
+            visited_feature_nr++;
+            if( visited_feature_nr < missions_nr )
+                Update_missions_extra_data(visited_feature_nr);
+        }
+
+    }
+
+    if( (visited_feature_nr >= missions_nr) && (m_missions > 0) )
+    {
+        visited_feature_nr = 0;
+        mission_accomplished_flag = true;
+    }
+
+
+    if( mission_accomplished_flag )
+    {
+        fprintf(stdout, "Long Range Navigator: Mission was successfully Accomplished\n");
+        fprintf(stdout, "***********************************************************\n\n");
+
+        cda.lockArea(LONG_NAV_AREA);
+        pCDALongNav->lrn_mission_accomplished = true;
+        cda.unlockArea(LONG_NAV_AREA);
+    }
+
+    fprintf(stdout, "\n");
+}
 
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
@@ -457,7 +586,7 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
     if( _action == FORWARD )              {  _speed_percent = 100;  _movement = 9;  }  // FORWARD
     else if( _action == TURN_RIGHT )      {  _speed_percent = 100;  _movement = 1;  }  // TURN_RIGHT_1
     else if( _action == TURN_LEFT )      {  _speed_percent = 100;  _movement = 2;  }  // TURN_LEFT_1
-   // else if( _action == REVERSE )        {  _speed_percent = 100;  _movement = 3;  }  // REVERSE
+    else if( _action == REVERSE )        {  _speed_percent = 100;  _movement = 3;  }  // REVERSE
     else if( _action == FREEZE )         {  _speed_percent = 0;   _movement = 9;  }  // FREEZE
 
 
@@ -984,9 +1113,9 @@ void LRNProcessor::Update_Missions_list(void){
     if( mission_op_mode == TEST )
     {
         missions_nr = 3;
-        mission_coord[0][0] = 90;
-        mission_coord[0][1] = 300;
-        mission_coord[0][2] = 350;
+        mission_coord[0][0] = 0;
+        mission_coord[0][1] = 250;
+        mission_coord[0][2] = 250;
         mission_coord[1][0] = 270;
         mission_coord[1][1] = 200;
         mission_coord[1][2] = 125;
@@ -1047,13 +1176,20 @@ void LRNProcessor::Set_Start_position(void){
 
 //-------------------------------------------------------------------
 void LRNProcessor::Update_Start_position(void){	
-
+    int tmp;
     cda.lockArea(LASER_AREA);
-   start_coord[0] = init_coord[0]+ lround((pCDALaser->dir*180.0)/M_PI);   // Current Orientation
-   start_coord[1] = init_coord[1]+ pCDALaser->x;   // Current X Coord*10cm
-   start_coord[2] = init_coord[2]+ pCDALaser->y;   // Current Y Coord*10cm
+    tmp = init_coord[0]+ lround((pCDALaser->dir*180.0)/M_PI);   // Current Orientation
+    start_coord[1] = init_coord[1]+ pCDALaser->x;   // Current X Coord*10cm
+    start_coord[2] = init_coord[2]+ pCDALaser->y;   // Current Y Coord*10cm
     cda.unlockArea(LASER_AREA);
-   
+
+    while(tmp <= 0 || tmp >= 360){
+        if (tmp < 0)
+            tmp = 360 + tmp;
+        if (tmp > 360)
+            tmp = tmp - 360;
+    }        
+    start_coord[0] = tmp;
     o_routes.o_ffitness.o_virtualMotion.Set_StartCoordinates(start_coord);
     o_final_route.Set_StartCoordinates(start_coord);
 }
