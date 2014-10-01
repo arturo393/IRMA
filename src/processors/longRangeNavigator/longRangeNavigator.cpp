@@ -310,8 +310,9 @@ void LRNProcessor::Compute_new_path(void)
         fprintf(stdout,"NUMBER OF ACTIONS BEFORE CLEAN : %d\n",o_routes.get_e_useful_steps_nr());
         o_routes.CleanGenes();
         fprintf(stdout,"NUMBER OF ACTIONS AFTER  CLEAN : %d\n\n",o_routes.get_e_useful_steps_nr());
-
+        /* Set distance from the start_coord to the misssion_coord */
         Update_missions_extra_data(visited_feature_nr);
+        /* Set the EliteIndividual updated values*/
         Update_elite_data(visited_feature_nr);
 
         fprintf(stdout, "Looking for feature: %2d\n", visited_feature_nr);
@@ -376,9 +377,11 @@ void LRNProcessor::Compute_new_path(void)
         is_route_obsolete = false;
         //is_move_ready = false;
     }  // End Compute route without homing or missions
+
+
     //···································································
-    if( (is_route_obsolete == false) && (is_move_ready == false) )
-    {
+    if( (is_route_obsolete == false) && (is_move_ready == false) ){
+    /* Compute next position of the elite individual */
         Update_elite_phenotype();
 
         // Print best solution
@@ -499,8 +502,7 @@ void LRNProcessor::Action_To_Motor(char _action)
             visited_feature_nr++;
             if( visited_feature_nr < missions_nr )
                 Update_missions_extra_data(visited_feature_nr);
-        }
-        else{
+     }else{
             fprintf(stdout, "\n**********************************************************************\n");
             fprintf(stdout, "LONG RANGE NAVIGATOR: THE ERROR BETWEEN THE THEORETICAL AND REAL\n");
             fprintf(stdout, "LONG RANGE NAVIGATOR: POSITION IS TOO BIG - A NEW ROUTE WILL BE COMPUTED\n");
@@ -514,11 +516,7 @@ void LRNProcessor::Action_To_Motor(char _action)
             current_route_action = 0;
         }
 
-    }
-    // ROUTE WAS SUCCESSFULLY FINISHED
-    //···································································
-    else  if( current_route_action+1 >= o_final_route.get_elite_genes_nr() )
-    {
+    } else if( current_route_action+1 >= o_final_route.get_elite_genes_nr() ){ /* Route was successfully finished */
         fprintf(stdout, "\nLong Range Navigator: Route was successfully finished\n");
         fprintf(stdout, "*****************************************************\n\n");
         is_route_obsolete = true;
@@ -530,8 +528,7 @@ void LRNProcessor::Action_To_Motor(char _action)
         current_route_action = 0;
 
         Update_missions_extra_data(visited_feature_nr);
-        if( mission_coord[visited_feature_nr][3] < TOLERANCE_GOAL_DISTANCE )
-        {
+        if( mission_coord[visited_feature_nr][3] < TOLERANCE_GOAL_DISTANCE ){
             fprintf(stdout, "Long Range Navigator: Feature: %2d found\n", visited_feature_nr);
             visited_feature_nr++;
             if( visited_feature_nr < missions_nr )
@@ -540,15 +537,13 @@ void LRNProcessor::Action_To_Motor(char _action)
 
     }
 
-    if( (visited_feature_nr >= missions_nr) && (m_missions > 0) )
-    {
+    if( (visited_feature_nr >= missions_nr) && (m_missions > 0) ){
         visited_feature_nr = 0;
         mission_accomplished_flag = true;
     }
 
 
-    if( mission_accomplished_flag )
-    {
+    if( mission_accomplished_flag ) {
         fprintf(stdout, "Long Range Navigator: Mission was successfully Accomplished\n");
         fprintf(stdout, "***********************************************************\n\n");
 
@@ -832,7 +827,7 @@ void LRNProcessor::Deliver_Motor_Commands(const int _speed_percent, const int _m
 void LRNProcessor::Update_missions_extra_data(const int _feature_index)
 {
     int _distance ;
-    Update_Start_position();
+    Update_Start_position(); /* maybe this is unnecessary */
     _distance = o_routes.o_ffitness.o_virtualMotion.Calculate_Distance(start_coord, mission_coord[_feature_index]);
     mission_coord[_feature_index][3] = _distance;
     mission_coord[_feature_index][4] = actions_nr;    // LRN Global actions nr
