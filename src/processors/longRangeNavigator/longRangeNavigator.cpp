@@ -286,7 +286,7 @@ void LRNProcessor::Compute_new_path(void)
     // CALCULATE THE TIME USED TO COMPUTE THE PATH
     struct timeb tp;     ftime(&tp);
 
-    // Set fitness value to zero
+    // Set Elite_Individual fitness value to zero
     o_final_route.Clean_All();
 
     fprintf(stdout, "LRN start = (%d,%d,%3d°) -- ", start_coord[1], start_coord[2], start_coord[0]);
@@ -892,8 +892,8 @@ void LRNProcessor::Update_elite_phenotype(void)
 }
 
 
-int LRNProcessor::Update_Slam_Map(void){
-
+int LRNProcessor::Update_Slam_Map(void)
+{
     int _width;
     int _heigh;
     int _aux = 0;
@@ -916,20 +916,20 @@ int LRNProcessor::Update_Slam_Map(void){
 
     o_routes.o_ffitness.Set_Map_Dimensions(_width,_heigh);
 
+    /* divide the slam map by _mapMeshSize to generate a lower resolution map */
     for (int _y = 0 ; _y <= _heigh-_mapMeshSize ; _y += _mapMeshSize){
         for(int _x = 0 ; _x <= _width-_mapMeshSize; _x += _mapMeshSize){
-            auxY = _mapMeshSize+_y;  
-            auxX = _mapMeshSize+_x; 
-            //Searching obstacles in the _mapMeshSize cell
+            auxY = _mapMeshSize+_y; auxX = _mapMeshSize+_x; 
+            /* Searching obstacles in the _mapMeshSize cell */
             for (int _yc =_y ; _yc < auxY ;_yc++){
                 for(int _xc =_x ; _xc < auxX ; _xc++){
                     cda.lockArea(LASER_AREA);
                     _point = pCDALaser->map[_xc][_yc];
                     cda.unlockArea(LASER_AREA);
-                    // Check for obstacle
-                    if(_point == 0)
+                    /* count the obstacles nr in the cell */
+                    if(_point == OBSTACLE) 
                         _ocount++;
-                    // checking obstacle area 
+                    /* set new map cell as obstacle */
                     if (_ocount >= _onr){
                         _ocount = 0;
                         o_routes.o_ffitness.o_virtualMotion.o_MAP.setcCellObstacle(_xc/_mapMeshSize,_yc/_mapMeshSize);
@@ -943,12 +943,9 @@ int LRNProcessor::Update_Slam_Map(void){
 
     snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map%d", route_nr);
     o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
-            
-    // Update map in ELite
-
-
 
 }
+
 void LRNProcessor::Update_Internal_Map(void)
 {
     int obstacles_nr = 0;
@@ -1082,10 +1079,7 @@ void LRNProcessor::Update_Internal_Map(void)
 //-------------------------------------------------------------------
 void LRNProcessor::Update_Missions_list(void){
 
-
-
-    if( mission_op_mode == NORMAL )
-    {
+    if( mission_op_mode == NORMAL ) {
 
         visited_feature_nr = 0;
         cda.lockArea(FEATURE_NAV_AREA);
@@ -1105,12 +1099,11 @@ void LRNProcessor::Update_Missions_list(void){
 
     }
 
-    if( mission_op_mode == TEST )
-    {
+    if( mission_op_mode == TEST ){
         missions_nr = 3;
-        mission_coord[0][0] = 0;
-        mission_coord[0][1] = 250;
-        mission_coord[0][2] = 250;
+        mission_coord[0][0] = 0;   /* degrees */
+        mission_coord[0][1] = 250; /* xcord in cm */
+        mission_coord[0][2] = 250; /* ycord in cm */
         mission_coord[1][0] = 270;
         mission_coord[1][1] = 200;
         mission_coord[1][2] = 125;
@@ -1131,13 +1124,14 @@ void LRNProcessor::Update_Missions_list(void){
         o_final_route.set_mission(_im, temp_mission);
 
         _distance = o_routes.o_ffitness.o_virtualMotion.Calculate_Distance(start_coord, mission_coord[_im]);
-        mission_coord[_im][3] = _distance;
-        mission_coord[_im][4] = -1;
-        mission_coord[_im][5] = start_coord[0];
+        mission_coord[_im][3] = _distance; /* distance frome start_coord */
+        mission_coord[_im][4] = -1; /* fitness value */
+        mission_coord[_im][5] = start_coord[0]; 
         mission_coord[_im][6] = start_coord[1];
         mission_coord[_im][7] = start_coord[2];
     }
 }
+
 /* *
  * \brief Update step_lenght & angle_lenght values from VirtualExecutive.
  *  The function takes the executed steps  of the Executive class. It calculates the
@@ -1172,18 +1166,20 @@ void LRNProcessor::Set_Start_position(void){
 //-------------------------------------------------------------------
 void LRNProcessor::Update_Start_position(void){	
     int tmp;
+    /* get coordinates & orientation from laser readings */
     cda.lockArea(LASER_AREA);
     tmp = init_coord[0]+ lround((pCDALaser->dir*180.0)/M_PI);   // Current Orientation
     start_coord[1] = init_coord[1]+ pCDALaser->x;   // Current X Coord*10cm
     start_coord[2] = init_coord[2]+ pCDALaser->y;   // Current Y Coord*10cm
     cda.unlockArea(LASER_AREA);
 
-    while(tmp <= 0 || tmp >= 360){
-        if (tmp < 0)
-            tmp = 360 + tmp;
-        if (tmp > 360)
-            tmp = tmp - 360;
+    /* to fix negatives and more than 360 degrees */
+    while(tmp <= 0 || tmp >= 360){ 
+        if (tmp < 0)   tmp = tmp + 360;
+        if (tmp > 360) tmp = tmp - 360;
     }        
+
+    /* set coordinates to virtualexecutive & elite */
     start_coord[0] = tmp;
     o_routes.o_ffitness.o_virtualMotion.Set_StartCoordinates(start_coord);
     o_final_route.Set_StartCoordinates(start_coord);

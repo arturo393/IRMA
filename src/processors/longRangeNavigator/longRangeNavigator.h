@@ -104,7 +104,7 @@ const char FEATURE_LIST = 3;
 //*******************************************************************
 
 //#define IRMA2
-
+#define OBSTACLE 0
 
 //*******************************************************************
 // LRNProcessor Class Declaration: BEGIN
@@ -130,7 +130,7 @@ private:
     int monitor_current_nav;
     int visited_feature_nr;
     int missions_nr; // Experiment
-    int mission_coord[MAX_MISSIONS_NUMBER][8]; // Experiment
+    int mission_coord[MAX_MISSIONS_NUMBER][8]; /* mission cord in cm & degrees */
     int route_nr; // Experiment
     int current_route_action;
     bool verbose_mode;
@@ -145,10 +145,10 @@ private:
     int actions_nr; // Internal Use  Genetic algortihm
     int cross_points_nr;
     char selection_method;
-    double m_curiosity;
-    double m_energy;
-    double m_homing;
-    double m_missions;
+    double m_curiosity; /* motivation curiosity */
+    double m_energy;    /* motivation energy    */
+    double m_homing;    /* motivation goming    */
+    double m_missions;  /* motivation missions  */
     char experimentation_room;
     char mission_op_mode;
 
