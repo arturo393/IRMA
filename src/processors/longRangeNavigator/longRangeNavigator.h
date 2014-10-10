@@ -50,7 +50,7 @@
 
 //*******************************************************************
 // Global Variables Definition
-const int TOTAL_SUB_FORWARD = 1; // Command number to complete a FORWARD action
+const int TOTAL_SUB_FORWARD = 7; // Command number to complete a FORWARD action
 const int TOTAL_SUB_TURN_RIGHT = 1;
 const int TOTAL_SUB_TURN_LEFT = 1;
 const int TOTAL_SUB_TURN_RIGHT_1 = 6; // Command number to complete a TURN RIGHT 1 action
@@ -71,7 +71,7 @@ static int SUB_TURN_RIGHT = 0; // Number of motor commands doings to complete a 
 static int SUB_TURN_LEFT = 0; // Number of motor commands doings to complete a TURN LEFT 1 action
 const int MAX_MISSIONS_NUMBER = 10;
 
-const int TOLERANCE_GOAL_DISTANCE = 10;
+const int TOLERANCE_GOAL_DISTANCE = 5; // in cm
 
 const bool ON = true;
 const bool OFF = false;

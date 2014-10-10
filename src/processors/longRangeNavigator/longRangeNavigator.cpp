@@ -115,6 +115,7 @@ int LRNProcessor::init()
     visited_feature_nr = 0;
     route_nr = 0;
     current_route_action = 0;
+    missions_nr = 2;
 
     return(0);
 }
@@ -238,7 +239,7 @@ int LRNProcessor::Configure_path_planner(void)
     /* VirtualMotion startcoordinates are updated in the LRNProccess::step()
      * o_routes.o_ffitness.o_virtualMotion.Set_StartCoordinates(start_coord);
      */
-    o_routes.o_ffitness.o_virtualMotion.Set_GoalCoordinates(home_coord);    // Home
+        o_routes.o_ffitness.o_virtualMotion.Set_GoalCoordinates(home_coord);    // Home
 
     /* IRMA 3 not necessary
        o_routes.o_ffitness.o_virtualMotion.set_selected_room(experimentation_room);
@@ -305,7 +306,7 @@ void LRNProcessor::Compute_new_path(void)
         /* Set crossing point at the same distance
          * Set population random genes, fitness -1 and ranking -1  on every organism */               
         o_routes.Reinit();
-        o_routes.Evolve(VERBOSE_MEDIUM);
+        o_routes.Evolve(VERBOSE_HIGH);
 
         fprintf(stdout,"NUMBER OF ACTIONS BEFORE CLEAN : %d\n",o_routes.get_e_useful_steps_nr());
         o_routes.CleanGenes();
@@ -567,7 +568,7 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
 
     if (o_final_route.get_elite_genes_nr() == 0)
         _action = FORWARD;
-    /*
+    
        if( _action == FORWARD )            {  _speed = 0.8;  _steer = 0.5;  }  // FORWARD
        else if( _action == TURN_RIGHT_1 )  {  _speed = 0.8;  _steer = 0.7;  }  // TURN_RIGHT_1
        else if( _action == TURN_LEFT_1 )   {  _speed = 0.5;  _steer = 0.2;  }  // TURN_LEFT_1
@@ -577,22 +578,19 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
        else if( _action == TURN_LEFT_2 )   {  _speed = 0.5;  _steer = 0.3;  }  // TURN_LEFT_2
        else if( _action == REVERSE )       {  _speed = 0.2;  _steer = 0.5;  }  // REVERSE
        else if( _action == FREEZE )        {  _speed = 0.5;  _steer = 0.5;  }  // FREEZE
-       */      
+/*             
     if( _action == FORWARD )              {  _speed_percent = 100;  _movement = 9;  }  // FORWARD
     else if( _action == TURN_RIGHT )      {  _speed_percent = 100;  _movement = 1;  }  // TURN_RIGHT_1
     else if( _action == TURN_LEFT )      {  _speed_percent = 100;  _movement = 2;  }  // TURN_LEFT_1
     else if( _action == REVERSE )        {  _speed_percent = 100;  _movement = 3;  }  // REVERSE
     else if( _action == FREEZE )         {  _speed_percent = 0;   _movement = 9;  }  // FREEZE
+*/
 
-
-    //	while( (monitor_current_nav == LRN) && (!is_route_obsolete) && (SUB_FORWARD < TOTAL_SUB_FORWARD)
-    //			&& (SUB_TURN_RIGHT_1 < TOTAL_SUB_TURN_RIGHT_1) && (SUB_TURN_LEFT_1 < TOTAL_SUB_TURN_LEFT_1)
-    //			&& (SUB_TURN_RIGHT_3 < TOTAL_SUB_TURN_RIGHT_3) && (SUB_TURN_LEFT_3 < TOTAL_SUB_TURN_LEFT_3)
-    //			&& (SUB_TURN_RIGHT_2 < TOTAL_SUB_TURN_RIGHT_2) && (SUB_TURN_LEFT_2 < TOTAL_SUB_TURN_LEFT_2) )
-    //	{        
-    while( (monitor_current_nav == LRN) && (!is_route_obsolete) && (SUB_FORWARD < TOTAL_SUB_FORWARD)
-            && (SUB_TURN_RIGHT < TOTAL_SUB_TURN_RIGHT) && (SUB_TURN_LEFT < TOTAL_SUB_TURN_LEFT) )
-    {
+    	while( (monitor_current_nav == LRN) && (!is_route_obsolete) && (SUB_FORWARD < TOTAL_SUB_FORWARD)
+    			&& (SUB_TURN_RIGHT_1 < TOTAL_SUB_TURN_RIGHT_1) && (SUB_TURN_LEFT_1 < TOTAL_SUB_TURN_LEFT_1)
+    			&& (SUB_TURN_RIGHT_3 < TOTAL_SUB_TURN_RIGHT_3) && (SUB_TURN_LEFT_3 < TOTAL_SUB_TURN_LEFT_3)
+    			&& (SUB_TURN_RIGHT_2 < TOTAL_SUB_TURN_RIGHT_2) && (SUB_TURN_LEFT_2 < TOTAL_SUB_TURN_LEFT_2) )
+    	{        
         if( !is_move_ready )
         {
             fprintf(stdout, "R%2d - %d/%d\t", route_nr, current_route_action+1, o_final_route.get_elite_genes_nr());
@@ -619,61 +617,61 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
                 fprintf(stdout, "IRMA-II: LRN - TURN_LEFT - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_1, TOTAL_SUB_TURN_LEFT_1, CURRENT_BATTERY);
                 fprintf(fp_moves, "R%2d | 2 : TURN_LEFT\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
             }
-            //			else if( _action == TURN_RIGHT_1 )
-            //			{
-            //				SUB_TURN_RIGHT_1++;
-            //				N_TURN_RIGHT_1++;
-            //				CURRENT_BATTERY-=POWER_RIGHT_1;
-            //				fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_1, TOTAL_SUB_TURN_RIGHT_1, CURRENT_BATTERY);
-            //				fprintf(fp_moves, "R%2d | 1 : TURN_RIGHT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            //			}
-            //			else if( _action == TURN_LEFT_1 )
-            //			{
-            //				SUB_TURN_LEFT_1++;
-            //				N_TURN_LEFT_1++;
-            //				CURRENT_BATTERY-=POWER_LEFT_1;
-            //				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_1, TOTAL_SUB_TURN_LEFT_1, CURRENT_BATTERY);
-            //				fprintf(fp_moves, "R%2d | 2 : TURN_LEFT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            //			}
-            //			else if( _action == TURN_RIGHT_3 )
-            //			{
-            //				SUB_TURN_RIGHT_3++;
-            //				N_TURN_RIGHT_3++;
-            //				CURRENT_BATTERY-=POWER_RIGHT_3;
-            //				fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_3 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_3, TOTAL_SUB_TURN_RIGHT_3, CURRENT_BATTERY);
-            //				fprintf(fp_moves, "R%2d | 3 : TURN_RIGHT_3\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            //			}
-            //			else if( _action == TURN_LEFT_3 )
-            //			{
-            //				SUB_TURN_LEFT_3++;
-            //				N_TURN_LEFT_3++;
-            //				CURRENT_BATTERY-=POWER_LEFT_3;
-            //				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_3 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_3, TOTAL_SUB_TURN_LEFT_3, CURRENT_BATTERY);
-            //				fprintf(fp_moves, "R%2d | 4 : TURN_LEFT_3\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            //			}
-            //			else if( _action == TURN_RIGHT_2 )
-            //			{
-            //				SUB_TURN_RIGHT_2++;
-            //				N_TURN_RIGHT_2++;
-            //				CURRENT_BATTERY-=POWER_RIGHT_2;
-            //				fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_2, TOTAL_SUB_TURN_RIGHT_2, CURRENT_BATTERY);
-            //				fprintf(fp_moves, "R%2d | 5 : TURN_RIGHT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            //			}
-            //			else if( _action == TURN_LEFT_2 )
-            //			{
-            //				SUB_TURN_LEFT_2++;
-            //				N_TURN_LEFT_2++;
-            //				CURRENT_BATTERY-=POWER_LEFT_2;
-            //				fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_2, TOTAL_SUB_TURN_LEFT_2, CURRENT_BATTERY);
-            //				fprintf(fp_moves, "R%2d | 6 : TURN_LEFT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            //			}
-         /*   else if( _action == REVERSE )
+            else if( _action == TURN_RIGHT_1 )
+            {
+                SUB_TURN_RIGHT_1++;
+                N_TURN_RIGHT_1++;
+                CURRENT_BATTERY-=POWER_RIGHT_1;
+                fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_1, TOTAL_SUB_TURN_RIGHT_1, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 1 : TURN_RIGHT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            }
+            else if( _action == TURN_LEFT_1 )
+            {
+                SUB_TURN_LEFT_1++;
+                N_TURN_LEFT_1++;
+                CURRENT_BATTERY-=POWER_LEFT_1;
+                fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_1, TOTAL_SUB_TURN_LEFT_1, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 2 : TURN_LEFT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            }
+            else if( _action == TURN_RIGHT_3 )
+            {
+                SUB_TURN_RIGHT_3++;
+                N_TURN_RIGHT_3++;
+                CURRENT_BATTERY-=POWER_RIGHT_3;
+                fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_3 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_3, TOTAL_SUB_TURN_RIGHT_3, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 3 : TURN_RIGHT_3\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            }
+            else if( _action == TURN_LEFT_3 )
+            {
+                SUB_TURN_LEFT_3++;
+                N_TURN_LEFT_3++;
+                CURRENT_BATTERY-=POWER_LEFT_3;
+                fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_3 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_3, TOTAL_SUB_TURN_LEFT_3, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 4 : TURN_LEFT_3\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            }
+            else if( _action == TURN_RIGHT_2 )
+            {
+                SUB_TURN_RIGHT_2++;
+                N_TURN_RIGHT_2++;
+                CURRENT_BATTERY-=POWER_RIGHT_2;
+                fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_2, TOTAL_SUB_TURN_RIGHT_2, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 5 : TURN_RIGHT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            }
+            else if( _action == TURN_LEFT_2 )
+            {
+                SUB_TURN_LEFT_2++;
+                N_TURN_LEFT_2++;
+                CURRENT_BATTERY-=POWER_LEFT_2;
+                fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_2, TOTAL_SUB_TURN_LEFT_2, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 6 : TURN_LEFT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            }
+            else if( _action == REVERSE )
             {	SUB_FORWARD++;
                 N_REVERSE++;
                 CURRENT_BATTERY-=POWER_REVERSE;
                 fprintf(stdout, "IRMA-II: LRN - REVERSE - %d/%d\t\tBATTERY : %f\r", SUB_FORWARD, TOTAL_SUB_FORWARD, CURRENT_BATTERY);
                 fprintf(fp_moves, "R%2d | 7 : REVERSE\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            }*/
+            }
             else if( _action == FREEZE )
             {
                 SUB_FORWARD = TOTAL_SUB_FORWARD;
@@ -681,9 +679,7 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
                 CURRENT_BATTERY-=POWER_FREEZE;
                 fprintf(stdout, "IRMA-II: LRN - FREEZE\t\tBATTERY : %f\r", CURRENT_BATTERY);
                 fprintf(fp_moves, "R%2d | 8 : FREEZE\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-                if(freeze_times++ > 3){
 
-                };
 
             }
 
@@ -906,26 +902,27 @@ int LRNProcessor::Update_Slam_Map(void)
     int _xc,_yc;         // new x,y coord 
     char MAP_FILE[50];   // ascii map
 
-    int _mapMeshSize = o_routes.o_ffitness.getMapMeshSize();
-    _onr= _mapMeshSize*_mapMeshSize*0.1; // taking 20% of the cell area as obstacle 
+    int _mapMeshSize = o_routes.o_ffitness.getMapMeshSize(); // 5 cm
+    _onr= 1; // taking 1 point of the cell area as obstacle 
+   // _onr = _mapMeshSize*_mapMeshSize*0.1; // 10 % of the area
 
     cda.lockArea(LASER_AREA);
-     _width = pCDALaser->img_ancho;
-     _heigh = pCDALaser->img_alto;
+     _width = pCDALaser->img_ancho; // 500 cm 
+     _heigh = pCDALaser->img_alto;  // 500 cm
     cda.unlockArea(LASER_AREA);
 
     o_routes.o_ffitness.Set_Map_Dimensions(_width,_heigh);
-
+  
     /* divide the slam map by _mapMeshSize to generate a lower resolution map */
-    for (int _y = 0 ; _y <= _heigh-_mapMeshSize ; _y += _mapMeshSize){
-        for(int _x = 0 ; _x <= _width-_mapMeshSize; _x += _mapMeshSize){
-            auxY = _mapMeshSize+_y; auxX = _mapMeshSize+_x; 
-            /* Searching obstacles in the _mapMeshSize cell */
-            for (int _yc =_y ; _yc < auxY ;_yc++){
-                for(int _xc =_x ; _xc < auxX ; _xc++){
-                    cda.lockArea(LASER_AREA);
-                    _point = pCDALaser->map[_xc][_yc];
-                    cda.unlockArea(LASER_AREA);
+  for (int _y = 0 ; _y <= _heigh-_mapMeshSize ; _y += _mapMeshSize){
+      for(int _x = 0 ; _x <= _width-_mapMeshSize; _x += _mapMeshSize){
+          auxY = _mapMeshSize+_y; auxX = _mapMeshSize+_x; 
+          /* Searching obstacles in the _mapMeshSize cell */
+          for (int _yc =_y ; _yc < auxY ;_yc++){
+              for(int _xc =_x ; _xc < auxX ; _xc++){
+                 cda.lockArea(LASER_AREA);
+                 _point = pCDALaser->map[_xc][_yc];
+                 cda.unlockArea(LASER_AREA);
                     /* count the obstacles nr in the cell */
                     if(_point == OBSTACLE) 
                         _ocount++;
@@ -933,14 +930,15 @@ int LRNProcessor::Update_Slam_Map(void)
                     if (_ocount >= _onr){
                         _ocount = 0;
                         o_routes.o_ffitness.o_virtualMotion.o_MAP.setcCellObstacle(_xc/_mapMeshSize,_yc/_mapMeshSize);
-                        _yc = auxY;
-                        _xc = auxX;
-                    }
-                }
-            }
-        }
-    }
-
+                          _yc = auxY;
+                          _xc = auxX;
+                      }
+                  }
+              }
+         }
+     }
+     
+    
     snprintf(MAP_FILE, sizeof(MAP_FILE),  "./lrn_loaded_ascii_map%d", route_nr);
     o_routes.o_ffitness.o_virtualMotion.PrintMAPtoFile(MAP_FILE);
 
@@ -1100,13 +1098,13 @@ void LRNProcessor::Update_Missions_list(void){
     }
 
     if( mission_op_mode == TEST ){
-        missions_nr = 3;
-        mission_coord[0][0] = 0;   /* degrees */
-        mission_coord[0][1] = 250; /* xcord in cm */
-        mission_coord[0][2] = 250; /* ycord in cm */
+
+        mission_coord[0][0] = 90;   /* degrees */
+        mission_coord[0][1] = 370; /* xcord in cm */
+        mission_coord[0][2] = 362; /* ycord in cm */
         mission_coord[1][0] = 270;
-        mission_coord[1][1] = 200;
-        mission_coord[1][2] = 125;
+        mission_coord[1][1] = 100;
+        mission_coord[1][2] = 100;
  //       mission_coord[2][0] = 90;
  //       mission_coord[2][1] = 500;
 //        mission_coord[2][2] = 2500;
@@ -1174,7 +1172,7 @@ void LRNProcessor::Update_Start_position(void){
     cda.unlockArea(LASER_AREA);
 
     /* to fix negatives and more than 360 degrees */
-    while(tmp <= 0 || tmp >= 360){ 
+    while(tmp < 0 || tmp > 360){ 
         if (tmp < 0)   tmp = tmp + 360;
         if (tmp > 360) tmp = tmp - 360;
     }        
@@ -1316,7 +1314,7 @@ void LRNProcessor::Print_output_data(int _verbose)
         fprintf(stdout, "Fitness obtained for this individual: %f\n", o_routes.get_e_fitness());
         double temp_fulfillment[4];
         o_routes.get_e_fulfillment_prod(temp_fulfillment);
-        fprintf(stdout, "Curiosity: %.3f\t Energy: %.3f\t Homing: %.3f\t Missions: %.3f\n",
+        fprintf(stdout, "Mot. Full. Prod= Curiosity: %.3f\t Energy: %.3f\t Homing: %.3f\t Missions: %.3f\n",
                 temp_fulfillment[0], temp_fulfillment[1], temp_fulfillment[2], temp_fulfillment[3]);
         fprintf(fp_fitness, "R%2d | Curiosity: %.3f\t Energy: %.3f\t Homing: %.3f\t Missions: %.3f\n",
                 N_FITNESS+1, temp_fulfillment[0], temp_fulfillment[1], temp_fulfillment[2], temp_fulfillment[3]);
