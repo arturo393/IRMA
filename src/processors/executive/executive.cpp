@@ -151,13 +151,13 @@ int ExecutiveProcessor::init() {
     ConfigFile config("config/executive.conf");
     //loadSplineModel();
     config.readInto(MAX_STEPS, "MAX_STEPS", 400);
-/*  
-    config.readInto(GPS_STEPS, "GPS_STEPS", 50);
-    config.readInto(InitPosX, "InitPosX", 213);
-    config.readInto(InitPosY, "InitPosY", 320);
-    config.readInto(InitPosOrientation, "InitPosOrientation", 90);
-    config.readInto(correction_mode, "correction_mode", 1);
-    */
+    /*  
+        config.readInto(GPS_STEPS, "GPS_STEPS", 50);
+        config.readInto(InitPosX, "InitPosX", 213);
+        config.readInto(InitPosY, "InitPosY", 320);
+        config.readInto(InitPosOrientation, "InitPosOrientation", 90);
+        config.readInto(correction_mode, "correction_mode", 1);
+        */
     cda.lockArea(EXECUTIVE_AREA);
     pExecutive->path_length = MAX_STEPS;
     cda.unlockArea(EXECUTIVE_AREA);
@@ -228,6 +228,8 @@ int ExecutiveProcessor::step() {
     int speed_percent = 0;
     int movement = 0;
     int current_nav;
+    int vR = 0; // right wheel power
+    int vL = 0; // left whell power
 
     cda.lockArea(EXECUTIVE_AREA);
     move_ready_flag = pExecutive->exec_move_ready_flag;
@@ -240,68 +242,38 @@ int ExecutiveProcessor::step() {
     cda.lockArea(MONITOR_AREA);
     current_nav = pMonitor->monitor_current_nav;
     cda.unlockArea(MONITOR_AREA);
-    
+
 
 #ifdef MANUAL_MOVE
     if (use_manual_to_move) move_ready_flag = true;
 #endif
 
     if (move_ready_flag == true) {
-        
-        getLaserReading(pExecutive, pLaser, 0, 0, 0);
-	
 
+        getLaserReading(pExecutive, pLaser, 0, 0, 0);
 #ifdef MANUAL_MOVE
         if (use_manual_to_move && times > movement_times) {
             times = 1;
             cout << "\n";
-            cout << "Ingrese movimiento (forward=9 / right=1 / left=2 / back=3): ";
-            cin >> temp_movement;
-            cout << "Ingrese porcentaje: ";
-            cin >> temp_speed_percent;
-            cout << "Ingrese Repeticiones: ";
+            cout << "Speed: ";
+            cin >> tmpsp;
+            cout << "Steer: ";
+            cin >> tmpst;
+            cout << "Times: ";
             cin >> movement_times;
-            speed_percent = temp_speed_percent;
-            movement = temp_movement;
+            speed = tmpsp;
+            steer = tmpst;
         }
         if (times <= movement_times) {
             cout << "\n";
             cout << times << "/" << movement_times << " --  ";
-            speed_percent = temp_speed_percent;
-            movement = temp_movement;
+            speed = tmpsp;
+            steer = tmpst;
             times++;
-        }
-        // for laser readings
-        int vR = 0;
-        int vL = 0;
-
-        if (movement == 9){
-            vR = speed_percent;
-            vL = speed_percent;
-        }
-        else if(movement == 1){
-            vR = -speed_percent;
-            vL = speed_percent;
-        }
-        else if(movement == 2){
-            vR = speed_percent;
-            vL = -speed_percent;
-        }
-        else if(movement == 3){
-            vR = -speed_percent;
-            vL = -speed_percent;
-        }
-    
-#else 
-        int vR = getRVel(speed, steer);
-        int vL = getLVel(speed, steer);
-        if (speed > 1 || steer > 1) {
-            vR = speed;
-            vL = steer;
         }
 
 #endif            
-        
+
 
 #ifdef LOG
         if (fout != NULL) {
@@ -311,23 +283,18 @@ int ExecutiveProcessor::step() {
             saveLog(ss.str());
         }
 #endif
-        
+
+        cda.lockArea(EXECUTIVE_AREA);
         pExecutive->on_moving = 1;
-              
-        if (current_nav == LRN || current_nav == NN) {
-            serial->move_lrn(speed_percent, movement); //
-            usleep(STEP_SIZE);
-            serial->move_lrn(0, 9);
-        } else if (current_nav == CRN) {
-            serial->move_v(vR, vL); //
-            usleep(STEP_SIZE);
-            serial->move_v(0, 0);
-        } else if (use_manual_to_move) {
-            serial->move_lrn(speed_percent, movement); //
-            usleep(STEP_SIZE);
-            serial->move_lrn(0, 9);
-        }
+        cda.unlockArea(EXECUTIVE_AREA);
+
+        serial->move(speed,steer); //
+        usleep(STEP_SIZE);
+        serial->move(0.5, 0.5);
+
+        cda.lockArea(EXECUTIVE_AREA);
         pExecutive->on_moving = 0;
+        cda.unlockArea(EXECUTIVE_AREA);
         fprintf(stdout," ###########\n");
 
 #ifdef LOG
@@ -344,11 +311,23 @@ int ExecutiveProcessor::step() {
         int smedia=0;
         int amedia=0;
         usleep(STEP_SIZE * 3); //
+
+        vR = getRVel(speed, steer);
+        vL = getLVel(speed, steer);
+        if (speed > 1 || steer > 1) {
+            vR = speed;
+            vL = steer;
+        }
         getLaserReading(pExecutive, pLaser, 1, vR, vL);
         if (num_executed_steps < pExecutive->path_length) {
             // Writes a log for the robots position
             cda.lockArea(EXECUTIVE_AREA);
             // el principio es el (0,0)
+            pExecutive->diff[num_executed_steps][0] = speed;
+            pExecutive->diff[num_executed_steps][1] = steer;;
+            pExecutive->diff[num_executed_steps][2] = pLaser->dx;
+            pExecutive->diff[num_executed_steps][3] = pLaser->dy;
+            pExecutive->diff[num_executed_steps][4] = pLaser->ddir;
             pExecutive->path[num_executed_steps][1] = pLaser->x;
             pExecutive->path[num_executed_steps][2] = pLaser->y;
             pExecutive->path[num_executed_steps][0] = pLaser->dir;
@@ -356,12 +335,10 @@ int ExecutiveProcessor::step() {
             pExecutive->current_Y = pLaser->y;
             pExecutive->current_orientation = pLaser->dir;
             pExecutive->steps_number = num_executed_steps;
-            fprintf(stdout,"Current Position (%f,%f,%f°) --- ",pLaser->x,pLaser->y,pLaser->dir);
-            fprintf(stdout,"delta (%f,%f,%f°)  ",pLaser->dx,pLaser->dy,pLaser->ddir);
- 
+            fprintf(stdout,"Current Position (%f,%f,%f°)\n ",pLaser->x,pLaser->y,pLaser->dir);
+            fprintf(stdout,"    Delta Values (%f,%f,%f°)\n",pLaser->dx,pLaser->dy,pLaser->ddir);
             smedia = sqrt(pow(pLaser->dx,2.0)+pow(pLaser->dy,2.0));
             fprintf(stdout,"dstep = %i \n ",smedia);
-
             cda.unlockArea(EXECUTIVE_AREA);
         }
 
@@ -927,7 +904,7 @@ void ExecutiveProcessor::loadSplineModel() {
     /*for (i = 0; i < 61; i++)
       for (j = 0; j < 61; j++)
       printf("(%d,%d)[%f,%f,%f]", i, j, modeloSpline[i][j][0], modeloSpline[i][j][1], modeloSpline[i][j][2]);
-     */
+      */
     fclose(modelos);
 
 }
@@ -996,13 +973,13 @@ void ExecutiveProcessor::getGPSPosition() {
         // first cuadrant
         if (y1 >= y0 && x1 >= x0)
             orient = lround(acos(ca / hip)*180 / PI);
-            //second cuadrant
+        //second cuadrant
         else if (y1 > y0 && x0 >= x1)
             orient = 180 - lround(acos(ca / hip)*180 / PI);
-            //third cuadrant
+        //third cuadrant
         else if (x0 >= x1 && y0 >= y1)
             orient = lround(acos(ca / hip)*180 / PI) + 180;
-            //fourth cuadrant
+        //fourth cuadrant
         else
             orient = 360 - lround(asin(co / hip)*180 / PI);
     } while (abs(orient - pExecutive->current_orientation) > MAX_DEV);

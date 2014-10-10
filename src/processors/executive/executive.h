@@ -137,6 +137,8 @@ private:
 public:
       int times;
       int movement_times;
+      float tmpsp; // temp speed for cin manual move
+      float tmpst; // temp steer for cin manual move
       int temp_speed_percent;
       int temp_movement ;
 
