@@ -98,6 +98,7 @@ private:
 
     void updateVariables(void);
     void setNavigationMode(void);
+    void setNavigationMode2(void);
     void updateExecutiveData(void);
     bool checkSensors(void);
     bool checkFlagFN(void);

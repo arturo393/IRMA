@@ -134,7 +134,7 @@ int MonitorProcessor::step() {
 
     if ((num_steps < max_steps_nr) && (!mission_accomplished_flag) && (execute_ready_flag)) {
         updateVariables();
-        setNavigationMode();
+        setNavigationMode2();
         updateExecutiveData();
 
         cda.lockArea(LONG_NAV_AREA);
@@ -209,7 +209,7 @@ void MonitorProcessor::updateVariables() {
     cda.unlockArea(MONITOR_AREA);
 
     collision_flag = checkSensors();
-    flag_fn = checkFlagFN();
+ //   flag_fn = checkFlagFN();
 
 
     //   printf("Variable:\nhysteresis=%d\ncollision=%d\nflag_fn =%d,hysteresis_CRN_steps=%d\n",
@@ -218,8 +218,37 @@ void MonitorProcessor::updateVariables() {
 
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
-
 void MonitorProcessor::setNavigationMode() {
+    int old_nav = current_nav;
+
+    if (old_nav == CRN) {
+        if (status_LRN == ON && hysteresis_flag && !collision_flag) {
+            current_nav = LRN;
+            fprintf(stdout, "Actual Navigation Mode: Long Range Navigator\n");
+        } else if (status_FN == ON && hysteresis_flag && !collision_flag ) {
+            current_nav = FN;
+            fprintf(stdout, "Actual Navigation Mode: Feature Navigator\n");
+        }
+        if (collision_flag)
+            hysteresis_CRN_steps = 0;
+    } else if (old_nav == LRN) {
+        if ((status_CRN == ON && collision_flag) || status_LRN == OFF) {
+            current_nav = CRN;
+            hysteresis_CRN_steps = 0;
+            fprintf(stdout, "Actual Navigation Mode: Close Range Navigator\n");
+            cda.lockArea(LONG_NAV_AREA);
+            pCDALongNav->lrn_route_obsolete_flag = true;
+            cda.unlockArea(LONG_NAV_AREA);
+        }
+    }
+
+
+    cda.lockArea(MONITOR_AREA);
+    pCDAMonitor->monitor_current_nav = current_nav;
+    cda.unlockArea(MONITOR_AREA);
+}
+
+void MonitorProcessor::setNavigationMode2() {
     int old_nav = current_nav;
 
     if (old_nav == CRN) {
@@ -241,43 +270,36 @@ void MonitorProcessor::setNavigationMode() {
             pCDALongNav->lrn_route_obsolete_flag = true;
             cda.unlockArea(LONG_NAV_AREA);
         }
+    } else if( status_FN == ON && flag_fn ){
+        printf("flag_fn = %d \n",flag_fn);
+        current_nav = FN;
+        fprintf(stdout, "Actual Navigation Mode: Feature Navigator\n");
+        cda.lockArea(LONG_NAV_AREA);
+        pCDALongNav->lrn_route_obsolete_flag = true;
+        cda.unlockArea(LONG_NAV_AREA);
+    } else if (old_nav == FN) {
+        if ((status_CRN == ON && collision_flag) || (status_LRN == OFF && !flag_fn)) {
+            current_nav = CRN;
+            hysteresis_CRN_steps = 0;
+            fprintf(stdout, "Actual Navigation Mode: Close Range Navigator\n");
+
+            if (status_CRN == ON && collision_flag) {
+                cda.lockArea(FEATURE_NAV_AREA);
+                pCDAFeatureNav->fn_route_obsolete_flag = true;
+                cda.unlockArea(FEATURE_NAV_AREA);
+            }
+
+        } else if (status_LRN == ON && !flag_fn) {
+            current_nav = LRN;
+            fprintf(stdout, "Actual Navigation Mode: Long Range Navigator\n");
+        }
+
     }
 
-
+    // if (current_nav != old_nav) // maybe???
     cda.lockArea(MONITOR_AREA);
     pCDAMonitor->monitor_current_nav = current_nav;
     cda.unlockArea(MONITOR_AREA);
-
-    ///////////////////////////////////////////////////////////////////////////
-    // FEARTURE NAVIGATOR
-    //            else if( status_FN == ON && flag_fn ){
-    //                printf("flag_fn = %d \n",flag_fn);
-    //                current_nav = FN;
-    //                fprintf(stdout, "Actual Navigation Mode: Feature Navigator\n");
-    //                cda.lockArea(LONG_NAV_AREA);
-    //                pCDALongNav->lrn_route_obsolete_flag = true;
-    //                cda.unlockArea(LONG_NAV_AREA);
-    //            }
-    //    else if (old_nav == FN) {
-    //        if ((status_CRN == ON && collision_flag) || (status_LRN == OFF && !flag_fn)) {
-    //            current_nav = CRN;
-    //            hysteresis_CRN_steps = 0;
-    //            fprintf(stdout, "Actual Navigation Mode: Close Range Navigator\n");
-    //
-    //            if (status_CRN == ON && collision_flag) {
-    //                cda.lockArea(FEATURE_NAV_AREA);
-    //                pCDAFeatureNav->fn_route_obsolete_flag = true;
-    //                cda.unlockArea(FEATURE_NAV_AREA);
-    //            }
-    //
-    //        } else if (status_LRN == ON && !flag_fn) {
-    //            current_nav = LRN;
-    //            fprintf(stdout, "Actual Navigation Mode: Long Range Navigator\n");
-    //        }
-    //
-    //    }
-    /////////////////////////////////////////////////////////////////////
-    // if (current_nav != old_nav) // maybe???
 
 }
 
