@@ -299,10 +299,10 @@ void Population::Evolve(const char _verbose) {
 
     //   std::cout << "Evaluate BEFORE starting GA" << std::endl;
     // Fix the movements (left followed right) of the top 1 ranking organism	
-    this->CleanGenes();
+    //  this->CleanGenes();
     // Evaluate de fitness of the first generation
-    this->Evaluate();
-  // this->DisplayPool(_verbose);
+    // this->Evaluate();
+    // this->DisplayPool(_verbose);
     //   std::cout << "Displaying pool AFTER evaluate:"<<std::endl;
 
 
@@ -317,9 +317,11 @@ void Population::Evolve(const char _verbose) {
         this->Mutate();
         //        this->CleanGenes();
         this->Evaluate();
-    //    this->DisplayPool(_verbose);
 
+
+//        this->DisplayPool(VERBOSE_MEDIUM);
         this->RankingUpdate(); // Sort the population and Update sumFitness and avgFitness
+
         if (ao_pool[a_popList[0]].getFitness() <= 0.0)
             this->Sort_by_useful_steps(0, populationSize - 1); // Sort the population and Update sumFitness and avgFitness
 
@@ -449,7 +451,7 @@ int Population::Evaluate() {
             this->o_ffitness.o_virtualMotion.get_mission_closer_position(_final_coord);
         }
 
-        this->ao_pool[_iorg].set_fulfillment_products(this->o_ffitness.a_fitness);
+        this->ao_pool[_iorg].set_fulfillment_products(this->o_ffitness.mfp_fitness);
         this->ao_pool[_iorg].setFitness(_fitness);
         this->ao_pool[_iorg].set_useful_steps_nr(_goal_step);
         this->ao_pool[_iorg].set_min_goal_distance(_goal_distance);
@@ -597,7 +599,7 @@ void Population::Mutate(void) {
 #ifdef T_MUTATION    // Show info for DEBUG PURPOSE only
             printf("\nORGANISM AFTER %5d of %5d\n", _iorg, populationSize - 1);
             for (int _igen = 0; _igen < genesNumber; _igen++)
-                printf("%x  ", this->a_pool[_iorg].getGene(_igen));
+                printf("%x  ", this->ao_pool[_iorg].getGene(_igen));
 #endif   // end T_MUTATION
             //···································································
         } // end if( doubleRandom01(6) < _rate )
@@ -797,7 +799,7 @@ void Population::Roulette(void) {
             //···································································
 #ifdef T_ROULETTE_SELECTION   // Show info for DEBUG PURPOSE only
             printf("\nROULETTE SELECTED: %3d   ORG: %d   RAND: %f   SLICE: %f",
-                    selected, ao_popList[_iorg], tempRand1, this->getSlice(a_popList[_iorg]));
+                    selected, a_popList[_iorg], tempRand1, this->getSlice(a_popList[_iorg]));
 #endif   // end T_ROULETTE_SELECTION
             //···································································
             if (tempRand1 <= this->getSlice(a_popList[_iorg])) {
@@ -1298,20 +1300,20 @@ void Population::DisplayPool(char _verbose) const {
     double _sumFitness = 0.0;
 
 
-    std::cout <<"Pool - Actual Generation"<< std::endl;
+    std::cout <<"Pool - Actual Generation";
     for (int _iorg = 0; _iorg < populationSize; _iorg++) {
         _sumFitness += ao_pool[_iorg].getFitness();
 
         // Show Individual Identificator
         if (_verbose >= VERBOSE_MIN) {
-            std::cout << "Pool Member "<< _iorg << " of " << populationSize-1;
+            std::cout << "\nPool Member "<< _iorg << " of " << populationSize-1 ;
 
         } // end if( _verbose >= 0 )
 
         // Show Fitness and Ranking
         if (_verbose >= VERBOSE_LOW) {
-            printf("\tFITNESS: %2.3f   RANKING: %5d   LENGTH: %5d\n",
-                    this->ao_pool[_iorg].getFitness(), this->ao_pool[_iorg].getRanking(), this->ao_pool[_iorg].getGenesNumber());
+            printf("\tFITNESS: %2.3f   RANKING: %5d   LENGTH: %5d   USEFUL_STEPS: %3d",
+                    this->ao_pool[_iorg].getFitness(), this->ao_pool[_iorg].getRanking(), this->ao_pool[_iorg].getGenesNumber(),this->ao_pool[_iorg].get_useful_steps_nr());
         } // end if( _verbose >= 1 )
 
         // Show Genes
@@ -1319,6 +1321,7 @@ void Population::DisplayPool(char _verbose) const {
             for (int _igen = 0; _igen < genesNumber; _igen++)
                 printf("%x  ", this->ao_pool[_iorg].getGene(_igen));
         } // end if( _verbose >= 2 )
+      
     } // end for (int _iorg = 0; _iorg < populationSize; _iorg++)
 
     // Show Population Statistics
@@ -1620,20 +1623,20 @@ double FitnessFunction::CalcFitness(const c_organism& agent) {
 #endif   // end T_MOTIVATION_FITNESS
     //···································································
 
-    double temp_fitness[4];
+    //double temp_fitness[4];
     // MOTIVATION FULFILLMENT PRODUCT
-    temp_fitness[0] = a_fitness[0] * a_motivations[0];
-    temp_fitness[1] = a_fitness[1] * a_motivations[1];
-    temp_fitness[2] = a_fitness[2] * a_motivations[2];
-    temp_fitness[3] = a_fitness[3] * a_motivations[3];
+    mfp_fitness[0] = a_fitness[0] * a_motivations[0];
+    mfp_fitness[1] = a_fitness[1] * a_motivations[1];
+    mfp_fitness[2] = a_fitness[2] * a_motivations[2];
+    mfp_fitness[3] = a_fitness[3] * a_motivations[3];
 
     //···································································
 #ifdef T_MOTIVATION_FITNESS
-    printf("\nMFP temp_fitness: CURIOSITY: %f   ENERGY: %f   HOMING: %f   MISSIONS: %f *", temp_fitness[0], temp_fitness[1], temp_fitness[2], temp_fitness[3]);
+    printf("\nMFP temp_fitness: CURIOSITY: %f   ENERGY: %f   HOMING: %f   MISSIONS: %f *", mfp_fitness[0], mfp_fitness[1], mfp_fitness[2], mfp_fitness[3]);
 #endif   // end T_MOTIVATION_FITNESS
     //···································································
 
-    o_mandami.CalcOutputs(temp_fitness); // MOTIVATION FULFILLMENT ARE INPUTS TO MANDAMI
+    o_mandami.CalcOutputs(mfp_fitness); // MOTIVATION FULFILLMENT ARE INPUTS TO MANDAMI
 
     double _fitness = o_mandami.getOutput(0);
     int valid_input = 0;
@@ -2038,14 +2041,20 @@ void VirtualExecutive::Executor(const c_organism& agent, double a_fitness[]) {
 
         //···································································
 #ifdef T_EXECUTOR
-        printf("\nGEN NUMBER: %i  ACTION %c   BATT:%d", _igen, _action, this->currentBattery);
+        std::string tmp;
+        if (_action == 0) tmp = "FORWARD";
+        else if (_action ==1)  tmp = "REVERSE";
+        else if (_action == 2)  tmp= "FREEZE";
+        else if (_action == 3) tmp = "TURN_RIGHT";
+        else if (_action == 4)  tmp = "TURN_LEFT";
+        printf("\nGEN NUMBER: %i  ACTION %s   BATT:%d", _igen, tmp.c_str(), this->currentBattery);
         printf("\nSTART: ANGLE: %d   X COORD: %d   Y COORD: %d", _prevCoord[0], _prevCoord[1], _prevCoord[2]);
         printf("\nEND  : ANGLE: %d   X COORD: %d   Y COORD: %d", currentPosition[0], currentPosition[1], currentPosition[2]);
 #endif   // end T_EXECUTOR
         //···································································
         _igen++;
     } // end for(int _igen = 0; _igen < agent.getGenesNumber(); _igen++)
-
+ 
     useful_steps_nr = _igen;
     if (totalMissions != 0) useful_steps_nr = missionPosition[0][4];
 
@@ -2768,9 +2777,9 @@ void VirtualExecutive::UpdateBatteryLevel(const _gen _action) {
     } else if (_action == REVERSE) {
         this->currentBattery -= POWER_REVERSE;
     } else if (_action == TURN_RIGHT) {
-        this->currentBattery -= POWER_RIGHT_1;
+        this->currentBattery -= POWER_RIGHT;
     } else if (_action == TURN_LEFT) {
-        this->currentBattery -= POWER_LEFT_1;
+        this->currentBattery -= POWER_LEFT;
     }        //   else if( _action == TURN_RIGHT_1 )
     //   {
     //      this->currentBattery -= POWER_RIGHT_1;

@@ -64,16 +64,18 @@ const int ELITE = 1;             // 1
 const int FIXED_ELITE = 3;       // 1
 const int IMMIGRANTS = 6;        // 6%
 const int CROSS_POINTS = 40;     // 40
-const double MUTATION_RATE = 0.20;   // 15%
-const double TOURNAMENT_PARAM = 0.85;// 75%
-const double CROSSOVER_RATE = 0.80;  // 75%
+const double MUTATION_RATE = 0.001;   // 15%
+//const double MUTATION_RATE = 0.00120;   // 15%
+const double TOURNAMENT_PARAM = 0.75;// 75%
+const double CROSSOVER_RATE = 0.5;  // value recommended by De Jong (1975)
+//const double CROSSOVER_RATE = 0.80;  // 75%
 
 //===================================================================
 // Motivations
 const double MOTIVATION_CURIOSITY = 1.00;  // RANGE [0, 1]
 const double MOTIVATION_ENERGY    = 0.00;  // RANGE [0, 1]
 const double MOTIVATION_HOMING    = 0.00;  // RANGE [0, 1]
-const double MOTIVATION_MISSIONS  = 1.00;  // RANGE [0, 1]
+const double MOTIVATION_MISSIONS  = 0.00;  // RANGE [0, 1]
 
 const double REVISITED_PENALTY = 0.30;  // Used when a map cell is revisited (Patricio: was 0.20)
 const char SELECTED_ROOM = H_ROOM;     // Ideal Room
@@ -106,7 +108,7 @@ const char TURN_RIGHT_2 = 9;
 const char TURN_LEFT_2  = 10;  
 
 
-const int STEP_SIZE   = 5;    // Distance to cover in Forward movements - Millimeters
+const int STEP_SIZE   = 9;    // Distance to cover in Forward movements - cms
 const int ANGLE_SIZE  = 23;   // Angle to shift in Turns movements - DEGREES
 
 const double GOAL_SIZE = 1.0;  // Related to the robot diameter
@@ -114,8 +116,8 @@ const double GOAL_SIGNAL_RANGE = 3.0;  // Range is GOAL_SIGNAL_RANGE times GOAL 
 const double MISSION_AREA = 1.0;  // Related to the robot diameter
 const double MISSION_MAX_RANGE = (8.0);  // Range is GOAL_SIGNAL_RANGE times GOAL SIZE
 // Robot Characteristics
-const int ROBOT_DIAMETER = 38.5;  // Variables in Millimeters
-const int SENSOR_RANGE   = 10;  // Variables in Millimeters
+const int ROBOT_DIAMETER = 38.5;  // cms
+const int SENSOR_RANGE   = 5;  // cms
 
 // original values:
 // Calc_Fitness_Energy divides current by initial battery and current
@@ -129,9 +131,9 @@ const int SENSOR_RANGE   = 10;  // Variables in Millimeters
 // 	Current population size (max number of steps): 40 <-- config/longRangeNavigator.conf in gumstix
 //	The most consumer step: FORWARD == REVERSE: 1.0/40=0.0250 (Patricio)
 //	While turning has half of the power loss: RIGHT == LEFT: 0.0250/2=0.0125
- const double POWER_FORWARD = 0.0250;  // Power needed to move the robot FORWARD - RANGE [0, 1]
- const double POWER_RIGHT =   0.0125;  // Power needed to turn the robot RIGHT - RANGE [0, 1]
- const double POWER_LEFT  =   0.0125;  // Power needed to turn the robot LEFT - RANGE [0, 1]
+ const double POWER_FORWARD = 0.0010;  // Power needed to move the robot FORWARD - RANGE [0, 1]
+ const double POWER_RIGHT =   0.0005;  // Power needed to turn the robot RIGHT - RANGE [0, 1]
+ const double POWER_LEFT  =   0.0005;  // Power needed to turn the robot LEFT - RANGE [0, 1]
  const double POWER_RIGHT_1 = 0.0125;  // Power needed to turn the robot RIGHT - RANGE [0, 1]
  const double POWER_LEFT_1  = 0.0125;  // Power needed to turn the robot LEFT - RANGE [0, 1]
  //	The following movements are not implemented
@@ -184,10 +186,10 @@ static int DEBUG_ITERATIONS = 0;
 //#define T_CRASH_CHECKER
 //#define T_EXECUTOR
 //#define T_MANDAMI_FITNESS
-//#define T_MOTIVATION_FITNESS
+//define T_MOTIVATION_FITNESS
 //===================================================================
 // DEFINE TO DEBUG
-//#define TEST_GA_FUNCTIONS
+// #define TEST_GA_FUNCTIONS
 //#define T_CREATE
 //#define T_EVOLVE
 //#define T_EVALUATE
@@ -202,7 +204,8 @@ static int DEBUG_ITERATIONS = 0;
 //#define T_IMMIGRANTS_SELECTION
 //#define T_RANKING_UPDATE
 //#define T_ELITE_FIX_FUNCTION
-#define USE_ELITE_FIX_FUNCTION
+//#define T_CLEAN_GENES
+//#define USE_ELITE_FIX_FUNCTION
 
 
 
@@ -396,6 +399,7 @@ class FitnessFunction
       double **FART_MAP;
       double a_fitness[4];       // Fitness for each Motivation
       double a_motivations[4];   // Must be public to be updated with IRMA's Main Process
+      double mfp_fitness[4];     // Motivation Fullfillment Product 
       c_vExecutive o_virtualMotion; // Must be public to update Mission with IRMA's Main Process
 
       FitnessFunction();   // Default Constructor
