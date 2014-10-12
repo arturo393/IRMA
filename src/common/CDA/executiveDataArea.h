@@ -58,7 +58,7 @@ struct ExecutiveData {
     //          2-> posY
     int path_length;
     int path[5000][3];
-    int diff[5000][5];
+    float diff[5000][5];
     int steps_number;
     //Grilla de ocupacion
     //int grid[1024*5][1024*5];

@@ -2287,6 +2287,18 @@ int VirtualExecutive::Calculate_Distance(const int _1st_position[], const int _2
     return (_distance);
 }
 
+void VirtualExecutive::ComputeNextPosition2(int _currentPosition[], const _gen _action) {
+    //···································································
+#ifdef T_C_NEXT_POSITION
+    printf("\nTEST COMPUTE NEXT POSITION:");
+    printf("\nSTART COORINATES:\n ANGLE: %3d\tX COORD: %5d\tY COORD: %5d" \
+            , _currentPosition[0], _currentPosition[1], _currentPosition[2]);
+#endif   // end T_C_NEXT_POSITION
+    //···································································
+        _currentPosition[0] += dstep[_action][0];
+        _currentPosition[1] += dstep[_action][1];
+        _currentPosition[2] += dstep[_action][2];    
+    }
 //-------------------------------------------------------------------
 // This Function must be modify depending in the real robot movement
 // logic and limitaciones

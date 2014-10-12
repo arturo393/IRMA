@@ -168,7 +168,7 @@ int LRNProcessor::step(){
          * Check posibility of implementation
          * if (experimentation_room = SLAM_ROOM) Update_Internal_Map();
          */	 
-        //Update_Step_Lenght();	
+        Update_Step_Lenght();	
 
         Update_Slam_Map();
         // Update the Start coordinates with the current one
@@ -1141,18 +1141,30 @@ void LRNProcessor::Update_Missions_list(void){
 void LRNProcessor::Update_Step_Lenght(void){
 
     int _step;
-    float _dx,_dy,_dangle,temp; // delta values
+    float _dx;  // delta x axis
+    float _dy;  // delta y axis
+    float _ddi; // delta direccion
+    float _sp;  // speed value
+    float _st;  // steer value
+    int stepnr; // executed steps number
 
-    cda.lockArea(LASER_AREA);
-    _dx = pCDALaser->dx;
-    _dy = pCDALaser->dy;
-    _dangle = pCDALaser->ddir;
+    float temp; // delta values
+
+    cda.lockArea(EXECUTIVE_AREA);
+    _stepnr = pCDAExecutive->steps_number;
+    _sp = pCDAExecutive->diff[0];
+    _st = pCDAExecutive->diff[1];
+    _dx = pCDAExecutive->diff[2];
+    _dy = pCDAExecutive->diff[3];
+    _ddir = pCDAExecutive->diff[4];
     cda.unlockArea(LASER_AREA);
     
     temp = lround((_dangle*180.0)/M_PI);
 
     o_routes.o_ffitness.o_virtualMotion.set_angle_lenght(temp);
     o_routes.o_ffitness.o_virtualMotion.set_step_lenght(_step);
+
+    
 }
 //-------------------------------------------------------------------
 void LRNProcessor::Set_Start_position(void){	

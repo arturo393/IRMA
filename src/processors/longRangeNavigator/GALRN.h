@@ -55,7 +55,7 @@
 
 //*******************************************************************
 // Global Variables Definition
-const int ACTIONS_NUMBER = 4;
+const int ACTIONS_NUMBER = 7;
 
 const int GENES_NUMBER = 400;     // 400
 const int POPULATION = 100;      // 100
@@ -95,17 +95,14 @@ const int HOME_X_COORD  = START_X_COORD;   // Home X Coordinate - Millimeters
 const int HOME_Y_COORD  = START_Y_COORD;   // Home Y Coordinate - Millimeters
 //===================================================================
 // Actions
-const char FORWARD      = 0;  
-const char REVERSE      = 1;  
-const char FREEZE       = 2;  
-const char TURN_RIGHT   = 3;
-const char TURN_LEFT    = 4;
-const char TURN_RIGHT_1 = 5;  
-const char TURN_LEFT_1  = 6;  
-const char TURN_RIGHT_3 = 7;  
-const char TURN_LEFT_3  = 8;  
-const char TURN_RIGHT_2 = 9;  
-const char TURN_LEFT_2  = 10;  
+
+const char FORWARD      = 0; // speed = 0.8 , steer = 0.5  
+const char REVERSE      = 1; // spped = 0.2 , steer = 0.5 
+const char FREEZE       = 2; // speed = 0.5 , steer = 0.5
+const char TURN_RIGHT_1 = 3; // speed = 0.8 , steer = 0.7
+const char TURN_LEFT_1  = 4; // speed = 0.8 , steer = 0.3
+const char TURN_RIGHT_2 = 5; // speed = 0.2 , steer = 0.7 
+const char TURN_LEFT_2  = 6; // speed = 0.2 , steer = 0.3
 
 
 const int STEP_SIZE   = 9;    // Distance to cover in Forward movements - cms
@@ -290,8 +287,7 @@ class VirtualExecutive
       int robotRadiusPlusSensors;
       int step_lenght;
       float angle_length;
-
-      
+      float dstep[ACTIONS_NUMBER-1]; // difference values of each step to calculate in ComputeNextPosition
       // Energy Related Variables
       double initialBattery;     // Initial Battery or Energy level
       double currentBattery;     // Current or Final Battery level
