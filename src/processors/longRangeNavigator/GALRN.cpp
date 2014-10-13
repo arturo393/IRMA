@@ -671,51 +671,38 @@ void Population::Elite_Fix_Function(void) {
             _sum_angle_left = 0.0;
             _sum_angle_right = 0.0;
         }
-        if (_action == TURN_LEFT) _sum_angle_left += o_ffitness.o_virtualMotion.get_angle_length();
-        if (_action == TURN_RIGHT) _sum_angle_right += o_ffitness.o_virtualMotion.get_angle_length();
-        //      if( _action == TURN_LEFT_1 )  _sum_angle_left += o_ffitness.o_virtualMotion.get_angle_length();
-        //      if( _action == TURN_LEFT_2 )  _sum_angle_left += o_ffitness.o_virtualMotion.get_angle_length()*2;
-        //      if( _action == TURN_LEFT_3 )  _sum_angle_left += o_ffitness.o_virtualMotion.get_angle_length()*3;
-        //      if( _action == TURN_RIGHT_1 )  _sum_angle_right += o_ffitness.o_virtualMotion.get_angle_length();
-        //      if( _action == TURN_RIGHT_2 )  _sum_angle_right += o_ffitness.o_virtualMotion.get_angle_length()*2;
-        //      if( _action == TURN_RIGHT_3 )  _sum_angle_right += o_ffitness.o_virtualMotion.get_angle_length()*3;
+              if( _action == TURN_LEFT_1 )  _sum_angle_left += o_ffitness.o_virtualMotion.get_angle_length();
+              if( _action == TURN_LEFT_2 )  _sum_angle_left += o_ffitness.o_virtualMotion.get_angle_length()*2;
+              if( _action == TURN_LEFT_3 )  _sum_angle_left += o_ffitness.o_virtualMotion.get_angle_length()*3;
+              if( _action == TURN_RIGHT_1 )  _sum_angle_right += o_ffitness.o_virtualMotion.get_angle_length();
+              if( _action == TURN_RIGHT_2 )  _sum_angle_right += o_ffitness.o_virtualMotion.get_angle_length()*2;
+              if( _action == TURN_RIGHT_3 )  _sum_angle_right += o_ffitness.o_virtualMotion.get_angle_length()*3;
         if ((_sum_angle_right >= 180) || (_sum_angle_left >= 180)) {
             _change = true;
             _sum_angle_left = 0.0;
             _sum_angle_right = 0.0;
         }
-        if ((_action == TURN_LEFT)) {
-            if ((ao_matingPool[0].getGene(_igen) == TURN_RIGHT)) {
-                _change = true;
-            }
-        }
-        if (_action == TURN_RIGHT) {
-            if (ao_matingPool[0].getGene(_igen) == TURN_LEFT)
-            {
-                _change = true;
-            }
-        }
 
 
-        //      if( (_action == TURN_LEFT_1) || (_action == TURN_LEFT_2) || (_action == TURN_LEFT_3) )
-        //      {
-        //         if( (ao_matingPool[0].getGene(_igen) == TURN_RIGHT_1) ||
-        //             (ao_matingPool[0].getGene(_igen) == TURN_RIGHT_2) ||
-        //             (ao_matingPool[0].getGene(_igen) == TURN_RIGHT_3) )
-        //         {
-        //            _change = true;
-        //         }
-        //      }
-        //      if( (_action == TURN_RIGHT_1) || (_action == TURN_RIGHT_2) || (_action == TURN_RIGHT_3) )
-        //      {
-        //         if( (ao_matingPool[0].getGene(_igen) == TURN_LEFT_1) ||
-        //             (ao_matingPool[0].getGene(_igen) == TURN_LEFT_2) ||
-        //             (ao_matingPool[0].getGene(_igen) == TURN_LEFT_3) )
-        //
-        //         {
-        //            _change = true;
-        //         }
-        //      }
+              if( (_action == TURN_LEFT_1) || (_action == TURN_LEFT_2) || (_action == TURN_LEFT_3) )
+              {
+                 if( (ao_matingPool[0].getGene(_igen) == TURN_RIGHT_1) ||
+                     (ao_matingPool[0].getGene(_igen) == TURN_RIGHT_2) ||
+                     (ao_matingPool[0].getGene(_igen) == TURN_RIGHT_3) )
+                 {
+                  _change = true;
+                 }
+              }
+              if( (_action == TURN_RIGHT_1) || (_action == TURN_RIGHT_2) || (_action == TURN_RIGHT_3) )
+              {
+                 if( (ao_matingPool[0].getGene(_igen) == TURN_LEFT_1) ||
+                     (ao_matingPool[0].getGene(_igen) == TURN_LEFT_2) ||
+                     (ao_matingPool[0].getGene(_igen) == TURN_LEFT_3) )
+        
+                 {
+                    _change = true;
+                 }
+              }
 
         if (_change == true) {
             _change = false;

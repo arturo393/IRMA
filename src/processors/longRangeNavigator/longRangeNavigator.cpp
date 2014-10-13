@@ -836,7 +836,11 @@ void LRNProcessor::Update_elite_phenotype(void)
 
     for(int _igen = 0; _igen < _nr_gen; _igen++)
     {
-        o_routes.o_ffitness.o_virtualMotion.ComputeNextPosition(_temp_coord, o_final_route.get_gen(_igen));
+       // o_routes.o_ffitness.o_virtualMotion.ComputeNextPosition(_temp_coord, o_final_route.get_gen(_igen));
+	_temp_coord[0] += _cmd[o_final_route.get_gen(_igen)][0];
+	_temp_coord[1] += _cmd[o_final_route.get_gen(_igen)][1];
+	_temp_coord[2] += _cmd[o_final_route.get_gen(_igen)][2];
+	
         o_final_route.set_path_step(_temp_coord);
     }
 }
