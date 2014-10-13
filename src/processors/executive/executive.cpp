@@ -323,14 +323,14 @@ int ExecutiveProcessor::step() {
             // Writes a log for the robots position
             cda.lockArea(EXECUTIVE_AREA);
             // el principio es el (0,0)
-            pExecutive->diff[num_executed_steps][0] = speed;
-            pExecutive->diff[num_executed_steps][1] = steer;;
-            pExecutive->diff[num_executed_steps][2] = pLaser->dx;
-            pExecutive->diff[num_executed_steps][3] = pLaser->dy;
-            pExecutive->diff[num_executed_steps][4] = pLaser->ddir;
             pExecutive->path[num_executed_steps][1] = pLaser->x;
             pExecutive->path[num_executed_steps][2] = pLaser->y;
             pExecutive->path[num_executed_steps][0] = pLaser->dir;
+            pExecutive->diff[num_executed_steps][0] = pLaser->dx; 
+            pExecutive->diff[num_executed_steps][1] = pLaser->dy;
+            pExecutive->diff[num_executed_steps][2] = pLaser->ddir;
+            pExecutive->diff[num_executed_steps][3] = speed;
+            pExecutive->diff[num_executed_steps][4] = steer;
             pExecutive->current_X = pLaser->x;
             pExecutive->current_Y = pLaser->y;
             pExecutive->current_orientation = pLaser->dir;
@@ -341,6 +341,7 @@ int ExecutiveProcessor::step() {
             fprintf(stdout,"dstep = %i \n ",smedia);
             cda.unlockArea(EXECUTIVE_AREA);
         }
+
 
         move_ready_flag = false;
         cda.lockArea(EXECUTIVE_AREA);
