@@ -104,6 +104,19 @@ const char TURN_LEFT_1  = 4; // speed = 0.8 , steer = 0.3
 const char TURN_RIGHT_2 = 5; // speed = 0.2 , steer = 0.7 
 const char TURN_LEFT_2  = 6; // speed = 0.2 , steer = 0.3
 
+static double _cmd[ACTIONS_NUMBER][2];
+static double _cmd[FORWARD][0] = 0.8;
+static double _cmd[FORWARD][1] = 0.7
+static double _cmd[REVERSE][0] = 0.8;
+static double _cmd[REVERSE][1] = 0.7
+static double _cmd[TURN_RIGHT_1][0] = 0.8;
+static double _cmd[TURN_RIGHT_1][1] = 0.7;
+static double _cmd[TURN_RIGHT_2][0] = 0.2;
+static double _cmd[TURN_RIGHT_2][1] = 0.7;
+static double _cmd[TURN_LEFT_1][0] = 0.8;
+static double _cmd[TURN_LEFT_1][1] = 0.3;
+static double _cmd[TURN_LEFT_2][0] = 0.2;
+static double _cmd[TURN_LEFT_2][1] = 0.3;
 
 const int STEP_SIZE   = 9;    // Distance to cover in Forward movements - cms
 const int ANGLE_SIZE  = 23;   // Angle to shift in Turns movements - DEGREES
@@ -287,7 +300,13 @@ class VirtualExecutive
       int robotRadiusPlusSensors;
       int step_lenght;
       float angle_length;
+<<<<<<< HEAD
       float dstep[ACTIONS_NUMBER-1]; // difference values of each step to calculate in ComputeNextPosition
+=======
+      float diff[ACTIONS_NUMBER][3]; // delta values [0][1][3]=[x][y][angle] for ComputeNextPosition
+
+      
+>>>>>>> 05b4a7db357c0f47e8168a52d37b8398a0fbd94f
       // Energy Related Variables
       double initialBattery;     // Initial Battery or Energy level
       double currentBattery;     // Current or Final Battery level
@@ -347,6 +366,8 @@ class VirtualExecutive
       void set_step_lenght(const int _value);
       void set_angle_lenght(const int _value);
       void set_selected_room(const char _value);
+      void set_step_diff(const int _action, const double _df[]);
+      void set_step_diff(const int _action,const double _dir, const double _x, const double _y); 
 
       void get_start_position(int _coordinates[]) const;
       void get_goal_position(int _coordinates[]) const;
