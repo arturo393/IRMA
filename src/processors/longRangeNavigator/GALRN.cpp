@@ -234,9 +234,13 @@ Population::~Population() {
     //   delete [] a_points;
 }
 
-
-//-------------------------------------------------------------------
-// Needed only to make successive experiments
+/**
+ * \brief Needed only to make successive experiments.  
+ * Set crossing point at the same distance and population random genes.
+ * Set fitness -1 and ranking -1  on every organism                
+ * \param Void
+ * \return Void
+**/
 
 void Population::Reinit(void) {
     // Crossover points
@@ -373,7 +377,7 @@ void Population::Evolve(const char _verbose) {
  * Whenever there are a TURN_RIGHT followed by TURN_LEFT, or viceversa, it avoid this step and decreases 
  * the useful steps of the. Only takes the top 1 organism.
  * \param none
- * \return none
+ * \return Void
  */
 void Population::CleanGenes() {
     //···································································
@@ -2026,7 +2030,11 @@ void VirtualExecutive::Executor(const c_organism& agent, double a_fitness[]) {
 
         if (_action != FREEZE) {
 
-            this->ComputeNextPosition(currentPosition, _action);
+           // this->ComputeNextPosition(currentPosition, _action);
+            currentPosition[0] += diff[_action][0];
+            currentPosition[1] += diff[_action][1];
+            currentPosition[2] += diff[_action][2];
+                
 
             if (totalMissions != 0)
                 this->Distance_Missions(currentPosition, _igen);
@@ -2075,7 +2083,6 @@ void VirtualExecutive::Executor(const c_organism& agent, double a_fitness[]) {
     }
 }
 
-
 //-------------------------------------------------------------------
 // Inputs values are in degrees an millimeters, which must be converted to cms
 //-------------------------------------------------------------------
@@ -2091,7 +2098,7 @@ void VirtualExecutive::Set_StartCoordinates(const int _coordinates[]) {
 
 //-------------------------------------------------------------------
 // Inputs values are in degrees an millimeters, which must be converted to cms
-//-------------------------------------------------------------------
+_//-------------------------------------------------------------------
 
 void VirtualExecutive::Set_GoalCoordinates(const int _coordinates[]) {
     goalPosition[0] = _coordinates[0]; // Angle in degrees
@@ -2117,20 +2124,34 @@ void VirtualExecutive::set_angle_lenght(const int _value) {
     angle_length = _value;
 }
 //-------------------------------------------------------------------
+void VirtualExecutive::set_step_diff(const int _action,const double _dir, const double _x, const double _y) {
+    diff[_action][0] = _dir;
+    diff[_action][1] = _x;
+    diff[_action][2] = _y;
+}
+//-------------------------------------------------------------------
+void VirtualExecutive::set_step_diff(const int _action,const int _value[]) {
+    diff[_action][0] = _value[0];
+    diff[_action][1] = _value[1];
+    diff[_action][2] = _value[2];
+}
+//-------------------------------------------------------------------
 
 void VirtualExecutive::set_selected_room(const char _value) {
     this->o_MAP.set_selected_room(_value);
 }
 
-//-------------------------------------------------------------------
-// Inputs values are in degrees an millimeters, which must be converted to cms
-//-------------------------------------------------------------------
-
+/** @brief Set mission coordinates and calculate the distance between,
+ * set fitness value -1 and mark the cell as mission
+ *
+ *  @param _coordinates[] new coodinates .
+ *  @return Void.
+ */
 void VirtualExecutive::Set_Mission(const int _coordinates[]) {
     totalMissions = 1;
-    missionPosition[0][0] = _coordinates[0]; // Angle in degrees
-    missionPosition[0][1] = _coordinates[1]; // X Coordinate Millimeters
-    missionPosition[0][2] = _coordinates[2]; // Y Coordinate MIllimeters
+    missionPosition[0][0] = _coordinates[0]; // Angle in rad
+    missionPosition[0][1] = _coordinates[1]; // X-coord cm
+    missionPosition[0][2] = _coordinates[2]; // Y-coord cm
 
     missionPosition[0][3] = -1; // Fitness Value [0.0, 1.0]
     this->Distance_Missions(currentPosition, 0);
@@ -2286,6 +2307,7 @@ int VirtualExecutive::Calculate_Distance(const int _1st_position[], const int _2
 
     return (_distance);
 }
+
 
 //-------------------------------------------------------------------
 // This Function must be modify depending in the real robot movement
@@ -2776,34 +2798,30 @@ void VirtualExecutive::UpdateBatteryLevel(const _gen _action) {
         this->currentBattery -= POWER_FORWARD;
     } else if (_action == REVERSE) {
         this->currentBattery -= POWER_REVERSE;
-    } else if (_action == TURN_RIGHT) {
-        this->currentBattery -= POWER_RIGHT;
-    } else if (_action == TURN_LEFT) {
-        this->currentBattery -= POWER_LEFT;
-    }        //   else if( _action == TURN_RIGHT_1 )
-    //   {
-    //      this->currentBattery -= POWER_RIGHT_1;
-    //   }
-    //   else if( _action == TURN_LEFT_1 )
-    //   {
-    //      this->currentBattery -= POWER_LEFT_1;
-    //   }
-    //   else if( _action == TURN_RIGHT_2 )
-    //   {
-    //      this->currentBattery -= POWER_RIGHT_2;
-    //   }
-    //   else if( _action == TURN_LEFT_2 )
-    //   {
-    //      this->currentBattery -= POWER_LEFT_2;
-    //   }
-    //   else if( _action == TURN_RIGHT_3 )
-    //   {
-    //      this->currentBattery -= POWER_RIGHT_3;
-    //   }
-    //   else if( _action == TURN_LEFT_3 )
-    //   {
-    //      this->currentBattery -= POWER_LEFT_3;
-    //   }
+    } else if( _action == TURN_RIGHT_1 )
+       {
+          this->currentBattery -= POWER_RIGHT_1;
+       }
+       else if( _action == TURN_LEFT_1 )
+       {
+          this->currentBattery -= POWER_LEFT_1;
+       }
+       else if( _action == TURN_RIGHT_2 )
+       {
+          this->currentBattery -= POWER_RIGHT_2;
+       }
+       else if( _action == TURN_LEFT_2 )
+       {
+          this->currentBattery -= POWER_LEFT_2;
+       }
+       else if( _action == TURN_RIGHT_3 )
+       {
+          this->currentBattery -= POWER_RIGHT_3;
+       }
+       else if( _action == TURN_LEFT_3 )
+       {
+          this->currentBattery -= POWER_LEFT_3;
+       }
     else if (_action == FREEZE) {
         this->currentBattery -= POWER_FREEZE;
     }
