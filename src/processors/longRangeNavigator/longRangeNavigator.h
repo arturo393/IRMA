@@ -106,6 +106,7 @@ const char FEATURE_LIST = 3;
 //#define IRMA2
 #define OBSTACLE 0
 
+
 //*******************************************************************
 // LRNProcessor Class Declaration: BEGIN
 //*******************************************************************
