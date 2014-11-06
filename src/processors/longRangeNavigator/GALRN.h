@@ -55,7 +55,7 @@
 
 //*******************************************************************
 // Global Variables Definition
-const int ACTIONS_NUMBER = 7;
+const int ACTIONS_NUMBER = 4;
 
 const int GENES_NUMBER = 400;     // 400
 const int POPULATION = 100;      // 100
@@ -98,25 +98,15 @@ const int HOME_Y_COORD  = START_Y_COORD;   // Home Y Coordinate - Millimeters
 
 const char FORWARD      = 0; // speed = 0.8 , steer = 0.5  
 const char REVERSE      = 1; // spped = 0.2 , steer = 0.5 
-const char FREEZE       = 2; // speed = 0.5 , steer = 0.5
-const char TURN_RIGHT_1 = 3; // speed = 0.8 , steer = 0.7
-const char TURN_LEFT_1  = 4; // speed = 0.8 , steer = 0.3
-const char TURN_RIGHT_2 = 5; // speed = 0.2 , steer = 0.7 
-const char TURN_LEFT_2  = 6; // speed = 0.2 , steer = 0.3
+const char TURN_RIGHT_1 = 2; // speed = 0.8 , steer = 0.7
+const char TURN_LEFT_1  = 3; // speed = 0.8 , steer = 0.3
+const char TURN_RIGHT_2 = 4; // speed = 0.2 , steer = 0.7 
+const char TURN_LEFT_2  = 5; // speed = 0.2 , steer = 0.3
+const char FREEZE       = 6; // speed = 0.5 , steer = 0.5
+const char TURN_RIGHT_3 = 7;
+const char TURN_LEFT_3 = 8;
 
-static double _cmd[ACTIONS_NUMBER][2];
-static double _cmd[FORWARD][0] = 0.8;
-static double _cmd[FORWARD][1] = 0.7
-static double _cmd[REVERSE][0] = 0.8;
-static double _cmd[REVERSE][1] = 0.7
-static double _cmd[TURN_RIGHT_1][0] = 0.8;
-static double _cmd[TURN_RIGHT_1][1] = 0.7;
-static double _cmd[TURN_RIGHT_2][0] = 0.2;
-static double _cmd[TURN_RIGHT_2][1] = 0.7;
-static double _cmd[TURN_LEFT_1][0] = 0.8;
-static double _cmd[TURN_LEFT_1][1] = 0.3;
-static double _cmd[TURN_LEFT_2][0] = 0.2;
-static double _cmd[TURN_LEFT_2][1] = 0.3;
+
 
 const int STEP_SIZE   = 9;    // Distance to cover in Forward movements - cms
 const int ANGLE_SIZE  = 23;   // Angle to shift in Turns movements - DEGREES
@@ -124,7 +114,7 @@ const int ANGLE_SIZE  = 23;   // Angle to shift in Turns movements - DEGREES
 const double GOAL_SIZE = 1.0;  // Related to the robot diameter
 const double GOAL_SIGNAL_RANGE = 3.0;  // Range is GOAL_SIGNAL_RANGE times GOAL SIZE
 const double MISSION_AREA = 1.0;  // Related to the robot diameter
-const double MISSION_MAX_RANGE = (8.0);  // Range is GOAL_SIGNAL_RANGE times GOAL SIZE
+const double MISSION_MAX_RANGE = (2.0);  // Range is GOAL_SIGNAL_RANGE times GOAL SIZE
 // Robot Characteristics
 const int ROBOT_DIAMETER = 38.5;  // cms
 const int SENSOR_RANGE   = 5;  // cms
@@ -144,14 +134,14 @@ const int SENSOR_RANGE   = 5;  // cms
  const double POWER_FORWARD = 0.0010;  // Power needed to move the robot FORWARD - RANGE [0, 1]
  const double POWER_RIGHT =   0.0005;  // Power needed to turn the robot RIGHT - RANGE [0, 1]
  const double POWER_LEFT  =   0.0005;  // Power needed to turn the robot LEFT - RANGE [0, 1]
- const double POWER_RIGHT_1 = 0.0125;  // Power needed to turn the robot RIGHT - RANGE [0, 1]
- const double POWER_LEFT_1  = 0.0125;  // Power needed to turn the robot LEFT - RANGE [0, 1]
+ const double POWER_RIGHT_1 = 0.0005;  // Power needed to turn the robot RIGHT - RANGE [0, 1]
+ const double POWER_LEFT_1  = 0.0005;  // Power needed to turn the robot LEFT - RANGE [0, 1]
  //	The following movements are not implemented
- const double POWER_RIGHT_2 = 0.0150;  // Power needed to turn the robot RIGHT - RANGE [0, 1]
- const double POWER_LEFT_2  = 0.0150;  // Power needed to turn the robot LEFT - RANGE [0, 1]
+ const double POWER_RIGHT_2 = 0.0007;  // Power needed to turn the robot RIGHT - RANGE [0, 1]
+ const double POWER_LEFT_2  = 0.0007;  // Power needed to turn the robot LEFT - RANGE [0, 1]
  const double POWER_RIGHT_3 = 0.0200;  // Power needed to turn the robot RIGHT - RANGE [0, 1]
  const double POWER_LEFT_3  = 0.0200;  // Power needed to turn the robot LEFT - RANGE [0, 1]
- const double POWER_REVERSE = 0.0250;  // Power needed to move the robot REVERSE - RANGE [0, 1]
+ const double POWER_REVERSE = 0.0010;  // Power needed to move the robot REVERSE - RANGE [0, 1]
  const double POWER_FREEZE  = 0.0001;  // Power needed to keep the robot in STANDBY - RANGE [0, 1]
 // current values:
 // 	Value of BATTERY for each GA iteration: 1.0
@@ -196,7 +186,7 @@ static int DEBUG_ITERATIONS = 0;
 //#define T_CRASH_CHECKER
 //#define T_EXECUTOR
 //#define T_MANDAMI_FITNESS
-//define T_MOTIVATION_FITNESS
+//#define T_MOTIVATION_FITNESS
 //===================================================================
 // DEFINE TO DEBUG
 // #define TEST_GA_FUNCTIONS
@@ -300,13 +290,8 @@ class VirtualExecutive
       int robotRadiusPlusSensors;
       int step_lenght;
       float angle_length;
-<<<<<<< HEAD
-      float dstep[ACTIONS_NUMBER-1]; // difference values of each step to calculate in ComputeNextPosition
-=======
-      float diff[ACTIONS_NUMBER][3]; // delta values [0][1][3]=[x][y][angle] for ComputeNextPosition
-
+      int diff[ACTIONS_NUMBER][3]; // delta values [0][1][3]=[x][y][angle] for ComputeNextPosition
       
->>>>>>> 05b4a7db357c0f47e8168a52d37b8398a0fbd94f
       // Energy Related Variables
       double initialBattery;     // Initial Battery or Energy level
       double currentBattery;     // Current or Final Battery level
@@ -368,6 +353,7 @@ class VirtualExecutive
       void set_selected_room(const char _value);
       void set_step_diff(const int _action, const double _df[]);
       void set_step_diff(const int _action,const double _dir, const double _x, const double _y); 
+      void print_step_diff(void);
 
       void get_start_position(int _coordinates[]) const;
       void get_goal_position(int _coordinates[]) const;

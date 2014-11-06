@@ -151,13 +151,13 @@ int ExecutiveProcessor::init() {
     ConfigFile config("config/executive.conf");
     //loadSplineModel();
     config.readInto(MAX_STEPS, "MAX_STEPS", 400);
-    /*  
-        config.readInto(GPS_STEPS, "GPS_STEPS", 50);
+      
+    //    config.readInto(GPS_STEPS, "GPS_STEPS", 50);
         config.readInto(InitPosX, "InitPosX", 213);
         config.readInto(InitPosY, "InitPosY", 320);
         config.readInto(InitPosOrientation, "InitPosOrientation", 90);
-        config.readInto(correction_mode, "correction_mode", 1);
-        */
+   //     config.readInto(correction_mode, "correction_mode", 1);
+        
     cda.lockArea(EXECUTIVE_AREA);
     pExecutive->path_length = MAX_STEPS;
     cda.unlockArea(EXECUTIVE_AREA);
@@ -208,9 +208,6 @@ int ExecutiveProcessor::init() {
     //   loadLSQmodels();
     //   loadSplineModel();
 
-    deltaXtotal = 0;
-    deltaYtotal = 0;
-
     cda.lockArea(EXECUTIVE_AREA);
     pExecutive->exec_ready_flag = true;
     cda.unlockArea(EXECUTIVE_AREA);
@@ -224,7 +221,8 @@ int ExecutiveProcessor::init() {
 int ExecutiveProcessor::step() {
 
 
-    float speed, steer;
+    float speed = 0.5;
+    float steer = 0.5;
     int speed_percent = 0;
     int movement = 0;
     int current_nav;
@@ -235,14 +233,7 @@ int ExecutiveProcessor::step() {
     move_ready_flag = pExecutive->exec_move_ready_flag;
     speed = pExecutive->exec_speed;
     steer = pExecutive->exec_steering;
-    speed_percent = pExecutive->exec_speed_percent;
-    movement = pExecutive->exec_movement;
     cda.unlockArea(EXECUTIVE_AREA);
-
-    cda.lockArea(MONITOR_AREA);
-    current_nav = pMonitor->monitor_current_nav;
-    cda.unlockArea(MONITOR_AREA);
-
 
 #ifdef MANUAL_MOVE
     if (use_manual_to_move) move_ready_flag = true;
@@ -288,9 +279,11 @@ int ExecutiveProcessor::step() {
         pExecutive->on_moving = 1;
         cda.unlockArea(EXECUTIVE_AREA);
 
+if (num_executed_steps > 0) {
         serial->move(speed,steer); //
         usleep(STEP_SIZE);
         serial->move(0.5, 0.5);
+}
 
         cda.lockArea(EXECUTIVE_AREA);
         pExecutive->on_moving = 0;
@@ -326,17 +319,18 @@ int ExecutiveProcessor::step() {
             pExecutive->path[num_executed_steps][1] = pLaser->x;
             pExecutive->path[num_executed_steps][2] = pLaser->y;
             pExecutive->path[num_executed_steps][0] = pLaser->dir;
-            pExecutive->diff[num_executed_steps][0] = pLaser->dx; 
-            pExecutive->diff[num_executed_steps][1] = pLaser->dy;
-            pExecutive->diff[num_executed_steps][2] = pLaser->ddir;
+            pExecutive->diff[num_executed_steps][0] = pLaser->ddir; 
+            pExecutive->diff[num_executed_steps][1] = pLaser->dx;
+            pExecutive->diff[num_executed_steps][2] = pLaser->dy;
             pExecutive->diff[num_executed_steps][3] = speed;
             pExecutive->diff[num_executed_steps][4] = steer;
-            pExecutive->current_X = pLaser->x;
-            pExecutive->current_Y = pLaser->y;
+            pExecutive->current_X = lround(pLaser->x)+InitPosX;
+            pExecutive->current_Y = lround(pLaser->y)+InitPosY;
             pExecutive->current_orientation = pLaser->dir;
             pExecutive->steps_number = num_executed_steps;
-            fprintf(stdout,"Current Position (%f,%f,%f°)\n ",pLaser->x,pLaser->y,pLaser->dir);
-            fprintf(stdout,"    Delta Values (%f,%f,%f°)\n",pLaser->dx,pLaser->dy,pLaser->ddir);
+            fprintf(stdout,"step , speed , steer (%d,%1.2f,%1.2f)\n ",num_executed_steps,speed,steer);
+            fprintf(stdout,"Current Position (%d,%d,%1.3f)\n ",pExecutive->current_X,pExecutive->current_Y,pExecutive->current_orientation);
+            fprintf(stdout,"Delta Values     (%1.3f,%1.3f,%1.3f)\n",pLaser->dx,pLaser->dy,pLaser->ddir);
             smedia = sqrt(pow(pLaser->dx,2.0)+pow(pLaser->dy,2.0));
             fprintf(stdout,"dstep = %i \n ",smedia);
             cda.unlockArea(EXECUTIVE_AREA);
@@ -522,8 +516,8 @@ void ExecutiveProcessor::getLaserReading(ExecutiveData *pExecutive, LaserData *p
     pLaser-> vr = vr;
     pLaser-> vl = vl;
     pLaser-> sensar = 1;
-
     cda.unlockArea(LASER_AREA);
+
     while (true) {
         if (pLaser->sensar == 0) {
             cda.lockArea(LASER_AREA, control);

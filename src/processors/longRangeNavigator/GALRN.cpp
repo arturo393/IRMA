@@ -323,9 +323,10 @@ void Population::Evolve(const char _verbose) {
         this->Evaluate();
 
 
-//        this->DisplayPool(VERBOSE_MEDIUM);
+
         this->RankingUpdate(); // Sort the population and Update sumFitness and avgFitness
 
+        this->DisplayPool(VERBOSE_MEDIUM);
         if (ao_pool[a_popList[0]].getFitness() <= 0.0)
             this->Sort_by_useful_steps(0, populationSize - 1); // Sort the population and Update sumFitness and avgFitness
 
@@ -399,19 +400,14 @@ void Population::CleanGenes() {
     for (_igen = 0; _igen < _genesNumber; _igen++) {
         _action = ao_pool[_iorg].getGene(_igen);
 
-
         if ((_index_temp > 0) &&
-                ((_action == TURN_RIGHT && _temp_a_genes[_index_temp-1] == TURN_LEFT) || \
-                 (_action == TURN_LEFT  && _temp_a_genes[_index_temp-1] == TURN_RIGHT)))
+                ((_action == TURN_RIGHT_1 && _temp_a_genes[_index_temp-1] == TURN_LEFT_1)  ||
+                 (_action == TURN_LEFT_1  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_1) ||
+                 (_action == TURN_RIGHT_2 && _temp_a_genes[_index_temp-1] == TURN_LEFT_2)  ||
+                 (_action == TURN_LEFT_2  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_2) ||
+                 (_action == TURN_RIGHT_3 && _temp_a_genes[_index_temp-1] == TURN_LEFT_3)  ||
+                 (_action == TURN_LEFT_3  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_3)))
             _index_temp--;
-        //          if ((_index_temp > 0) &&
-        //              ((_action == TURN_RIGHT_1 && _temp_a_genes[_index_temp-1] == TURN_LEFT_1)  ||
-        //               (_action == TURN_LEFT_1  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_1) ||
-        //               (_action == TURN_RIGHT_2 && _temp_a_genes[_index_temp-1] == TURN_LEFT_2)  ||
-        //               (_action == TURN_LEFT_2  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_2) ||
-        //               (_action == TURN_RIGHT_3 && _temp_a_genes[_index_temp-1] == TURN_LEFT_3)  ||
-        //               (_action == TURN_LEFT_3  && _temp_a_genes[_index_temp-1] == TURN_RIGHT_3)))
-        //                    _index_temp--;
         else {
             _temp_a_genes[_index_temp] = _action;
             _index_temp++;
@@ -939,7 +935,7 @@ void Population::CrossParents(const int _parents[], const int _children[], const
 //-------------------------------------------------------------------
 
 void Population::Duplicate_Individual(const int _parent, const int _child) {
-    for (int _igen = 0; _igen < genesNumber; _igen++)
+    for (int _igen = 0; _igen < this->genesNumber; _igen++)
         ao_pool[_child].setGene(_igen, ao_matingPool[_parent].getGene(_igen));
 
     // The children have the same fitness as the parent
@@ -2042,7 +2038,7 @@ void VirtualExecutive::Executor(const c_organism& agent, double a_fitness[]) {
         else if (_action == 2)  tmp= "FREEZE";
         else if (_action == 3) tmp = "TURN_RIGHT";
         else if (_action == 4)  tmp = "TURN_LEFT";
-        printf("\nGEN NUMBER: %i  ACTION %s   BATT:%d", _igen, tmp.c_str(), this->currentBattery);
+        printf("\nGEN NUMBER: %i  ACTION %s   BATT:%f", _igen, tmp.c_str(), this->currentBattery);
         printf("\nSTART: ANGLE: %d   X COORD: %d   Y COORD: %d", _prevCoord[0], _prevCoord[1], _prevCoord[2]);
         printf("\nEND  : ANGLE: %d   X COORD: %d   Y COORD: %d", currentPosition[0], currentPosition[1], currentPosition[2]);
 #endif   // end T_EXECUTOR
@@ -2085,7 +2081,7 @@ void VirtualExecutive::Set_StartCoordinates(const int _coordinates[]) {
 
 //-------------------------------------------------------------------
 // Inputs values are in degrees an millimeters, which must be converted to cms
-_//-------------------------------------------------------------------
+//-------------------------------------------------------------------
 
 void VirtualExecutive::Set_GoalCoordinates(const int _coordinates[]) {
     goalPosition[0] = _coordinates[0]; // Angle in degrees
@@ -2111,18 +2107,35 @@ void VirtualExecutive::set_angle_lenght(const int _value) {
     angle_length = _value;
 }
 //-------------------------------------------------------------------
-void VirtualExecutive::set_step_diff(const int _action,const double _dir, const double _x, const double _y) {
-    diff[_action][0] = _dir;
+void VirtualExecutive::set_step_diff(const int _action,const  double _dir, const double _x, const double _y) {
+    diff[_action][0] = (_dir*180)/M_PI;
     diff[_action][1] = _x;
     diff[_action][2] = _y;
 }
 //-------------------------------------------------------------------
-void VirtualExecutive::set_step_diff(const int _action,const int _value[]) {
-    diff[_action][0] = _value[0];
+void VirtualExecutive::set_step_diff(const int _action,const double _value[]) {
+    diff[_action][0] = _value[0]*180/M_PI;
     diff[_action][1] = _value[1];
     diff[_action][2] = _value[2];
 }
 //-------------------------------------------------------------------
+void VirtualExecutive::print_step_diff(void){
+    std::string tmp;
+    std::cout << "action -  (dir , dx , dy)"<<std::endl;
+    for(int _a =0 ; _a < ACTIONS_NUMBER ; _a++){
+        if (_a== 0) tmp = "FORWARD";
+        else if (_a==1)  tmp = "REVERSE";
+        else if (_a== 2) tmp = "TURN_RIGHT_1";
+        else if (_a== 3)  tmp = "TURN_LEFT_1";
+        else if (_a== 4) tmp = "TURN_RIGHT_2";
+        else if (_a== 5)  tmp = "TURN_LEFT_2";
+        else if (_a== 6)  tmp= "FREEZE";
+        std::cout << tmp;
+        for(int _i = 0 ; _i < 3; _i++)
+            std::cout<<"   "<<this->diff[_a][_i]<< " ";
+        std::cout<<'\n';
+    }
+}
 
 void VirtualExecutive::set_selected_room(const char _value) {
     this->o_MAP.set_selected_room(_value);
@@ -2294,23 +2307,6 @@ int VirtualExecutive::Calculate_Distance(const int _1st_position[], const int _2
 
     return (_distance);
 }
-
-<<<<<<< HEAD
-void VirtualExecutive::ComputeNextPosition2(int _currentPosition[], const _gen _action) {
-    //···································································
-#ifdef T_C_NEXT_POSITION
-    printf("\nTEST COMPUTE NEXT POSITION:");
-    printf("\nSTART COORINATES:\n ANGLE: %3d\tX COORD: %5d\tY COORD: %5d" \
-            , _currentPosition[0], _currentPosition[1], _currentPosition[2]);
-#endif   // end T_C_NEXT_POSITION
-    //···································································
-        _currentPosition[0] += dstep[_action][0];
-        _currentPosition[1] += dstep[_action][1];
-        _currentPosition[2] += dstep[_action][2];    
-    }
-=======
-
->>>>>>> 05b4a7db357c0f47e8168a52d37b8398a0fbd94f
 //-------------------------------------------------------------------
 // This Function must be modify depending in the real robot movement
 // logic and limitaciones
@@ -2333,20 +2329,7 @@ void VirtualExecutive::ComputeNextPosition(int _currentPosition[], const _gen _a
         double _angle = (_currentPosition[0] / 180.0) * M_PI;
         _currentPosition[1] -= lround(cos(_angle) * step_lenght);
         _currentPosition[2] -= lround(sin(_angle) * step_lenght);
-    } 
-      else if (_action == TURN_RIGHT) {
-        _currentPosition[0] -= angle_length;
-        if (_currentPosition[0] < 0)
-            _currentPosition[0] = 360 + _currentPosition[0];
-        if (_currentPosition[0] > 360)
-            _currentPosition[0] = _currentPosition[0] - 360;
-    } 
-    else if (_action == TURN_LEFT) {
-        _currentPosition[0] += angle_length;
-        if (_currentPosition[0] < 0)
-            _currentPosition[0] = 360 + _currentPosition[0];
-        if (_currentPosition[0] > 360)
-            _currentPosition[0] = _currentPosition[0] - 360;
+     
     } else if( _action == TURN_RIGHT_1 )
        {
           _currentPosition[0] -= angle_length;
@@ -2441,7 +2424,7 @@ bool VirtualExecutive::RobotSweptArea(const int _prevCoord[], const _gen _action
 {
     //···································································
 #ifdef T_CRASH_CHECKER
-    printf("\nTEST CRASH CHECKER:");
+//    printf("\nTEST CRASH CHECKER:");
 #endif   // end T_CRASH_CHECKER
     //···································································
     int _leftWall = this->currentPosition[1] - robotRadius;

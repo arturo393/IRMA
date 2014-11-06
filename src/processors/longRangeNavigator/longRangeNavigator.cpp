@@ -95,6 +95,16 @@ int LRNProcessor::init()
      * Set start and home coord.
      */
 
+    cda.lockArea(EXECUTIVE_AREA);
+    int _stpnr = pCDAExecutive->steps_number;
+    cda.unlockArea(EXECUTIVE_AREA);
+
+    SetActionCmd();
+
+    if (_stpnr < ACTIONS_NUMBER)
+        AdjustStep();
+
+
     //Configure_final_path();
 
     /* Get mapper width and height 
@@ -112,6 +122,8 @@ int LRNProcessor::init()
     //	Update_Start_position();
     //	Update_Missions_list();
 
+
+
     visited_feature_nr = 0;
     route_nr = 0;
     current_route_action = 0;
@@ -122,6 +134,43 @@ int LRNProcessor::init()
 
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
+/* \brief Set the speed and steer values to  cmd[ACTIONS_NUMBER].
+ */
+
+void LRNProcessor::SetActionCmd(void)
+{
+    cmd[FORWARD][0] = 0.9;
+    cmd[FORWARD][1] = 0.5;
+    cmd[REVERSE][0] = 0.0;
+    cmd[REVERSE][1] = 0.5;
+    cmd[TURN_RIGHT_1][0] = 1.0;
+    cmd[TURN_RIGHT_1][1] = 1.0;
+    cmd[TURN_LEFT_1][0] = 1.0;
+    cmd[TURN_LEFT_1][1] = 0.0;
+}
+
+/*  \brief Adjust delta action values by moving the robot ACTION_NUMBER times
+ *   
+ *   Given the ACTION_NUMBER it moves acording to the cmd[ACTION_NUMBER] array
+ *   , it moves the robot to extract the Laser delta values*/
+void  LRNProcessor::AdjustStep(void){
+    double _dx;
+    double _dy;
+    double _ddir;
+    /* search for all the actions   */
+    for(int _action = 0; _action<ACTIONS_NUMBER; _action++){ 
+        Deliver_Motor_Commands(cmd[_action][0],cmd[_action][1]);
+        /* give the neccesary time to command */
+        CtrlLoop(true);
+        cda.lockArea(LASER_AREA);
+        _ddir = (pCDALaser->ddir*180.0)/M_PI;
+        _dx = pCDALaser->dx;
+        _dy = pCDALaser->dy;
+        cda.unlockArea(LASER_AREA);
+        o_routes.o_ffitness.o_virtualMotion.set_step_diff(_action,_ddir,_dx, _dy);
+    }
+
+}
 int LRNProcessor::cleanup()
 {
     int total_moves = N_FORWARD+N_TURN_RIGHT_1+N_TURN_LEFT_1+N_TURN_RIGHT_3+N_TURN_LEFT_3+N_TURN_RIGHT_2+N_TURN_LEFT_2+N_REVERSE+N_FREEZE;
@@ -168,7 +217,11 @@ int LRNProcessor::step(){
          * Check posibility of implementation
          * if (experimentation_room = SLAM_ROOM) Update_Internal_Map();
          */	 
-        Update_Step_Lenght();	
+
+        if (UpdateStep() < 4)
+            AdjustStep();
+        o_routes.o_ffitness.o_virtualMotion.print_step_diff();
+
 
         Update_Slam_Map();
         // Update the Start coordinates with the current one
@@ -438,8 +491,43 @@ void LRNProcessor::Action_To_Motor(char _action)
     if (o_final_route.get_elite_genes_nr() == 0)
         _action = FREEZE;
 
+    if( (monitor_current_nav == LRN) && (!is_route_obsolete )) {        
+        if( !is_move_ready ) {
+            fprintf(stdout, "R%2d - %d/%d\t", route_nr, current_route_action+1, o_final_route.get_elite_genes_nr());
+            if( _action == FORWARD ) {
+                CURRENT_BATTERY-=POWER_FORWARD;
+                fprintf(stdout, "IRMA-II: LRN - FORWARD - %d/%d\t\tBATTERY : %f\r", SUB_FORWARD, TOTAL_SUB_FORWARD, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 0 : FORWARD\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            } else if( _action == TURN_RIGHT_1 ) {
+                CURRENT_BATTERY-=POWER_RIGHT_1;
+                fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_1, TOTAL_SUB_TURN_RIGHT_1, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 1 : TURN_RIGHT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            } else if( _action == TURN_LEFT_1 ) {
+                CURRENT_BATTERY-=POWER_LEFT_1;
+                fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_1 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_1, TOTAL_SUB_TURN_LEFT_1, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 2 : TURN_LEFT_1\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            } else if( _action == TURN_RIGHT_2 )
+            {
+                CURRENT_BATTERY-=POWER_RIGHT_2;
+                fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_2, TOTAL_SUB_TURN_RIGHT_2, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 5 : TURN_RIGHT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            } else if( _action == TURN_LEFT_2 ) {
+                CURRENT_BATTERY-=POWER_LEFT_2;
+                fprintf(stdout, "IRMA-II: LRN - TURN_LEFT_2 - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_2, TOTAL_SUB_TURN_LEFT_2, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 6 : TURN_LEFT_2\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            } else if( _action == REVERSE ) {	
+                CURRENT_BATTERY-=POWER_REVERSE;
+                fprintf(stdout, "IRMA-II: LRN - REVERSE - %d/%d\t\tBATTERY : %f\r", SUB_FORWARD, TOTAL_SUB_FORWARD, CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 7 : REVERSE\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            } else if( _action == FREEZE ) {
+                CURRENT_BATTERY-=POWER_FREEZE;
+                fprintf(stdout, "IRMA-II: LRN - FREEZE\t\tBATTERY : %f\r", CURRENT_BATTERY);
+                fprintf(fp_moves, "R%2d | 8 : FREEZE\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
+            }
+        }
+    }
     // Deliver the magnitudes for the next step
-    Deliver_Motor_Commands(_cmd[_action][0], _cmd[_action][1]);
+    Deliver_Motor_Commands(cmd[_action][0], cmd[_action][1]);
 
     // TOO MUCH ERROR - THE THEORETICAL AND THE REAL COORDINATES ARE VERY DIFFERENT
     //···································································
@@ -449,6 +537,9 @@ void LRNProcessor::Action_To_Motor(char _action)
     o_final_route.get_current_ideal_coord(current_route_action , _ideal_coord);
     int _distance = o_routes.o_ffitness.o_virtualMotion.Calculate_Distance(start_coord, _ideal_coord);
     
+    std::cout<<"ideal coord  ("<<_ideal_coord[0]<<","<<_ideal_coord[1]<<","<<_ideal_coord[2]<<")"<<std::endl;
+    std::cout<<"actual coord ("<<start_coord[0]<<","<<start_coord[1]<<","<<start_coord[2]<<")"<<std::endl;
+    std::cout<<"ERROR  ("<<_distance<<"/"<<MAX_DISTANCE_ERROR<<")"<<std::endl;
 
     if( _distance > MAX_DISTANCE_ERROR ){
         Update_missions_extra_data(visited_feature_nr);
@@ -555,22 +646,7 @@ void LRNProcessor::Convert_Action_To_Motor_Cmd(char _action)
                 CURRENT_BATTERY-=POWER_FORWARD;
                 fprintf(stdout, "IRMA-II: LRN - FORWARD - %d/%d\t\tBATTERY : %f\r", SUB_FORWARD, TOTAL_SUB_FORWARD, CURRENT_BATTERY);
                 fprintf(fp_moves, "R%2d | 0 : FORWARD\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            }else if( _action == TURN_RIGHT )
-            {
-                SUB_TURN_RIGHT++;
-                N_TURN_RIGHT++;
-                CURRENT_BATTERY-=POWER_RIGHT;
-                fprintf(stdout, "IRMA-II: LRN - TURN_RIGHT - %d/%d\tBATTERY : %f\r", SUB_TURN_RIGHT_1, TOTAL_SUB_TURN_RIGHT_1, CURRENT_BATTERY);
-                fprintf(fp_moves, "R%2d | 1 : TURN_RIGHT\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            }
-            else if( _action == TURN_LEFT )
-            {
-                SUB_TURN_LEFT++;
-                N_TURN_LEFT++;
-                CURRENT_BATTERY-=POWER_LEFT;
-                fprintf(stdout, "IRMA-II: LRN - TURN_LEFT - %d/%d\tBATTERY : %f\r", SUB_TURN_LEFT_1, TOTAL_SUB_TURN_LEFT_1, CURRENT_BATTERY);
-                fprintf(fp_moves, "R%2d | 2 : TURN_LEFT\tBATTERY : %f\n", route_nr, CURRENT_BATTERY);
-            }
+            }     
             else if( _action == TURN_RIGHT_1 )
             {
                 SUB_TURN_RIGHT_1++;
@@ -837,9 +913,9 @@ void LRNProcessor::Update_elite_phenotype(void)
     for(int _igen = 0; _igen < _nr_gen; _igen++)
     {
        // o_routes.o_ffitness.o_virtualMotion.ComputeNextPosition(_temp_coord, o_final_route.get_gen(_igen));
-	_temp_coord[0] += _cmd[o_final_route.get_gen(_igen)][0];
-	_temp_coord[1] += _cmd[o_final_route.get_gen(_igen)][1];
-	_temp_coord[2] += _cmd[o_final_route.get_gen(_igen)][2];
+	_temp_coord[0] += cmd[o_final_route.get_gen(_igen)][0];
+	_temp_coord[1] += cmd[o_final_route.get_gen(_igen)][1];
+	_temp_coord[2] += cmd[o_final_route.get_gen(_igen)][2];
 	
         o_final_route.set_path_step(_temp_coord);
     }
@@ -1057,10 +1133,10 @@ void LRNProcessor::Update_Missions_list(void){
 
     if( mission_op_mode == TEST ){
 
-        mission_coord[0][0] = M_PI/2.0;   /* degrees */
+        mission_coord[0][0] = 90;   /* degrees */
         mission_coord[0][1] = 370; /* xcord in cm */
         mission_coord[0][2] = 362; /* ycord in cm */
-        mission_coord[1][0] = 3.0*M_PI/2.0;
+        mission_coord[1][0] = 270;
         mission_coord[1][1] = 100;
         mission_coord[1][2] = 100;
  //       mission_coord[2][0] = 90;
@@ -1089,90 +1165,53 @@ void LRNProcessor::Update_Missions_list(void){
 }
 
 
-/* Update the difference values between actions defined on GALRN.h and seted in the global
- * variables of longRangeNavigator.h. It sends the command actions to the Executiven then
- * update the dx, dy & ddir values of the Executive process.*/
-void LRNProcessor::Update_Step_Lenght(void){
+/* \brief Update the steps from real movements.
+ *
+ * Set values delta x, delta y , delta dir of the actions performed from Executive
+ * Also search for the las action value. 
+ * \return times of actions found in the step_number
+ * 
+*/
 
-    int _step;
-<<<<<<< HEAD
-    float _dx;  // delta x axis
-    float _dy;  // delta y axis
-    float _ddi; // delta direccion
-    float _sp;  // speed value
-    float _st;  // steer value
-    int stepnr; // executed steps number
+int LRNProcessor::UpdateStep(void)
+{
+    int _stmp = 0; /* step temp */
+    int _match = 0 ; /* action times in the diff arrray */
+    int _s = 0; /* steps */
 
-    float temp; // delta values
-
-    cda.lockArea(EXECUTIVE_AREA);
-    _stepnr = pCDAExecutive->steps_number;
-    _sp = pCDAExecutive->diff[0];
-    _st = pCDAExecutive->diff[1];
-    _dx = pCDAExecutive->diff[2];
-    _dy = pCDAExecutive->diff[3];
-    _ddir = pCDAExecutive->diff[4];
-    cda.unlockArea(LASER_AREA);
-    
-    temp = lround((_dangle*180.0)/M_PI);
-
-    o_routes.o_ffitness.o_virtualMotion.set_angle_lenght(temp);
-    o_routes.o_ffitness.o_virtualMotion.set_step_lenght(_step);
-
-    
-}
-=======
-    float _df[3]; // delta values
-    int _stpnr; // number of executed steps
-    int _a; // action
-    int _s; // step
-
-    cda.lockArea(EXECUTIVE_AREA);
-    _stpnr = pCDAExecutive->steps_number;
-    cda.unlockArea(EXECUTIVE_AREA);
-
-    for(_a = 0; _a<ACTIONS_NUMBER; _a++){ 
-        if (_stpnr < ACTIONS_NUMBER){
-            Deliver_Motor_Commands(_cmd[_a][0],_cmd[_a][1]);
-
-            cda.lockArea(LASER_AREA);
-            o_routes.o_ffitness.o_virtualMotion.set_step_diff(_a,pCDALaser->ddir, pCDALaser->dx, pCDALaser->dy);
-            cda.unlockArea(LASER_AREA);
-            // rad to degree 
-            /*tmp = lround((_df[2]*180.0)/M_PI);
-              while(tmp < 0 || tmp > 360){ 
-              if (tmp < 0)   tmp = tmp + 360;
-              if (tmp > 360) tmp = tmp - 360;
-              }        
-              _df[2] = tmp;
-              */ o_routes.o_ffitness.o_virtualMotion.set_step_diff(_a,_df);
-        } 
-        else{
-            cda.lockArea(EXECUTIVE_AREA);
-            for(_s = _stnr-1; _s >= 0 ;_s--){
-
-                if ( pCDAExecutive->diff[_s][3] == _cmd[_a][0] && 
-                        pCDAExecutive->diff[_s][4] == _cmd[_a][1] ){
-                    o_routes.o_ffitness.o_virtualMotion.set_step_diff(_a, pCDAExecutive->diff)
-                } else {
-                    o_routes.o_ffitness.o_virtualMotion.set_step_diff(_a,0.0,0.0,0.0)
-                }
-
-                // rad to degree 
-                /*   tmp = lround((_df[2]*180.0)/M_PI);
-                     while(tmp < 0 || tmp > 360){ 
-                     if (tmp < 0)   tmp = tmp + 360;
-                     if (tmp > 360) tmp = tmp - 360;
-                     }        
-
-                     _df[2] = tmp;
-                     */
+    /*  search for each action in the diff array */
+    for(int _action = 0; _action<ACTIONS_NUMBER; _action++){
+        cda.lockArea(EXECUTIVE_AREA);
+        int _stpnr = pCDAExecutive->steps_number;
+        _stmp = _stpnr-1;
+        for( _s = _stpnr-1; _s >= 0 ;_s--)
+            /* check for the same steer (1) & speed (0) and update */
+            if ( (std::abs(pCDAExecutive->diff[_s][3] - cmd[_action][0]) <= 0.0001) 
+                    && (std::abs(pCDAExecutive->diff[_s][4] - cmd[_action][1]) <= 0.0001) ){
+                o_routes.o_ffitness.o_virtualMotion.set_step_diff(_action, pCDAExecutive->diff[_s]);
+                _stmp = _s;
+                _s = 0;
+                _match++;
             }
-            cda.unlockArea(EXECUTIVE_AREA);
-        }
-
+            /*  mainain the founded value */
+            else{
+                o_routes.o_ffitness.o_virtualMotion.set_step_diff(_action, pCDAExecutive->diff[_stmp]);
+            }
+        cda.unlockArea(EXECUTIVE_AREA);
     }
->>>>>>> 05b4a7db357c0f47e8168a52d37b8398a0fbd94f
+    return (_match);
+}
+
+void LRNProcessor::CtrlLoop(bool _go)
+{
+    while (_go == true && ctrl_current_loop != stop_cmd){
+        usleep(5000);
+        cda.lockArea(LONG_NAV_AREA);
+        _go = pCDALongNav->lrn_move_ready_flag;
+        ctrl_current_loop = pCDALongNav->ctrl.loop;
+        cda.unlockArea(LONG_NAV_AREA);
+    }
+}
 //-------------------------------------------------------------------
 void LRNProcessor::Set_Start_position(void){	
 
@@ -1185,20 +1224,13 @@ void LRNProcessor::Update_Start_position(void){
     int tmp;
     /* get coordinates & orientation from laser readings */
     cda.lockArea(LASER_AREA);
-   // tmp = init_coord[0]+ lround((pCDALaser->dir*180.0)/M_PI);   // Current Orientation
-    start_coord[0] = init_coord[0]+ pCDALaser->dir
-    start_coord[1] = init_coord[1]+ pCDALaser->x;   // Current X Coord*10cm
-    start_coord[2] = init_coord[2]+ pCDALaser->y;   // Current Y Coord*10cm
+     tmp = init_coord[0]+ lround((pCDALaser->dir*180.0)/M_PI);   // Current Orientation
+    start_coord[1] = init_coord[1]+ pCDAExecutive->current_X;   // Current X Coord*10cm
+    start_coord[2] = init_coord[2]+ pCDAExecutive->current_Y;   // Current Y Coord*10cm
     cda.unlockArea(LASER_AREA);
 
-    /* to fix negatives and more than 360 degrees */
-/*    while(tmp < 0 || tmp > 360){ 
-        if (tmp < 0)   tmp = tmp + 360;
-        if (tmp > 360) tmp = tmp - 360;
-    }        
-*/
     /* set coordinates to virtualexecutive & elite */
-  //  start_coord[0] = tmp;
+     start_coord[0] = tmp;
     o_routes.o_ffitness.o_virtualMotion.Set_StartCoordinates(start_coord);
     o_final_route.Set_StartCoordinates(start_coord);
 }
@@ -1228,11 +1260,14 @@ int LRNProcessor::Read_Configuration_File(void)
 
     else  {  selection_method = TOURNAMENT_ELITE_RANDOM;  }
 
-
+/*  for the moment the start coord are seted in the executive 250, 250 ,0 
     config.readInto<int>(init_coord[0], "START_ANGLE", 90);
     config.readInto<int>(init_coord[1], "START_X_COORD", 200);
     config.readInto<int>(init_coord[2], "START_Y_COORD", 200);
-
+*/
+    init_coord[0]=0;
+    init_coord[1]=0;
+    init_coord[2]=0;
     config.readInto<int>(home_coord[1], "HOME_X_COORD", 200);
     config.readInto<int>(home_coord[2], "HOME_Y_COORD", 200);
     config.readInto<int>(MAX_DISTANCE_ERROR, "MAX_DISTANCE_ERROR", 300);
@@ -1285,7 +1320,7 @@ void LRNProcessor::Show_Variables(void)
         else if( selection_method == TOURNAMENT_ELITE)  {  fprintf(stdout, "SELECTION_METHOD: TOURNAMENT_ELITE\n"); }
         else if( selection_method == TOURNAMENT_ELITE_RANDOM) {  fprintf(stdout, "SELECTION_METHOD: TOURNAMENT_ELITE_RANDOM\n");   }
 
-        fprintf(stdout, "START_POSITION: Angle:%3d\tX Coord:%4d\tY Coord:%4d\n", init_coord[0], init_coord[1], init_coord[2]);
+        fprintf(stdout, "START_POSITION: Angle:%3d\tX Coord:%4d\tY Coord:%4d\n", start_coord[0], start_coord[1], start_coord[2]);
         fprintf(stdout, "HOME_POSITION: X Coord:%4d\tY Coord:%4d\n", home_coord[1], home_coord[2]);
         fprintf(stdout, "MAX_DISTANCE_ERROR - between ideal and real position: %d\n", MAX_DISTANCE_ERROR);
 

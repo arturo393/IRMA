@@ -70,15 +70,6 @@ const int MAX_DEV = 360;
 
 const double PI = 3.14159265;
 
-// Definition of inital position and orientation (in mm and degrees)
-const int InitPosX = 280;
-const int InitPosY = 185;
-const int InitPosOrientation = 90;
-
-//#define InitPosX 225
-//#define InitPosY 1685
-//#define InitPosOrientation 0
-
 // Selection of localization model. LSQ = 0, Splines = 1.
 const int LocModel = 1;
 

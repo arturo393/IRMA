@@ -39,6 +39,7 @@
 // Librery Declaration
 #include <stdio.h>
 #include <sys/shm.h>
+#include <cmath>
 #include <unistd.h>
 #include <sys/timeb.h>
 #include "../base/processor.h"
@@ -50,11 +51,11 @@
 
 //*******************************************************************
 // Global Variables Definition
-const int TOTAL_SUB_FORWARD = 7; // Command number to complete a FORWARD action
+const int TOTAL_SUB_FORWARD = 1; // Command number to complete a FORWARD action
 const int TOTAL_SUB_TURN_RIGHT = 1;
 const int TOTAL_SUB_TURN_LEFT = 1;
-const int TOTAL_SUB_TURN_RIGHT_1 = 6; // Command number to complete a TURN RIGHT 1 action
-const int TOTAL_SUB_TURN_LEFT_1 = 5; // Command number to complete a TURN LEFT 1 action
+const int TOTAL_SUB_TURN_RIGHT_1 = 1; // Command number to complete a TURN RIGHT 1 action
+const int TOTAL_SUB_TURN_LEFT_1 = 1; // Command number to complete a TURN LEFT 1 action
 const int TOTAL_SUB_TURN_RIGHT_3 = TOTAL_SUB_TURN_RIGHT_1 * 3; // Command number to complete a TURN RIGHT 3 action
 const int TOTAL_SUB_TURN_LEFT_3 = TOTAL_SUB_TURN_LEFT_1 * 3; // Command number to complete a TURN LEFT 3 action
 const int TOTAL_SUB_TURN_RIGHT_2 = TOTAL_SUB_TURN_RIGHT_1 * 2; // Command number to complete a TURN RIGHT 2 action
@@ -152,6 +153,7 @@ private:
     double m_missions;  /* motivation missions  */
     char experimentation_room;
     char mission_op_mode;
+    double cmd[ACTIONS_NUMBER][2];
 
     // Create the path planner
     c_pop o_routes;
@@ -189,8 +191,7 @@ private:
     void Update_Missions_list(void);
     // Update the current position and make it the new start position
     void Update_Start_position(void);
-    // Update the current position and make it the new start position
-    void Update_Step_Lenght(void);
+
     // Read start File for first configurations
     int Read_Configuration_File(void);
     // Show parameters
@@ -201,6 +202,11 @@ private:
     void Print_elite_output_data(void);
     // Print Time Difference into a file - Time used to compute a route
     void Compute_time_difference(const long int _sec, const int _msec);
+    
+    void CtrlLoop(bool _go);
+    int UpdateStep(void);
+    void SetActionCmd(void);
+    void AdjustStep(void);
 
 public:
 
