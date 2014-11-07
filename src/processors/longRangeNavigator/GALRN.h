@@ -108,8 +108,8 @@ const char TURN_LEFT_3 = 8;
 
 
 
-const int STEP_SIZE   = 9;    // Distance to cover in Forward movements - cms
-const int ANGLE_SIZE  = 23;   // Angle to shift in Turns movements - DEGREES
+const int STEP_SIZE   = 14;    // Distance to cover in Forward movements - cms
+const int ANGLE_SIZE  = 32;   // Angle to shift in Turns movements - DEGREES
 
 const double GOAL_SIZE = 1.0;  // Related to the robot diameter
 const double GOAL_SIGNAL_RANGE = 3.0;  // Range is GOAL_SIGNAL_RANGE times GOAL SIZE

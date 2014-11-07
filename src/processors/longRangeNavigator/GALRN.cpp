@@ -322,8 +322,6 @@ void Population::Evolve(const char _verbose) {
         //        this->CleanGenes();
         this->Evaluate();
 
-
-
         this->RankingUpdate(); // Sort the population and Update sumFitness and avgFitness
 
         this->DisplayPool(VERBOSE_MEDIUM);
@@ -2013,11 +2011,7 @@ void VirtualExecutive::Executor(const c_organism& agent, double a_fitness[]) {
 
         if (_action != FREEZE) {
 
-           // this->ComputeNextPosition(currentPosition, _action);
-            currentPosition[0] += diff[_action][0];
-            currentPosition[1] += diff[_action][1];
-            currentPosition[2] += diff[_action][2];
-                
+            this->ComputeNextPosition(currentPosition, _action);
 
             if (totalMissions != 0)
                 this->Distance_Missions(currentPosition, _igen);
@@ -2306,7 +2300,7 @@ int VirtualExecutive::Calculate_Distance(const int _1st_position[], const int _2
     _distance = lround(sqrt(temp));
 
     return (_distance);
-}
+    }
 //-------------------------------------------------------------------
 // This Function must be modify depending in the real robot movement
 // logic and limitaciones
@@ -2324,8 +2318,7 @@ void VirtualExecutive::ComputeNextPosition(int _currentPosition[], const _gen _a
        double _angle = (_currentPosition[0] / 180.0) * M_PI;
         _currentPosition[1] += lround(cos(_angle) * step_lenght);
         _currentPosition[2] += lround(sin(_angle) * step_lenght);
-    }
-      else if (_action == REVERSE) {
+    } else if (_action == REVERSE) {
         double _angle = (_currentPosition[0] / 180.0) * M_PI;
         _currentPosition[1] -= lround(cos(_angle) * step_lenght);
         _currentPosition[2] -= lround(sin(_angle) * step_lenght);
@@ -2337,7 +2330,7 @@ void VirtualExecutive::ComputeNextPosition(int _currentPosition[], const _gen _a
              _currentPosition[0] = 360 + _currentPosition[0];
           if( _currentPosition[0] > 360 )
              _currentPosition[0] = _currentPosition[0] - 360;
-       }
+       } 
        else if( _action == TURN_LEFT_1 )
        {
           _currentPosition[0] += angle_length;
